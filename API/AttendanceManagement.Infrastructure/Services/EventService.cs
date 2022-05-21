@@ -34,7 +34,15 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public bool Add(EventCreateDTO newEvent)
         {
-            Event eve = _mapper.Map<Event>(newEvent);
+            Event eve = new Event()
+            {
+                EventName = newEvent.EventName,
+                EventDate = newEvent.EventDate,
+                Location = newEvent.Location,
+                EventStartTime = TimeSpan.Parse(newEvent.EventStartTime),
+                EventEndTime = TimeSpan.Parse(newEvent.EventEndTime)
+            };
+
             bool checkAvailabe = _repo.AvailableEventLocation(eve);
 
             if (checkAvailabe)

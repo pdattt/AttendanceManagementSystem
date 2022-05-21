@@ -31,7 +31,7 @@ namespace AttendanceManagement.Domain.Repositories
 
         public Event GetByLocation(string location)
         {
-            return Query().FirstOrDefaultAsync().Result;
+            return Query().FirstOrDefaultAsync(eve => eve.Location == location).Result;
         }
     }
 }

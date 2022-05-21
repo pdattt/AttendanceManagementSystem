@@ -4,6 +4,7 @@ using AttendanceManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttendanceManagement.Domain.Migrations
 {
     [DbContext(typeof(AttendanceManagementDBContext))]
-    partial class AttendanceManagementDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220521121158_changeDataType")]
+    partial class changeDataType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,20 +60,20 @@ namespace AttendanceManagement.Domain.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClassID"), 1L, 1);
 
                     b.Property<DateTime>("ClassDateEnd")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ClassDateStart")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("ClassEndTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ClassEndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ClassName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("ClassStartTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ClassStartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DaysOfWeek")
                         .HasColumnType("nvarchar(max)");

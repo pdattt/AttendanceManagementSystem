@@ -20,10 +20,10 @@ namespace AttendanceManagement.Common.Dtos.EventDTOs
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "HH:mm:ss")]
-        public DateTime EventStartTime { get; set; }
+        public TimeSpan EventStartTime { get; set; }
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "HH:mm:ss")]
-        public DateTime EventEndTime { get; set; }
+        public TimeSpan EventEndTime { get; set; }
     }
 }
