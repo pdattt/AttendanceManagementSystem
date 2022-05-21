@@ -10,7 +10,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         bool Add(EventCreateDTO newEvent);
 
-        bool Update(EventUpdateDTO newEvent);
+        bool Update(EventUpdateDTO newEvent, int id);
 
         bool Delete(int id);
     }

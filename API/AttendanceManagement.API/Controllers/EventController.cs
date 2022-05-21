@@ -63,5 +63,17 @@ namespace AttendanceManagement.API.Controllers
 
             return Ok();
         }
+
+        [Route("/update-event-by-id")]
+        [HttpPut]
+        public ActionResult UpdateEventById([FromBody] EventUpdateDTO newEvent, int id)
+        {
+            bool checkUpdate = _service.Update(newEvent, id);
+
+            if (!checkUpdate)
+                return BadRequest();
+
+            return Ok();
+        }
     }
 }

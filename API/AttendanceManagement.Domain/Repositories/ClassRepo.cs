@@ -15,13 +15,14 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
-        public bool AvailableClassLocation(Class newClass)
+        public bool AvailableClassLocation(Class @class)
         {
-            Class cls = Query().Where(c => c.DaysOfWeek.Contains(newClass.DaysOfWeek)
-                          && c.Location == newClass.Location
-                          && ((c.ClassStartTime >= newClass.ClassStartTime && c.ClassStartTime <= newClass.ClassEndTime)
-                          || (c.ClassEndTime >= newClass.ClassStartTime && c.ClassEndTime <= newClass.ClassEndTime)))
-                   .FirstOrDefaultAsync().Result;
+            Class cls = Query().Where(c => c.ClassID != @class.ClassID
+                                      && c.DaysOfWeek.Contains(@class.DaysOfWeek)
+                                      && c.Location == @class.Location
+                                      && ((c.ClassStartTime >= @class.ClassStartTime && c.ClassStartTime <= @class.ClassEndTime)
+                                      || (c.ClassEndTime >= @class.ClassStartTime && c.ClassEndTime <= @class.ClassEndTime)))
+                               .FirstOrDefaultAsync().Result;
 
             if (cls == null)
                 return true;

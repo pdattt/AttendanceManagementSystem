@@ -68,9 +68,28 @@ namespace AttendanceManagement.Infrastructure.Services
             return false;
         }
 
-        public bool Update(EventUpdateDTO newEvent)
+        public bool Update(EventUpdateDTO newEvent, int id)
         {
-            throw new NotImplementedException();
+            Event eve = _repo.GetById(id);
+
+            if (eve == null)
+                return false;
+
+            bool checkAvailabe = _repo.AvailableEventLocation(eve);
+
+            if (checkAvailabe)
+            {
+                eve.EventName = newEvent.EventName;
+                eve.EventDate = newEvent.EventDate;
+                eve.Location = newEvent.Location;
+                eve.EventStartTime = TimeSpan.Parse(newEvent.EventStartTime);
+                eve.EventEndTime = TimeSpan.Parse(newEvent.EventEndTime);
+
+                _repo.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
     }
 }

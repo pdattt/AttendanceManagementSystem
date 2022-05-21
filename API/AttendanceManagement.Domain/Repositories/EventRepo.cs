@@ -15,12 +15,13 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
-        public bool AvailableEventLocation(Event newEvent)
+        public bool AvailableEventLocation(Event @event)
         {
-            Event eve = Query().Where(e => e.EventDate == newEvent.EventDate
-                                      && e.Location == newEvent.Location
-                                      && ((e.EventStartTime >= newEvent.EventStartTime && e.EventStartTime <= newEvent.EventEndTime)
-                                      || (e.EventEndTime >= newEvent.EventStartTime && e.EventEndTime <= newEvent.EventEndTime)))
+            Event eve = Query().Where(e => e.EventID != @event.EventID
+                                      && e.EventDate == @event.EventDate
+                                      && e.Location == @event.Location
+                                      && ((e.EventStartTime >= @event.EventStartTime && e.EventStartTime <= @event.EventEndTime)
+                                      || (e.EventEndTime >= @event.EventStartTime && e.EventEndTime <= @event.EventEndTime)))
                                .FirstOrDefaultAsync().Result;
 
             if (eve == null)
