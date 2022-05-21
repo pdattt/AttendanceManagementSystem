@@ -13,10 +13,10 @@ namespace AttendanceManagement.Domain.Repositories
         private readonly AttendanceManagementDBContext _context;
         private readonly DbSet<TEntity> _set;
 
-        public Repository()
+        public Repository(AttendanceManagementDBContext context)
         {
-            //_context = new AttendanceManagementDBContext();
-            _set = _context.Set<TEntity>();
+            _context = context;
+            _set = context.Set<TEntity>();
         }
 
         public void SaveChanges()

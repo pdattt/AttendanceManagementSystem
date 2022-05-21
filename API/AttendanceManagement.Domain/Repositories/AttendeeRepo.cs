@@ -11,6 +11,8 @@ namespace AttendanceManagement.Domain.Repositories
 {
     public class AttendeeRepo : Repository<Attendee>, IAttendeeRepo
     {
-
+        public AttendeeRepo(AttendanceManagementDBContext context) : base(context)
+        {
+        }
     }
 }
