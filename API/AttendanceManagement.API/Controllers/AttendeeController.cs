@@ -23,7 +23,7 @@ namespace AttendanceManagement.API.Controllers
         {
             List<AttendeeReadDTO> attendees = _service.GetAll();
 
-            if (attendees.Count >0 )
+            if (attendees.Count > 0)
                 return Ok(attendees);
 
             return NotFound();
@@ -61,6 +61,18 @@ namespace AttendanceManagement.API.Controllers
                 return Ok();
 
             return NotFound();
+        }
+
+        [Route("update-attendee-by-id")]
+        [HttpPut]
+        public ActionResult UpdateAttendeeById([FromBody] AttendeeUpdateDTO attendeeUpdate, int id)
+        {
+            bool checkUpdate = _service.Update(attendeeUpdate, id);
+
+            if (checkUpdate)
+                return Ok();
+
+            return BadRequest();
         }
     }
 }

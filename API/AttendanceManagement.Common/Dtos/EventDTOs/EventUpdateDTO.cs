@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +14,16 @@ namespace AttendanceManagement.Common.Dtos.EventDTOs
         public string EventName { get; set; }
 
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "dd/mm/yyyy")]
+        [DataType(DataType.Date)]
+        [Column(TypeName = "Date")]
         public DateTime EventDate { get; set; }
 
         public string Location { get; set; }
 
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "HH:mm:ss")]
-        public TimeSpan EventStartTime { get; set; }
+        public string EventStartTime { get; set; }
 
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "HH:mm:ss")]
-        public TimeSpan EventEndTime { get; set; }
+        public string EventEndTime { get; set; }
     }
 }

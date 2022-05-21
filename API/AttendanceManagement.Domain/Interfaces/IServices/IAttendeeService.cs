@@ -16,7 +16,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         bool Add(AttendeeCreateDTO newAttendee);
 
-        bool Update(AttendeeUpdateDTO newAttendee);
+        bool Update(AttendeeUpdateDTO newAttendee, int id);
 
         bool Delete(int id);
     }

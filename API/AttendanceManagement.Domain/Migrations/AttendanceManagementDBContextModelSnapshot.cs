@@ -46,7 +46,7 @@ namespace AttendanceManagement.Domain.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Attendees");
+                    b.ToTable("Attendees", (string)null);
                 });
 
             modelBuilder.Entity("AttendanceManagement.Domain.Models.Class", b =>
@@ -81,7 +81,7 @@ namespace AttendanceManagement.Domain.Migrations
 
                     b.HasKey("ClassID");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("AttendanceManagement.Domain.Models.Event", b =>
@@ -110,7 +110,7 @@ namespace AttendanceManagement.Domain.Migrations
 
                     b.HasKey("EventID");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("AttendeeClass", b =>
@@ -125,7 +125,7 @@ namespace AttendanceManagement.Domain.Migrations
 
                     b.HasIndex("ClassesClassID");
 
-                    b.ToTable("AttendeeClass");
+                    b.ToTable("AttendeeClass", (string)null);
                 });
 
             modelBuilder.Entity("AttendeeEvent", b =>
@@ -140,7 +140,7 @@ namespace AttendanceManagement.Domain.Migrations
 
                     b.HasIndex("EventsEventID");
 
-                    b.ToTable("AttendeeEvent");
+                    b.ToTable("AttendeeEvent", (string)null);
                 });
 
             modelBuilder.Entity("AttendeeClass", b =>

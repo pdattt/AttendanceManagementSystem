@@ -16,8 +16,10 @@ namespace AttendanceManagement.Domain.Models
 
         public string? Location { get; set; }
 
+        [DataType(DataType.Time)]
         public TimeSpan ClassStartTime { get; set; }
 
+        [DataType(DataType.Time)]
         public TimeSpan ClassEndTime { get; set; }
 
         [DataType(DataType.Date)]

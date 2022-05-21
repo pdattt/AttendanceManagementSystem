@@ -39,12 +39,15 @@ namespace AttendanceManagement.Infrastructure.Services
             return true;
         }
 
-        public bool Update(AttendeeUpdateDTO newAttendee)
+        public bool Update(AttendeeUpdateDTO newAttendee, int id)
         {
-            Attendee attendee = _repo.GetById(newAttendee.ID);
+            Attendee attendee = _repo.GetById(id);
 
             if (attendee != null)
             {
+                if (_repo.CheckExistedEmail(newAttendee.Email))
+                    return false;
+
                 attendee.Name = newAttendee.Name;
                 attendee.Email = newAttendee.Email;
                 attendee.Role = newAttendee.Role;
