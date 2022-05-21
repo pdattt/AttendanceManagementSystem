@@ -40,16 +40,23 @@ namespace AttendanceManagement.Domain.Repositories
             _context.Add(newEntity);
         }
 
-        public virtual void Delete(int id)
+        public virtual bool Delete(int id)
         {
-            _context.Remove(id);
+            var entity = _set.FindAsync(id).Result;
+
+            if (entity == null)
+                return false;
+
+            _context.Remove(entity);
+            return true;
         }
 
         public virtual void Update(TEntity newEntity)
         {
             // Update
         }
-        public IQueryable Query()
+
+        public IQueryable<TEntity> Query()
         {
             return _set;
         }

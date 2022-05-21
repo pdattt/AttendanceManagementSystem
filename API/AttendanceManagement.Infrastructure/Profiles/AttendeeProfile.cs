@@ -1,4 +1,5 @@
 ﻿using AttendanceManagement.Common.Dtos;
+using AttendanceManagement.Common.Dtos.AttendeeDTOs;
 using AttendanceManagement.Domain.Models;
 using AutoMapper;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AttendanceManagement.Infrastructure.Profiles
 {
-    public class AttendeeProfile: Profile
+    public class AttendeeProfile : Profile
     {
         public AttendeeProfile()
         {

@@ -1,14 +1,8 @@
-﻿using AttendanceManagement.Common.Dtos;
-using AttendanceManagement.Common.Dtos.AttendeeDTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
 
 namespace AttendanceManagement.Domain.Interfaces.IServices
 {
-    public interface IAttendeeService
+    public interface IEventService
     {
         List<AttendeeReadDTO> GetAll();
 

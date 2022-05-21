@@ -1,13 +1,9 @@
 ﻿using AttendanceManagement.Common.Dtos;
+using AttendanceManagement.Common.Dtos.AttendeeDTOs;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AttendanceManagement.Infrastructure.Services
 {
@@ -22,7 +18,6 @@ namespace AttendanceManagement.Infrastructure.Services
             _mapper = mapper;
         }
 
-
         public List<AttendeeReadDTO> GetAll()
         {
             return _mapper.Map<List<AttendeeReadDTO>>(_repo.GetAll());
@@ -32,18 +27,23 @@ namespace AttendanceManagement.Infrastructure.Services
         {
             return _mapper.Map<AttendeeReadDTO>(_repo.GetById(id));
         }
-        public void Add(AttendeeCreateDTO newAttendee)
+
+        public bool Add(AttendeeCreateDTO newAttendee)
         {
+            if (_repo.CheckExistedEmail(newAttendee.Email))
+                return false;
+
             Attendee attendee = _mapper.Map<Attendee>(newAttendee);
             _repo.Add(attendee);
             _repo.SaveChanges();
+            return true;
         }
 
         public bool Update(AttendeeUpdateDTO newAttendee)
         {
             Attendee attendee = _repo.GetById(newAttendee.ID);
 
-            if(attendee != null)
+            if (attendee != null)
             {
                 attendee.Name = newAttendee.Name;
                 attendee.Email = newAttendee.Email;
@@ -54,13 +54,14 @@ namespace AttendanceManagement.Infrastructure.Services
 
             return false;
         }
+
         public bool Delete(int id)
         {
-            Attendee attendee = _repo.GetById(id);
+            bool checkDelete = _repo.Delete(id);
 
-            if (attendee != null)
+            if (checkDelete)
             {
-                _repo.Delete(id);
+                _repo.SaveChanges();
                 return true;
             }
 

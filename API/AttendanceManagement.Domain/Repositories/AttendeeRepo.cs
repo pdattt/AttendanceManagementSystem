@@ -14,5 +14,20 @@ namespace AttendanceManagement.Domain.Repositories
         public AttendeeRepo(AttendanceManagementDBContext context) : base(context)
         {
         }
+
+        public bool CheckExistedEmail(string email)
+        {
+            Attendee attendee = Query().FirstOrDefaultAsync(att => att.Email == email).Result;
+
+            if (attendee == null)
+                return false;
+
+            return true;
+        }
+
+        public Attendee GetByEmail(string email)
+        {
+            return Query().FirstOrDefaultAsync(att => att.Email == email).Result;
+        }
     }
 }

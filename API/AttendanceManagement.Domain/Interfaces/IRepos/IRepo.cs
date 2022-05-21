@@ -11,10 +11,15 @@ namespace AttendanceManagement.Domain.Interfaces.IRepos
         void SaveChanges();
 
         List<TEntity> GetAll();
+
         TEntity GetById(int id);
+
         void Add(TEntity newEntity);
+
         void Update(TEntity newEntity);
-        void Delete(int id);
-        IQueryable Query();
-    } 
+
+        bool Delete(int id);
+
+        IQueryable<TEntity> Query();
+    }
 }

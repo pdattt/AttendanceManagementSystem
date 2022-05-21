@@ -12,7 +12,7 @@ namespace AttendanceManagement.Domain.Models
 
         public string ClassName { get; set; }
 
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
         public DateTime ClassStartTime { get; set; }
 
@@ -22,7 +22,7 @@ namespace AttendanceManagement.Domain.Models
 
         public DateTime ClassDateEnd { get; set; }
 
-        public string DaysOfWeek { get; set; }
+        public string? DaysOfWeek { get; set; }
 
         public List<Attendee> Attendees { get; set; }
     }

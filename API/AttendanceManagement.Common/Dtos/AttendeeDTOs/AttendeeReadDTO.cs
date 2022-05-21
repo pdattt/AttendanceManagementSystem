@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AttendanceManagement.Common.Dtos
+namespace AttendanceManagement.Common.Dtos.AttendeeDTOs
 {
     public class AttendeeReadDTO
     {

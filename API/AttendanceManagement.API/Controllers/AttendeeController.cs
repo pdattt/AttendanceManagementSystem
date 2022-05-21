@@ -1,4 +1,5 @@
 ﻿using AttendanceManagement.Common.Dtos;
+using AttendanceManagement.Common.Dtos.AttendeeDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace AttendanceManagement.API.Controllers
     public class AttendeeController : ControllerBase
     {
         private readonly IAttendeeService _service;
+
         public AttendeeController(IAttendeeService service)
         {
             _service = service;
@@ -21,7 +23,44 @@ namespace AttendanceManagement.API.Controllers
         {
             List<AttendeeReadDTO> attendees = _service.GetAll();
 
-            return Ok(attendees);
+            if (attendees != null)
+                return Ok(attendees);
+
+            return NotFound();
+        }
+
+        [Route("get-attendee-by-id")]
+        [HttpGet]
+        public ActionResult GetAttendeeById(int id)
+        {
+            AttendeeReadDTO attendee = _service.GetById(id);
+
+            if (attendee != null)
+                return Ok(attendee);
+
+            return NotFound();
+        }
+
+        [Route("add-new-attendee")]
+        [HttpPost]
+        public ActionResult AddNewAttendee([FromBody] AttendeeCreateDTO attendeeDTO)
+        {
+            if (_service.Add(attendeeDTO))
+                return Ok();
+
+            return BadRequest("Email has exited!");
+        }
+
+        [Route("delete-attendee-by-id")]
+        [HttpDelete]
+        public ActionResult DeleteAttendeeById(int id)
+        {
+            bool checkDelete = _service.Delete(id);
+
+            if (checkDelete)
+                return Ok();
+
+            return NotFound();
         }
     }
 }

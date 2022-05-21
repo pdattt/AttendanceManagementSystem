@@ -7,22 +7,20 @@ using System.Threading.Tasks;
 
 namespace AttendanceManagement.Domain.Interfaces.IRepos
 {
-    public interface IAttendeeRepo
+    public interface IEventRepo
     {
         void SaveChanges();
 
-        List<Attendee> GetAll();
+        List<Event> GetAll();
 
-        Attendee GetById(int id);
+        Event GetById(int id);
 
-        Attendee GetByEmail(string email);
+        Event GetByLocation(string location);
 
-        void Add(Attendee newAttendee);
+        void Add(Event newAttendee);
 
-        void Update(Attendee newAttendee);
+        void Update(Event newAttendee);
 
         bool Delete(int id);
-
-        bool CheckExistedEmail(string email);
     }
 }

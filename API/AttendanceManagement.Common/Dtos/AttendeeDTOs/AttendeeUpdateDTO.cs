@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AttendanceManagement.Common.Dtos
+namespace AttendanceManagement.Common.Dtos.AttendeeDTOs
 {
-    public class AttendeeCreateDTO
+    public class AttendeeUpdateDTO
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
