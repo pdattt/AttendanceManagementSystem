@@ -1,16 +1,16 @@
-﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+﻿using AttendanceManagement.Common.Dtos.EventDTOs;
 
 namespace AttendanceManagement.Domain.Interfaces.IServices
 {
     public interface IEventService
     {
-        List<AttendeeReadDTO> GetAll();
+        List<EventReadDTO> GetAll();
 
-        AttendeeReadDTO GetById(int id);
+        EventReadDTO GetById(int id);
 
-        bool Add(AttendeeCreateDTO newAttendee);
+        bool Add(EventCreateDTO newEvent);
 
-        bool Update(AttendeeUpdateDTO newAttendee);
+        bool Update(EventUpdateDTO newEvent);
 
         bool Delete(int id);
     }

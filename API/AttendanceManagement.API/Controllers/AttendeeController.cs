@@ -23,7 +23,7 @@ namespace AttendanceManagement.API.Controllers
         {
             List<AttendeeReadDTO> attendees = _service.GetAll();
 
-            if (attendees != null)
+            if (attendees.Count >0 )
                 return Ok(attendees);
 
             return NotFound();

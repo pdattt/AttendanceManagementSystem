@@ -16,7 +16,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddDbContext<AttendanceManagementDBContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("AMSConnectionString")));
 
@@ -24,12 +23,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IMapper, Mapper>();
 
 // Repositories
-builder.Services.AddScoped(typeof(IRepo<>),typeof(Repository<>));
+builder.Services.AddScoped(typeof(IRepo<>), typeof(Repository<>));
 builder.Services.AddScoped<IAttendeeRepo, AttendeeRepo>();
+builder.Services.AddScoped<IEventRepo, EventRepo>();
 
 // Services
 builder.Services.AddScoped<IAttendeeService, AttendeeService>();
-
+builder.Services.AddScoped<IEventService, EventService>();
 
 var app = builder.Build();
 
