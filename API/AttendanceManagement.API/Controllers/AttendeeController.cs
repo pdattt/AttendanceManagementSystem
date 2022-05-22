@@ -21,34 +21,36 @@ namespace AttendanceManagement.API.Controllers
         [HttpGet]
         public ActionResult GetAllAttendees()
         {
-            List<AttendeeReadDTO> attendees = _service.GetAll();
+            var attendees = _service.GetAll();
 
-            if (attendees.Count > 0)
-                return Ok(attendees);
+            if (attendees.Count < 1)
+                return BadRequest();
 
-            return NotFound();
+            return Ok(attendees);
         }
 
         [Route("/get-attendee-by-id")]
         [HttpGet]
         public ActionResult GetAttendeeById(int id)
         {
-            AttendeeReadDTO attendee = _service.GetById(id);
+            var attendee = _service.GetById(id);
 
-            if (attendee != null)
-                return Ok(attendee);
+            if (attendee == null)
+                return NotFound();
 
-            return NotFound();
+            return Ok(attendee);
         }
 
         [Route("/add-new-attendee")]
         [HttpPost]
         public ActionResult AddNewAttendee([FromBody] AttendeeCreateDTO attendeeDTO)
         {
-            if (_service.Add(attendeeDTO))
-                return Ok();
+            bool checkAdd = _service.Add(attendeeDTO);
 
-            return BadRequest("Email has exited!");
+            if (!checkAdd)
+                return BadRequest();
+
+            return Ok(); ;
         }
 
         [Route("/delete-attendee-by-id")]
@@ -57,10 +59,10 @@ namespace AttendanceManagement.API.Controllers
         {
             bool checkDelete = _service.Delete(id);
 
-            if (checkDelete)
-                return Ok();
+            if (!checkDelete)
+                return NotFound();
 
-            return NotFound();
+            return Ok();
         }
 
         [Route("/update-attendee-by-id")]
@@ -69,10 +71,10 @@ namespace AttendanceManagement.API.Controllers
         {
             bool checkUpdate = _service.Update(attendeeUpdate, id);
 
-            if (checkUpdate)
-                return Ok();
+            if (!checkUpdate)
+                return BadRequest();
 
-            return BadRequest();
+            return Ok();
         }
     }
 }

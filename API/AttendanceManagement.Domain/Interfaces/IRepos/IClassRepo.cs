@@ -23,6 +23,6 @@ namespace AttendanceManagement.Domain.Interfaces.IRepos
 
         bool Delete(int id);
 
-        bool AvailableClassLocation(Class cls);
+        bool CheckAvailableClassLocation(Class cls);
     }
 }

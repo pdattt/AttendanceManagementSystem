@@ -15,7 +15,7 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
-        public bool AvailableClassLocation(Class @class)
+        public bool CheckAvailableClassLocation(Class @class)
         {
             Class cls = Query().Where(c => c.ClassID != @class.ClassID
                                       && c.DaysOfWeek.Contains(@class.DaysOfWeek)

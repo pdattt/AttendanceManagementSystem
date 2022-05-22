@@ -23,6 +23,6 @@ namespace AttendanceManagement.Domain.Interfaces.IRepos
 
         bool Delete(int id);
 
-        bool AvailableEventLocation(Event eve);
+        bool CheckAvailableEventLocation(Event eve);
     }
 }

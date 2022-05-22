@@ -26,10 +26,12 @@ builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddScoped(typeof(IRepo<>), typeof(Repository<>));
 builder.Services.AddScoped<IAttendeeRepo, AttendeeRepo>();
 builder.Services.AddScoped<IEventRepo, EventRepo>();
+builder.Services.AddScoped<IClassRepo, ClassRepo>();
 
 // Services
 builder.Services.AddScoped<IAttendeeService, AttendeeService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IClassService, ClassService>();
 
 var app = builder.Build();
 

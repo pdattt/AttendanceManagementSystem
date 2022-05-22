@@ -20,24 +20,24 @@ namespace AttendanceManagement.API.Controllers
         [HttpGet]
         public ActionResult GetAllEvents()
         {
-            List<EventReadDTO> events = _service.GetAll();
+            var events = _service.GetAll();
 
-            if (events.Count > 0)
-                return Ok(events);
+            if (events.Count < 1)
+                return BadRequest();
 
-            return BadRequest();
+            return Ok(events);
         }
 
         [Route("/get-by-id")]
         [HttpGet]
         public ActionResult GetEventById(int id)
         {
-            EventReadDTO eve = _service.GetById(id);
+            var eve = _service.GetById(id);
 
-            if (eve != null)
-                return Ok(eve);
+            if (eve == null)
+                return BadRequest();
 
-            return BadRequest();
+            return Ok(eve);
         }
 
         [Route("/add-new-event")]
@@ -59,7 +59,7 @@ namespace AttendanceManagement.API.Controllers
             bool checkDelete = _service.Delete(id);
 
             if (!checkDelete)
-                return BadRequest();
+                return NotFound();
 
             return Ok();
         }

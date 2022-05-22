@@ -15,7 +15,7 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
-        public bool AvailableEventLocation(Event @event)
+        public bool CheckAvailableEventLocation(Event @event)
         {
             Event eve = Query().Where(e => e.EventID != @event.EventID
                                       && e.EventDate == @event.EventDate

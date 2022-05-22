@@ -43,9 +43,9 @@ namespace AttendanceManagement.Infrastructure.Services
                 EventEndTime = TimeSpan.Parse(newEvent.EventEndTime)
             };
 
-            bool checkAvailabe = _repo.AvailableEventLocation(eve);
+            bool checkAvailableLocation = _repo.CheckAvailableEventLocation(eve);
 
-            if (checkAvailabe)
+            if (checkAvailableLocation)
             {
                 _repo.Add(eve);
                 _repo.SaveChanges();
@@ -75,7 +75,7 @@ namespace AttendanceManagement.Infrastructure.Services
             if (eve == null)
                 return false;
 
-            bool checkAvailabe = _repo.AvailableEventLocation(eve);
+            bool checkAvailabe = _repo.CheckAvailableEventLocation(eve);
 
             if (checkAvailabe)
             {
