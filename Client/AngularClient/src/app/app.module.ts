@@ -6,10 +6,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AttendanceManagementService } from './attendance-management.service';
+import { AttendeeComponent } from './attendee/attendee.component';
+import { ShowAttendeeComponent } from './attendee/show-attendee/show-attendee.component';
+import { AddEditAttendeeComponent } from './attendee/add-edit-attendee/add-edit-attendee.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AttendeeComponent,
+    ShowAttendeeComponent,
+    AddEditAttendeeComponent
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@ export class AttendanceManagementService {
 
   // Attendee
   getAllAttendee():Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + '/get-all-attendee');
+    return this.http.get<any>(this.apiUrl + '/get-all-attendees');
   }
 
 }
