@@ -8,8 +8,9 @@ namespace AttendanceManagement.Domain.Models
 {
     public class Session
     {
-        public int ClassId { get; set; }
-        public int EventId { get; set; }
+        public int SemesterId { get; set; }
+        public string ClassId { get; set; }
+        public string EventId { get; set; }
         public string Location { get; set; }
     }
 }
