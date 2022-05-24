@@ -15,6 +15,16 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
+        public override List<Class> GetAll()
+        {
+            return Query().Include(cls => cls.Attendees).ToListAsync().Result;
+        }
+
+        public override Class GetById(int id)
+        {
+            return Query().Include(cls => cls.Attendees).FirstOrDefaultAsync(cls => cls.ClassID == id).Result;
+        }
+
         public bool CheckAvailableClassLocation(Class @class)
         {
             Class cls = Query().Where(c => c.ClassID != @class.ClassID

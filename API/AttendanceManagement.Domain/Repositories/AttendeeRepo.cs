@@ -15,6 +15,16 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
+        public override List<Attendee> GetAll()
+        {
+            return Query().Include(att => att.Events).Include(att => att.Classes).ToListAsync().Result;
+        }
+
+        public override Attendee GetById(int id)
+        {
+            return Query().Include(att => att.Events).Include(att => att.Classes).FirstOrDefaultAsync(att => att.ID == id).Result;
+        }
+
         public bool CheckExistedEmail(string email)
         {
             Attendee attendee = Query().FirstOrDefaultAsync(att => att.Email == email).Result;

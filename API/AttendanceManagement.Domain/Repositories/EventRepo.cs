@@ -15,6 +15,16 @@ namespace AttendanceManagement.Domain.Repositories
         {
         }
 
+        public override List<Event> GetAll()
+        {
+            return Query().Include(eve => eve.Attendees).ToListAsync().Result;
+        }
+
+        public override Event GetById(int id)
+        {
+            return Query().Include(eve => eve.Attendees).FirstOrDefaultAsync(eve => eve.EventID == id).Result;
+        }
+
         public bool CheckAvailableEventLocation(Event @event)
         {
             Event eve = Query().Where(e => e.EventID != @event.EventID
