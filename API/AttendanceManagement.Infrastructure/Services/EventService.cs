@@ -1,4 +1,5 @@
-﻿using AttendanceManagement.Common.Dtos.EventDTOs;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using AttendanceManagement.Common.Dtos.EventDTOs;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
@@ -14,22 +15,24 @@ namespace AttendanceManagement.Infrastructure.Services
     public class EventService : IEventService
     {
         private readonly IMapper _mapper;
-        private readonly IEventRepo _repo;
+        private readonly IEventRepo _eventRepo;
+        private readonly IAttendeeRepo _attendeeRepo;
 
-        public EventService(IMapper mapper, IEventRepo repo)
+        public EventService(IMapper mapper, IEventRepo repo, IAttendeeRepo attendeeRepo)
         {
             _mapper = mapper;
-            _repo = repo;
+            _eventRepo = repo;
+            _attendeeRepo = attendeeRepo;
         }
 
         public List<EventReadDTO> GetAll()
         {
-            return _mapper.Map<List<EventReadDTO>>(_repo.GetAll());
+            return _mapper.Map<List<EventReadDTO>>(_eventRepo.GetAll());
         }
 
         public EventReadDTO GetById(int id)
         {
-            return _mapper.Map<EventReadDTO>(_repo.GetById(id));
+            return _mapper.Map<EventReadDTO>(_eventRepo.GetById(id));
         }
 
         public bool Add(EventCreateDTO newEvent)
@@ -43,12 +46,12 @@ namespace AttendanceManagement.Infrastructure.Services
                 EventEndTime = TimeSpan.Parse(newEvent.EventEndTime)
             };
 
-            bool checkAvailableLocation = _repo.CheckAvailableEventLocation(eve);
+            bool checkAvailableLocation = _eventRepo.CheckAvailableEventLocation(eve);
 
             if (checkAvailableLocation)
             {
-                _repo.Add(eve);
-                _repo.SaveChanges();
+                _eventRepo.Add(eve);
+                _eventRepo.SaveChanges();
                 return true;
             }
 
@@ -57,11 +60,11 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public bool Delete(int id)
         {
-            bool checkDelete = _repo.Delete(id);
+            bool checkDelete = _eventRepo.Delete(id);
 
             if (checkDelete)
             {
-                _repo.SaveChanges();
+                _eventRepo.SaveChanges();
                 return true;
             }
 
@@ -70,12 +73,12 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public bool Update(EventUpdateDTO newEvent, int id)
         {
-            Event eve = _repo.GetById(id);
+            Event eve = _eventRepo.GetById(id);
 
             if (eve == null)
                 return false;
 
-            bool checkAvailabe = _repo.CheckAvailableEventLocation(eve);
+            bool checkAvailabe = _eventRepo.CheckAvailableEventLocation(eve);
 
             if (checkAvailabe)
             {
@@ -85,11 +88,28 @@ namespace AttendanceManagement.Infrastructure.Services
                 eve.EventStartTime = TimeSpan.Parse(newEvent.EventStartTime);
                 eve.EventEndTime = TimeSpan.Parse(newEvent.EventEndTime);
 
-                _repo.SaveChanges();
+                _eventRepo.SaveChanges();
                 return true;
             }
 
             return false;
+        }
+
+        public void AddAttendee(int eventId, int attendeeId)
+        {
+            Event eve = _eventRepo.GetById(eventId);
+            Attendee att = _attendeeRepo.GetById(attendeeId);
+
+            if (eve == null || att == null)
+                return;
+
+            var checkExisted = eve.Attendees.FirstOrDefault(a => a.ID == att.ID);
+
+            if (checkExisted != null)
+                return;
+
+            eve.Attendees.Add(att);
+            _eventRepo.SaveChanges();
         }
     }
 }

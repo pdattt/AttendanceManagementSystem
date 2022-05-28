@@ -1,4 +1,5 @@
-﻿using AttendanceManagement.Common.Dtos.EventDTOs;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using AttendanceManagement.Common.Dtos.EventDTOs;
 
 namespace AttendanceManagement.Domain.Interfaces.IServices
 {
@@ -13,5 +14,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         bool Update(EventUpdateDTO newEvent, int id);
 
         bool Delete(int id);
+
+        void AddAttendee(int eventId, int attendeeId);
     }
 }

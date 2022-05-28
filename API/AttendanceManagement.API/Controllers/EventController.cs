@@ -28,7 +28,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(events);
         }
 
-        [Route("/get-by-id")]
+        [Route("/get-event-by-id")]
         [HttpGet]
         public ActionResult GetEventById(int id)
         {
@@ -38,6 +38,36 @@ namespace AttendanceManagement.API.Controllers
                 return BadRequest();
 
             return Ok(eve);
+        }
+
+        [Route("/get-attendees-in-event")]
+        [HttpGet]
+        public ActionResult GetAttendeesInEvent(int id)
+        {
+            var eve = _service.GetById(id);
+
+            if (eve == null)
+                return BadRequest();
+
+            return Ok(eve.Attendees);
+        }
+
+        [Route("/add-attendees-to-event")]
+        [HttpPost]
+        public ActionResult AddAttendeesToEvent(int eventId, List<int> attendeesId)
+        {
+            if (eventId == null)
+                return BadRequest();
+
+            if (attendeesId == null)
+                return BadRequest();
+
+            foreach (var id in attendeesId)
+            {
+                _service.AddAttendee(eventId, id);
+            }
+
+            return Ok();
         }
 
         [Route("/add-new-event")]

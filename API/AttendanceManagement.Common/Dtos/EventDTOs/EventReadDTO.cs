@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,5 +21,6 @@ namespace AttendanceManagement.Common.Dtos.EventDTOs
         public TimeSpan EventStartTime { get; set; }
 
         public TimeSpan EventEndTime { get; set; }
+        public List<AttendeeReadDTO> Attendees { get; set; }
     }
 }
