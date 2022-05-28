@@ -34,6 +34,14 @@ export class AttendanceManagementService {
     return this.http.get<any>(this.apiUrl + '/get-all-events');
   }
 
+  getEventById(id:number):any{
+    return this.http.get<any>(this.apiUrl + `/get-event-by-id?id=${id}`)
+  }
+
+  getAttendeeInEvent(id: number):Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `/get-attendees-in-event?id=${id}`);
+  }
+
   addEvent(data:any) {
     return this.http.post(this.apiUrl + '/add-new-event', data);
   }

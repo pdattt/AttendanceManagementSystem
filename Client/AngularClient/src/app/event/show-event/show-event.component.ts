@@ -41,13 +41,13 @@ export class ShowEventComponent implements OnInit {
 
   delete(eve: any){
     if(confirm(`Are you sure you want to delete this event with code ${eve.eventID}`)) {
-      this.service.deleteAttendee(eve.eventID).subscribe(res => {
-        var closeModalBtn = document.getElementById('add-edit-eve-modal-close');
+      this.service.deleteEvent(eve.eventID).subscribe(res => {
+        var closeModalBtn = document.getElementById('add-edit-event-modal-close');
       if(closeModalBtn) {
         closeModalBtn.click();
       }
 
-      var showDeleteSuccess = document.getElementById('delete-eve-success-alert');
+      var showDeleteSuccess = document.getElementById('delete-event-success-alert');
       if(showDeleteSuccess) {
         showDeleteSuccess.style.display = "block";
       }

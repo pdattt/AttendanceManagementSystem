@@ -12,6 +12,10 @@ import { AddEditAttendeeComponent } from './attendee/add-edit-attendee/add-edit-
 import { EventComponent } from './event/event.component';
 import { ShowEventComponent } from './event/show-event/show-event.component';
 import { AddEditEventComponent } from './event/add-edit-event/add-edit-event.component';
+import { ClassComponent } from './class/class.component';
+import { ShowClassComponent } from './class/show-class/show-class.component';
+import { AddEditClassComponent } from './class/add-edit-class/add-edit-class.component';
+import { ManageAttendeeEventComponent } from './event/manage-attendee-event/manage-attendee-event.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { AddEditEventComponent } from './event/add-edit-event/add-edit-event.com
     AddEditAttendeeComponent,
     EventComponent,
     ShowEventComponent,
-    AddEditEventComponent
+    AddEditEventComponent,
+    ClassComponent,
+    ShowClassComponent,
+    AddEditClassComponent,
+    ManageAttendeeEventComponent
   ],
   imports: [
     BrowserModule,
