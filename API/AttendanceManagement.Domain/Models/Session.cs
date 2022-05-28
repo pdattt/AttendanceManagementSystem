@@ -15,5 +15,8 @@ namespace AttendanceManagement.Domain.Models
 
         [FirestoreProperty]
         public string Time { get; set; }
+
+        [FirestoreProperty]
+        public string CardId { get; set; }
     }
 }

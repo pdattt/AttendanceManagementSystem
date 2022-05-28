@@ -1,11 +1,13 @@
 ﻿using AttendanceManagement.Common.Dtos;
 using AttendanceManagement.Common.Dtos.AttendeeDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceManagement.API.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class AttendeeController : ControllerBase
@@ -65,7 +67,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/update-attendee-by-id")]
+        [Route("/update-attendee-by-id/")]
         [HttpPut]
         public ActionResult UpdateAttendeeById([FromBody] AttendeeUpdateDTO attendeeUpdate, int id)
         {

@@ -24,5 +24,7 @@ namespace AttendanceManagement.Domain.Interfaces.IRepos
         bool Delete(int id);
 
         bool CheckExistedEmail(string email);
+
+        bool CheckExistedEmail(string email, int id);
     }
 }

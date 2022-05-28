@@ -45,7 +45,7 @@ namespace AttendanceManagement.Infrastructure.Services
 
             if (attendee != null)
             {
-                if (_repo.CheckExistedEmail(newAttendee.Email))
+                if (_repo.CheckExistedEmail(newAttendee.Email, id))
                     return false;
 
                 attendee.Name = newAttendee.Name;

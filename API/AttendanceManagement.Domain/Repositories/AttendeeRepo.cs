@@ -35,6 +35,16 @@ namespace AttendanceManagement.Domain.Repositories
             return true;
         }
 
+        public bool CheckExistedEmail(string email, int id)
+        {
+            Attendee attendee = Query().FirstOrDefaultAsync(att => att.Email == email && att.ID != id).Result;
+
+            if (attendee == null)
+                return false;
+
+            return true;
+        }
+
         public Attendee GetByEmail(string email)
         {
             return Query().FirstOrDefaultAsync(att => att.Email == email).Result;

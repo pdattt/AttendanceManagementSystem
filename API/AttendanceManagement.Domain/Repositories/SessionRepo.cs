@@ -49,7 +49,8 @@ namespace AttendanceManagement.Domain.Repositories
             {
                 Dictionary<string, object> map = new Dictionary<string, object> {
                     { "Date", session.Date },
-                    { "Time", session.Time }
+                    { "Time", session.Time },
+                    { "CardId", session.CardId }
                 };
 
                 await col.AddAsync(map);
