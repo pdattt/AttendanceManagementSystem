@@ -9,13 +9,19 @@ import { AttendanceManagementService } from './attendance-management.service';
 import { AttendeeComponent } from './attendee/attendee.component';
 import { ShowAttendeeComponent } from './attendee/show-attendee/show-attendee.component';
 import { AddEditAttendeeComponent } from './attendee/add-edit-attendee/add-edit-attendee.component';
+import { EventComponent } from './event/event.component';
+import { ShowEventComponent } from './event/show-event/show-event.component';
+import { AddEditEventComponent } from './event/add-edit-event/add-edit-event.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AttendeeComponent,
     ShowAttendeeComponent,
-    AddEditAttendeeComponent
+    AddEditAttendeeComponent,
+    EventComponent,
+    ShowEventComponent,
+    AddEditEventComponent
   ],
   imports: [
     BrowserModule,

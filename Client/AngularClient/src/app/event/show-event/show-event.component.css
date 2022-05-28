@@ -1,6 +1,6 @@
-#add-attendee-success-alert,
-#update-attendee-success-alert,
-#delete-attendee-success-alert {
+#add-event-success-alert,
+#update-event-success-alert,
+#delete-event-success-alert {
   display: none;
   animation-name: fadeInAndOut;
   animation-duration: 4s;

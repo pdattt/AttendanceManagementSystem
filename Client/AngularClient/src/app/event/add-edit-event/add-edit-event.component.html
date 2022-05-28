@@ -1,0 +1,28 @@
+<form>
+    <div class="mb-3">
+      <label for="eventName" class="form-label">Event Name</label>
+      <input type="text" class="form-control" [(ngModel)]="eventName" name="eventName">
+    </div>
+    <div class="mb-3">
+        <label for="eventDate" class="form-label">Event Date</label>
+        <input type="date" class="form-control" [(ngModel)]="eventDate" name="eventDate">
+    </div>
+    <div class="mb-3">
+        <label for="Location" class="form-label">Location</label>
+        <input type="text" class="form-control" [(ngModel)]="location" name="Location">
+      </div>
+    <div class="mb-3">
+        <label for="eventStartTime" class="form-label">Event Start Time</label>
+        <input type="time" class="form-control" [(ngModel)]="eventStartTime" name="eventStartTime">
+    </div>
+    <div class="mb-3">
+        <label for="eventEndTime" class="form-label">Event End Time</label>
+        <input type="time" class="form-control" [(ngModel)]="eventEndTime" name="eventEndTime">
+    </div>
+    <button (click)="addEvent()" *ngIf="event.eventID==0" class="btn btn-primary">
+      Add
+    </button>
+    <button (click)="updateEvent()" *ngIf="event.eventID!=0" class="btn btn-primary">
+      Update
+    </button>
+</form>

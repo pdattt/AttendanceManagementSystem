@@ -1,32 +1,31 @@
 <!-- Add inspection trigger modal -->
-<button type="button" class="btn btn-primary float-end m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop-attendee"
+<button type="button" class="btn btn-primary float-end m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop-event"
 (click)="modalAdd()"
 >
-  Add Attendee
+  Add Event
 </button>
 
 <table class="table table-striped">
   <thead>
     <th>Id</th>
     <th>Name</th>
-    <th>Email</th>
-    <th>Card Id</th>
-    <th>Role</th>
+    <th>Date</th>
+    <th>Location</th>
+    <th>Start Time</th>
+    <th>End Time</th>
     <th>Options</th>
   </thead>
   <tbody>
-    <tr *ngFor="let att of attendees|async">
-      <td>{{att.id}}</td>
-      <td>{{att.name}}</td>
-      <td>{{att.email}}</td>
-      <td>
-          <p *ngIf="att.CardId == null">None</p>
-          {{att.cardId}}
-      </td>
-      <td>{{att.role}}</td>
+    <tr *ngFor="let eve of events|async">
+      <td>{{eve.eventID}}</td>
+      <td>{{eve.eventName}}</td>
+      <td>{{eve.eventDate | date: 'dd-MM-yyyy'}}</td>
+      <td>{{eve.location}}</td>
+      <td>{{eve.eventStartTime}}</td>
+      <td>{{eve.eventEndTime}}</td>
       <td>
         <button class="btn btn-outline-primary me-2 mb-1"
-        (click)="modalEdit(att)" data-bs-toggle="modal" data-bs-target="#staticBackdrop-attendee"
+        (click)="modalEdit(eve)" data-bs-toggle="modal" data-bs-target="#staticBackdrop-event"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -34,7 +33,7 @@
           </svg>
         </button>
         <button class="btn btn-outline-danger me-2 mb-1"
-        (click)="delete(att)"
+        (click)="delete(eve)"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -47,30 +46,30 @@
   </tbody>
 </table>
 
-<div class="alert alert-success" role="alert" id="add-attendee-success-alert">
-  Attendee successfully added!
+<div class="alert alert-success" role="alert" id="add-event-success-alert">
+    Event successfully added!
 </div>
 
-<div class="alert alert-success" role="alert" id="update-attendee-success-alert">
-  Attendee successfully updated!
+<div class="alert alert-success" role="alert" id="update-event-success-alert">
+    Event successfully updated!
 </div>
 
-<div class="alert alert-success" role="alert" id="delete-attendee-success-alert">
-  Attendee successfully deleted!
+<div class="alert alert-success" role="alert" id="delete-event-success-alert">
+    Event successfully deleted!
 </div>
 
 <!-- Add or edit inspection Modal -->
-<div class="modal fade" id="staticBackdrop-attendee" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop-event" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">{{modalTitle}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-        (click)="modalClose()" id="add-edit-attendee-modal-close"
+        (click)="modalClose()" id="add-edit-event-modal-close"
         ></button>
       </div>
       <div class="modal-body">
-        <app-add-edit-attendee [attendee]="attendee" *ngIf="activateAddEditAttendeeComponent"></app-add-edit-attendee>
+        <app-add-edit-event [event]="event" *ngIf="activateAddEditEventComponent"></app-add-edit-event>
       </div>
     </div>
   </div>

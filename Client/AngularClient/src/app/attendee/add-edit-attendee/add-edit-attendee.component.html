@@ -1,1 +1,20 @@
-<p>add-edit-attendee works!</p>
+<form>
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="name" name="name">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control" [(ngModel)]="email" name="email">
+    </div>
+    <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <input type="text" class="form-control" [(ngModel)]="role" name="role">
+    </div>
+    <button (click)="addAttendee()" *ngIf="attendee.id==0" class="btn btn-primary">
+      Add
+    </button>
+    <button (click)="updateAttendee()" *ngIf="attendee.id!=0" class="btn btn-primary">
+      Update
+    </button>
+</form>
