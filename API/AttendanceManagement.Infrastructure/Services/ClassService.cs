@@ -95,5 +95,33 @@ namespace AttendanceManagement.Infrastructure.Services
 
             return false;
         }
+
+        //public List<Session> GenerateSession(dynamic cls_eve)
+        //{
+        //    if (cls_eve == null)
+        //        return null;
+
+        //    if (cls_eve.DaysOfWeek == null)
+        //        return null;
+
+        //    List<Session> sessions = new List<Session>();
+        //    var dates = cls_eve.DaysOfWeek.Trim().Split(',').ToList();
+
+        //    for (DateTime date = cls_eve.ClassDateStart; date <= cls_eve.ClassDateEnd; date = date.AddDays(1.0))
+        //    {
+        //        string day = date.ToString("dddd");
+
+        //        bool checkDay = (dayOfWeek[day.ToString("")]);
+
+        //        if (checkDay)
+        //        {
+        //            Session addSession = new Session();
+        //            addSession.Date = day;
+        //            sessions.Add(addSession);
+        //        }
+        //    }
+
+        //    return sessions;
+        //}
     }
 }

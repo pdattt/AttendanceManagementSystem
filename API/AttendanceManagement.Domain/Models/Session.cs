@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace AttendanceManagement.Domain.Models
 {
+    [FirestoreData]
     public class Session
     {
-        public int ClassId { get; set; }
-        public int EventId { get; set; }
-        public string Location { get; set; }
+        [FirestoreProperty]
+        public string Date { get; set; }
+
+        [FirestoreProperty]
+        public string Time { get; set; }
     }
 }

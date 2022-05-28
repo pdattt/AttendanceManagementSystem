@@ -27,11 +27,13 @@ builder.Services.AddScoped(typeof(IRepo<>), typeof(Repository<>));
 builder.Services.AddScoped<IAttendeeRepo, AttendeeRepo>();
 builder.Services.AddScoped<IEventRepo, EventRepo>();
 builder.Services.AddScoped<IClassRepo, ClassRepo>();
+builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 
 // Services
 builder.Services.AddScoped<IAttendeeService, AttendeeService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
 
 // CORS
 
