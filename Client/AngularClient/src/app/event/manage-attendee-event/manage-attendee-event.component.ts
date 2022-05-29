@@ -72,9 +72,11 @@ export class ManageAttendeeEventComponent implements OnInit {
   }
 
   removeAttendee(att: any){
-    this.service.removeAttendeeFromEvent(this.eventID, att.id).subscribe(res =>{
-      this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
-      this.availableAttendees = this.service.getAvailableAttendee(this.eventID)
-    })
+    if(confirm(`Are you sure you want to remove this attendee from event with code ${att.id}`)) {
+      this.service.removeAttendeeFromEvent(this.eventID, att.id).subscribe(res =>{
+        this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
+        this.availableAttendees = this.service.getAvailableAttendee(this.eventID)
+      })
+    }
   }
 }
