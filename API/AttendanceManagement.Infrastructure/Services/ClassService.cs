@@ -137,6 +137,23 @@ namespace AttendanceManagement.Infrastructure.Services
             return _mapper.Map<List<AttendeeReadDTO>>(availableAttendees);
         }
 
+        public void RemoveAttendee(int classId, int attendeeId)
+        {
+            Class eve = _classRepo.GetById(classId);
+            Attendee att = _attendeeRepo.GetById(attendeeId);
+
+            if (eve == null || att == null)
+                return;
+
+            var checkExisted = eve.Attendees.FirstOrDefault(a => a.ID == att.ID);
+
+            if (checkExisted == null)
+                return;
+
+            eve.Attendees.Remove(att);
+            _classRepo.SaveChanges();
+        }
+
         //public List<Session> GenerateSession(dynamic cls_eve)
         //{
         //    if (cls_eve == null)

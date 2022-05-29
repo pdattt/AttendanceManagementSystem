@@ -106,6 +106,24 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
+        [Route("/remove-attendee-from-class")]
+        [HttpDelete]
+        public ActionResult RemoveAttendeesFromEvent(int classId, List<int> attendeesId)
+        {
+            if (classId == null)
+                return BadRequest();
+
+            if (attendeesId == null)
+                return BadRequest();
+
+            foreach (var id in attendeesId)
+            {
+                _service.RemoveAttendee(classId, id);
+            }
+
+            return Ok();
+        }
+
         [Route("/update-class-by-id")]
         [HttpPut]
         public ActionResult UpdateClassById([FromBody] ClassUpdateDTO newClass, int id)

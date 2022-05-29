@@ -22,5 +22,6 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         void AddAttendee(int classId, int id);
         List<AttendeeReadDTO> GetAvailableAttendeesInClass(int id);
+        void RemoveAttendee(int classId, int attendeeId);
     }
 }
