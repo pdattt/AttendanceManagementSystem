@@ -18,7 +18,11 @@ export class ManageAttendeeEventComponent implements OnInit {
   location: string = ""
   eventStartTime: string = ""
   eventEndTime: string = ""
-  attendees!: Observable<any[]>
+  attendeesInEvent!: Observable<any[]>
+  availableAttendees!: Observable<any[]>
+  activateAddAttendeeToEvent:boolean = false
+  attendeeToJoin: any = []
+  attendeeToRemove: any = []
 
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
@@ -37,8 +41,40 @@ export class ManageAttendeeEventComponent implements OnInit {
       )
     })
 
-    this.attendees = this.service.getAttendeeInEvent(this.eventID)
+    this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
   }
 
-  
+  toogleAddAttendee(){
+    if(this.activateAddAttendeeToEvent)
+      this.activateAddAttendeeToEvent = false
+    else{
+      this.activateAddAttendeeToEvent = true
+      this.availableAttendees = this.service.getAvailableAttendee(this.eventID)
+    }
+  }
+
+  addAllAttendeeToEvent(){
+
+  }
+
+  importExcelFile(){
+
+  }
+
+  addAttendeeToEvent(att: any){
+    this.attendeeToJoin.push(att.id)
+
+    this.service.addAttendeeToEvent(this.eventID, this.attendeeToJoin).subscribe(res =>{
+      this.attendeeToJoin = []
+      this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
+      this.availableAttendees = this.service.getAvailableAttendee(this.eventID)
+    })
+  }
+
+  removeAttendee(att: any){
+    this.service.removeAttendeeFromEvent(this.eventID, att.id).subscribe(res =>{
+      this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
+      this.availableAttendees = this.service.getAvailableAttendee(this.eventID)
+    })
+  }
 }

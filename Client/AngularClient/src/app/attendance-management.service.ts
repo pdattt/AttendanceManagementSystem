@@ -42,8 +42,16 @@ export class AttendanceManagementService {
     return this.http.get<any>(this.apiUrl + `/get-attendees-in-event?id=${id}`);
   }
 
+  getAvailableAttendee(id: number):Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `/get-available-attendees-in-event?id=${id}`);
+  }
+
   addEvent(data:any) {
     return this.http.post(this.apiUrl + '/add-new-event', data);
+  }
+
+  addAttendeeToEvent(id:number, data: any[]){
+    return this.http.post(this.apiUrl + `/add-attendees-to-event?eventId=${id}`, data)
   }
 
   updateEvent(id:number, data:any) {
@@ -54,6 +62,9 @@ export class AttendanceManagementService {
     return this.http.delete(this.apiUrl + `/delete-event-by-id/?id=${id}`)
   }
 
+  removeAttendeeFromEvent(eventId:number, attendeeId: any){
+    return this.http.delete(this.apiUrl + `/remove-attendee-from-event?eventId=${eventId}&attendeeId=${attendeeId}`)
+  }
 
   // Class ------------------------------------------------------------------------------
   getAllClasses():Observable<any[]>{
