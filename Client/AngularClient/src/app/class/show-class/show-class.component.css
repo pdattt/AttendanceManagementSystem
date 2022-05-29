@@ -1,0 +1,13 @@
+#add-class-success-alert,
+#update-class-success-alert,
+#delete-class-success-alert {
+  display: none;
+  animation-name: fadeInAndOut;
+  animation-duration: 4s;
+}
+
+@keyframes fadeInAndOut {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+    100% {opacity: 0;}
+  }

@@ -11,5 +11,4 @@ export class ClassComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

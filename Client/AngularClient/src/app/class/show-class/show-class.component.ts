@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AttendanceManagementService } from 'src/app/attendance-management.service';
 
 @Component({
   selector: 'app-show-class',
@@ -7,9 +9,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShowClassComponent implements OnInit {
 
-  constructor() { }
+  classes!: Observable<any[]>
+  class: any
+  modalTitle:string = ""
+  activateAddEditClassComponent:boolean = false;
+  
+  constructor(private service: AttendanceManagementService) { }
 
   ngOnInit(): void {
+    this.classes = this.service.getAllClasses()
+  }
+  
+  modalAdd(){
+    this.class = {
+      classID: 0,
+      className:null,
+      classStartTime:null,
+      classEndTime:null,
+      classDateStart:null,
+      classDateEnd:null,
+      classDaysOfWeek:null
+    }
+    this.modalTitle = "Add Class";
+    this.activateAddEditClassComponent = true;
   }
 
+  modalEdit(cls: any){
+    this.class = cls;
+    this.modalTitle = "Edit Class";
+    this.activateAddEditClassComponent = true;
+  }
+
+  delete(cls: any){
+    if(confirm(`Are you sure you want to delete this class with code ${cls.classID}`)) {
+      this.service.deleteClass(cls.eventID).subscribe(res => {
+        var closeModalBtn = document.getElementById('add-edit-class-modal-close');
+      if(closeModalBtn) {
+        closeModalBtn.click();
+      }
+
+      var showDeleteSuccess = document.getElementById('delete-class-success-alert');
+      if(showDeleteSuccess) {
+        showDeleteSuccess.style.display = "block";
+      }
+      setTimeout(function() {
+        if(showDeleteSuccess) {
+          showDeleteSuccess.style.display = "none"
+        }
+      }, 4000);
+      this.classes = this.service.getAllClasses();
+      })
+    }
+  }
+
+  modalClose(){
+    this.activateAddEditClassComponent = false;
+    this.classes = this.service.getAllClasses()
+  }
 }

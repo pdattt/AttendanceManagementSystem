@@ -69,14 +69,14 @@ export class AttendanceManagementService {
   }
 
   addClass(data:any) {
-    return this.http.post(this.apiUrl + '/add-new-event', data);
+    return this.http.post(this.apiUrl + '/add-new-class', data);
   }
 
   updateClass(id:number, data:any) {
-    return this.http.put(this.apiUrl + `/update-event-by-id/?id=${id}`, data);
+    return this.http.put(this.apiUrl + `/update-class-by-id/?id=${id}`, data);
   }
 
   deleteClass(id:number) {
-    return this.http.delete(this.apiUrl + `/delete-event-by-id/?id=${id}`)
+    return this.http.delete(this.apiUrl + `/delete-class-by-id?id=${id}`)
   }
 }

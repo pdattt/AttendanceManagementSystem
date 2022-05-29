@@ -1,1 +1,36 @@
-<p>add-edit-class works!</p>
+<form>
+    <div class="mb-3">
+      <label for="className" class="form-label">Class Name</label>
+      <input type="text" class="form-control" [(ngModel)]="className" name="className">
+    </div>
+    <div class="mb-3">
+        <label for="daysOfWeek" class="form-label">Days Of Week</label>
+        <input type="text" class="form-control" [(ngModel)]="daysOfWeek" name="daysOfWeed">
+    </div>
+    <div class="mb-3">
+        <label for="Location" class="form-label">Location</label>
+        <input type="text" class="form-control" [(ngModel)]="location" name="Location">
+      </div>
+    <div class="mb-3">
+        <label for="classStartTime" class="form-label">Class Start Time</label>
+        <input type="time" class="form-control" [(ngModel)]="classStartTime" name="classStartTime">
+    </div>
+    <div class="mb-3">
+        <label for="classEndTime" class="form-label">Class End Time</label>
+        <input type="time" class="form-control" [(ngModel)]="classEndTime" name="classEndTime">
+    </div>
+    <div class="mb-3">
+        <label for="classDateStart" class="form-label">Class Start Time</label>
+        <input type="date" class="form-control" [(ngModel)]="classDateStart" name="classDateStart">
+    </div>
+    <div class="mb-3">
+        <label for="classDateEnd" class="form-label">Class End Time</label>
+        <input type="date" class="form-control" [(ngModel)]="classDateEnd" name="classDateEnd">
+    </div>
+    <button (click)="addClass()" *ngIf="class.classID==0" class="btn btn-primary">
+      Add
+    </button>
+    <button (click)="updateClass()" *ngIf="class.classID!=0" class="btn btn-primary">
+      Update
+    </button>
+</form>
