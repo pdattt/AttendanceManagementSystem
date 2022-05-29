@@ -1,4 +1,5 @@
-﻿using AttendanceManagement.Common.Dtos.ClassDTOs;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using AttendanceManagement.Common.Dtos.ClassDTOs;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
@@ -113,6 +114,27 @@ namespace AttendanceManagement.Infrastructure.Services
 
             eve.Attendees.Add(att);
             _classRepo.SaveChanges();
+        }
+
+        public List<AttendeeReadDTO> GetAvailableAttendeesInClass(int id)
+        {
+            Class cls = _classRepo.GetById(id);
+
+            if (cls == null)
+                return null;
+
+            var attendees = _attendeeRepo.GetAll();
+            List<Attendee> availableAttendees = new List<Attendee>();
+
+            foreach (var att in attendees)
+            {
+                if (cls.Attendees.Contains(att))
+                    continue;
+
+                availableAttendees.Add(att);
+            }
+
+            return _mapper.Map<List<AttendeeReadDTO>>(availableAttendees);
         }
 
         //public List<Session> GenerateSession(dynamic cls_eve)

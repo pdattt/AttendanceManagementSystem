@@ -52,6 +52,18 @@ namespace AttendanceManagement.API.Controllers
             return Ok(cls.Attendees);
         }
 
+        [Route("/get-available-attendees-in-class")]
+        [HttpGet]
+        public ActionResult GetAvailableAttendeesInClass(int id)
+        {
+            var attendees = _service.GetAvailableAttendeesInClass(id);
+
+            if (attendees == null)
+                return NoContent();
+
+            return Ok(attendees);
+        }
+
         [Route("/add-attendees-to-class")]
         [HttpPost]
         public ActionResult AddAttendeesToClass(int classId, List<int> attendeesId)

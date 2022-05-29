@@ -1,4 +1,5 @@
-﻿using AttendanceManagement.Common.Dtos.ClassDTOs;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using AttendanceManagement.Common.Dtos.ClassDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         bool Delete(int id);
 
         void AddAttendee(int classId, int id);
+        List<AttendeeReadDTO> GetAvailableAttendeesInClass(int id);
     }
 }
