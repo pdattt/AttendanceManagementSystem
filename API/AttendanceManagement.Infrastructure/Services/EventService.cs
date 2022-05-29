@@ -111,5 +111,26 @@ namespace AttendanceManagement.Infrastructure.Services
             eve.Attendees.Add(att);
             _eventRepo.SaveChanges();
         }
+
+        public List<AttendeeReadDTO> GetAvailableAttendeesInEvent(int id)
+        {
+            Event eve = _eventRepo.GetById(id);
+
+            if (eve == null)
+                return null;
+
+            var attendees = _attendeeRepo.GetAll();
+            List<Attendee> availableAttendees = new List<Attendee>();
+
+            foreach(var att in attendees)
+            {
+                if (eve.Attendees.Contains(att))
+                    continue;
+
+                availableAttendees.Add(att);
+            }
+
+            return _mapper.Map<List<AttendeeReadDTO>>(availableAttendees);
+        }
     }
 }

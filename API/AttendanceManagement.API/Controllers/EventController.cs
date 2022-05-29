@@ -52,6 +52,18 @@ namespace AttendanceManagement.API.Controllers
             return Ok(eve.Attendees);
         }
 
+        [Route("/get-available-attendees-in-event")]
+        [HttpGet]
+        public ActionResult GetAvailableAttendeesInEvent(int id)
+        {
+            var attendees = _service.GetAvailableAttendeesInEvent(id);
+
+            if (attendees == null)
+                return NoContent();
+
+            return Ok(attendees);
+        }
+
         [Route("/add-attendees-to-event")]
         [HttpPost]
         public ActionResult AddAttendeesToEvent(int eventId, List<int> attendeesId)
