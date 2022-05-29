@@ -86,7 +86,22 @@ namespace AttendanceManagement.API.Controllers
         {
             var sessions = _sessionService.GetAllAttendanceSession(semesterId, type, cls_eve_id);
 
+            if (sessions == null)
+                return BadRequest();
+
             return Ok(sessions);
+        }
+
+        [Route("/get-all-check-ins")]
+        [HttpGet]
+        public ActionResult GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        {
+            var checkIns = _sessionService.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
+
+            if (checkIns == null)
+                return BadRequest();
+
+            return Ok(checkIns);
         }
     }
 }

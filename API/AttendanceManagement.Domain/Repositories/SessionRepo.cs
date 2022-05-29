@@ -80,6 +80,37 @@ namespace AttendanceManagement.Domain.Repositories
             return sessions;
         }
 
+        public async Task<List<CheckIn>> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        {
+            Query qref = db.Collection("Session").Document(semesterId).Collection(type).Document(cls_eve_id).Collection("Attendance");
+            QuerySnapshot snap = await qref.GetSnapshotAsync();
+            string docId = "";
+
+            foreach (DocumentSnapshot docsnap in snap)
+            {
+                Session session = docsnap.ConvertTo<Session>();
+                if (session.Date == date)
+                {
+                    docId = docsnap.Id;
+                    break;
+                }
+            }
+
+            qref = db.Collection("Session").Document(semesterId).Collection(type)
+                                           .Document(cls_eve_id).Collection("Attendance").Document(docId).Collection("CheckIn");
+            snap = await qref.GetSnapshotAsync();
+
+            List<CheckIn> list = new List<CheckIn>();
+
+            foreach (DocumentSnapshot docsnap in snap)
+            {
+                CheckIn check = docsnap.ConvertTo<CheckIn>();
+                list.Add(check);
+            }
+
+            return list;
+        }
+
         public async Task<List<string>> GetAllInSemester(string semesterId, string type)
         {
             if (semesterId == null)

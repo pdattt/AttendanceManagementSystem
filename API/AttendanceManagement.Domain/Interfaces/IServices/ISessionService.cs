@@ -23,5 +23,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         List<string> GetAllInSemester(string semesterId, string type);
 
         List<Session> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id);
+
+        List<CheckIn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date);
     }
 }

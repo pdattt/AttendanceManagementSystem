@@ -126,6 +126,11 @@ namespace AttendanceManagement.Infrastructure.Services
             return _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
         }
 
+        public List<CheckIn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        {
+            return _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+        }
+
         public List<string> GetAllInSemester(string semesterId, string type)
         {
             if (type != "class" && type != "event")
