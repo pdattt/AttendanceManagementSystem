@@ -18,5 +18,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         bool Update(ClassUpdateDTO newClass, int id);
 
         bool Delete(int id);
+
+        void AddAttendee(int classId, int id);
     }
 }

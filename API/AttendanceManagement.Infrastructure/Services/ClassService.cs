@@ -13,23 +13,25 @@ namespace AttendanceManagement.Infrastructure.Services
 {
     public class ClassService : IClassService
     {
-        private readonly IClassRepo _repo;
+        private readonly IClassRepo _classRepo;
+        private readonly IAttendeeRepo _attendeeRepo;
         private readonly IMapper _mapper;
 
-        public ClassService(IClassRepo repo, IMapper mapper)
+        public ClassService(IClassRepo repo, IMapper mapper, IAttendeeRepo attendeeRepo)
         {
-            _repo = repo;
+            _classRepo = repo;
             _mapper = mapper;
+            _attendeeRepo = attendeeRepo;
         }
 
         public List<ClassReadDTO> GetAll()
         {
-            return _mapper.Map<List<ClassReadDTO>>(_repo.GetAll());
+            return _mapper.Map<List<ClassReadDTO>>(_classRepo.GetAll());
         }
 
         public ClassReadDTO GetById(int id)
         {
-            return _mapper.Map<ClassReadDTO>(_repo.GetById(id));
+            return _mapper.Map<ClassReadDTO>(_classRepo.GetById(id));
         }
 
         public bool Add(ClassCreateDTO newClass)
@@ -45,12 +47,12 @@ namespace AttendanceManagement.Infrastructure.Services
                 ClassDateEnd = newClass.ClassDateEnd
             };
 
-            bool checkAvailableLocation = _repo.CheckAvailableClassLocation(cls);
+            bool checkAvailableLocation = _classRepo.CheckAvailableClassLocation(cls);
 
             if (checkAvailableLocation)
             {
-                _repo.Add(cls);
-                _repo.SaveChanges();
+                _classRepo.Add(cls);
+                _classRepo.SaveChanges();
                 return true;
             }
 
@@ -59,11 +61,11 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public bool Delete(int id)
         {
-            bool checkDelete = _repo.Delete(id);
+            bool checkDelete = _classRepo.Delete(id);
 
             if (checkDelete)
             {
-                _repo.SaveChanges();
+                _classRepo.SaveChanges();
                 return true;
             }
 
@@ -72,12 +74,12 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public bool Update(ClassUpdateDTO newClass, int id)
         {
-            Class cls = _repo.GetById(id);
+            Class cls = _classRepo.GetById(id);
 
             if (cls == null)
                 return false;
 
-            bool checkAvailableLocation = _repo.CheckAvailableClassLocation(cls);
+            bool checkAvailableLocation = _classRepo.CheckAvailableClassLocation(cls);
 
             if (checkAvailableLocation)
             {
@@ -89,11 +91,28 @@ namespace AttendanceManagement.Infrastructure.Services
                 cls.ClassDateStart = newClass.ClassDateStart;
                 cls.ClassDateEnd = newClass.ClassDateEnd;
 
-                _repo.SaveChanges();
+                _classRepo.SaveChanges();
                 return true;
             }
 
             return false;
+        }
+
+        public void AddAttendee(int classId, int attendeeId)
+        {
+            Class eve = _classRepo.GetById(classId);
+            Attendee att = _attendeeRepo.GetById(attendeeId);
+
+            if (eve == null || att == null)
+                return;
+
+            var checkExisted = eve.Attendees.FirstOrDefault(a => a.ID == att.ID);
+
+            if (checkExisted != null)
+                return;
+
+            eve.Attendees.Add(att);
+            _classRepo.SaveChanges();
         }
 
         //public List<Session> GenerateSession(dynamic cls_eve)

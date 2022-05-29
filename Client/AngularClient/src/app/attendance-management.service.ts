@@ -29,7 +29,7 @@ export class AttendanceManagementService {
   }
 
 
-  // Event --------------------------------------------------------------------------
+  // Event ------------------------------------------------------------------------------
   getAllEvents():Observable<any[]>{
     return this.http.get<any>(this.apiUrl + '/get-all-events');
   }
@@ -54,4 +54,29 @@ export class AttendanceManagementService {
     return this.http.delete(this.apiUrl + `/delete-event-by-id/?id=${id}`)
   }
 
+
+  // Class ------------------------------------------------------------------------------
+  getAllClasses():Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + '/get-all-classes');
+  }
+
+  getClassById(id:number):any{
+    return this.http.get<any>(this.apiUrl + `/get-class-by-id?id=${id}`)
+  }
+
+  getAttendeeInClass(id: number):Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `/get-attendees-in-class?id=${id}`);
+  }
+
+  addClass(data:any) {
+    return this.http.post(this.apiUrl + '/add-new-event', data);
+  }
+
+  updateClass(id:number, data:any) {
+    return this.http.put(this.apiUrl + `/update-event-by-id/?id=${id}`, data);
+  }
+
+  deleteClass(id:number) {
+    return this.http.delete(this.apiUrl + `/delete-event-by-id/?id=${id}`)
+  }
 }

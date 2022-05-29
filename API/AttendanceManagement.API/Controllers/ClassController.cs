@@ -40,6 +40,36 @@ namespace AttendanceManagement.API.Controllers
             return Ok(cls);
         }
 
+        [Route("/get-attendees-in-class")]
+        [HttpGet]
+        public ActionResult GetAttendeesInClass(int id)
+        {
+            var cls = _service.GetById(id);
+
+            if (cls == null)
+                return BadRequest();
+
+            return Ok(cls.Attendees);
+        }
+
+        [Route("/add-attendees-to-class")]
+        [HttpPost]
+        public ActionResult AddAttendeesToClass(int classId, List<int> attendeesId)
+        {
+            if (classId == null)
+                return BadRequest();
+
+            if (attendeesId == null)
+                return BadRequest();
+
+            foreach (var id in attendeesId)
+            {
+                _service.AddAttendee(classId, id);
+            }
+
+            return Ok();
+        }
+
         [Route("/add-new-class")]
         [HttpPost]
         public ActionResult AddNewClass([FromBody] ClassCreateDTO newclass)
