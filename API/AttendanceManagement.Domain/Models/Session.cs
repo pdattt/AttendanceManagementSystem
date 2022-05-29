@@ -14,9 +14,12 @@ namespace AttendanceManagement.Domain.Models
         public string Date { get; set; }
 
         [FirestoreProperty]
-        public string Time { get; set; }
+        public string EndTime { get; set; }
 
         [FirestoreProperty]
-        public string CardId { get; set; }
+        public string StartTime { get; set; }
+
+        [FirestoreProperty]
+        public string Location { get; set; }
     }
 }

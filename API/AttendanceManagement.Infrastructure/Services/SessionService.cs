@@ -14,6 +14,8 @@ namespace AttendanceManagement.Infrastructure.Services
     public class SessionService : ISessionService
     {
         private readonly ISessionRepo _sessionRepo;
+        private readonly IClassRepo _classRepo;
+        private readonly IEventRepo _eventRepo;
 
         private Dictionary<string, string> dayOfWeek = new Dictionary<string, string>
         {
@@ -26,9 +28,11 @@ namespace AttendanceManagement.Infrastructure.Services
             { DayOfWeek.Sunday.ToString(), "CN" }
         };
 
-        public SessionService(ISessionRepo sessionRepo)
+        public SessionService(ISessionRepo sessionRepo, IEventRepo eventRepo, IClassRepo classRepo)
         {
             _sessionRepo = sessionRepo;
+            _classRepo = classRepo;
+            _eventRepo = eventRepo;
         }
 
         //public void Add(Session session, string class_event_Id, string semesterId)
@@ -84,14 +88,14 @@ namespace AttendanceManagement.Infrastructure.Services
                 if (checkDay != null)
                 {
                     Session addSession = new Session();
-                    addSession.Date = day;
+                    addSession.Date = date.ToString("d");
                     sessions.Add(addSession);
                 }
             }
 
             string semesterId = GetSemesterId(cls.ClassDateStart);
 
-            _sessionRepo.Add(sessions, "class", semesterId, cls.ClassID, cls.Location, cls.ClassStartTime, cls.ClassEndTime);
+            _sessionRepo.Add(sessions, cls.ClassName, "class", semesterId, cls.ClassID, cls.Location, cls.ClassStartTime, cls.ClassEndTime);
 
             return true;
         }
@@ -112,9 +116,27 @@ namespace AttendanceManagement.Infrastructure.Services
 
             string semesterId = GetSemesterId(eve.EventDate);
 
-            _sessionRepo.Add(sessions, "event", semesterId, eve.EventID, eve.Location, eve.EventStartTime, eve.EventEndTime);
+            _sessionRepo.Add(sessions, eve.EventName, "event", semesterId, eve.EventID, eve.Location, eve.EventStartTime, eve.EventEndTime);
 
             return true;
+        }
+
+        public List<Session> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
+        {
+            return _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
+        }
+
+        public List<string> GetAllInSemester(string semesterId, string type)
+        {
+            if (type != "class" && type != "event")
+                return null;
+
+            return _sessionRepo.GetAllInSemester(semesterId, type).Result;
+        }
+
+        public List<string> GetAllSemesterIds()
+        {
+            return _sessionRepo.GetAllSemesterIds().Result;
         }
 
         private string GetSemesterId(DateTime date)

@@ -55,5 +55,38 @@ namespace AttendanceManagement.API.Controllers
 
             return Ok();
         }
+
+        [Route("/get-all-semester-ids")]
+        [HttpGet]
+        public ActionResult GetAllSemesterIds()
+        {
+            var ids = _sessionService.GetAllSemesterIds();
+
+            if (ids == null)
+                return NotFound();
+
+            return Ok(ids);
+        }
+
+        [Route("/get-all-classes-and-events-in-semester")]
+        [HttpGet]
+        public ActionResult GetAllSemesterIds(string semesterId, string type)
+        {
+            var ids = _sessionService.GetAllInSemester(semesterId, type);
+
+            if (ids == null)
+                return NotFound();
+
+            return Ok(ids);
+        }
+
+        [Route("/get-all-attendance-sessions")]
+        [HttpGet]
+        public ActionResult GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
+        {
+            var sessions = _sessionService.GetAllAttendanceSession(semesterId, type, cls_eve_id);
+
+            return Ok(sessions);
+        }
     }
 }
