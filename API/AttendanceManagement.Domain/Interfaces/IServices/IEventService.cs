@@ -17,5 +17,6 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         void AddAttendee(int eventId, int attendeeId);
         List<AttendeeReadDTO> GetAvailableAttendeesInEvent(int id);
+        void RemoveAttendee(int eventId, int attendeeId);
     }
 }
