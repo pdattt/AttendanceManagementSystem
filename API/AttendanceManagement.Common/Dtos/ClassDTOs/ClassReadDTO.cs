@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,7 @@ namespace AttendanceManagement.Common.Dtos.ClassDTOs
         public DateTime ClassDateEnd { get; set; }
 
         public string DaysOfWeek { get; set; }
+
+        public List<AttendeeReadDTO> Attendees { get; set; }
     }
 }
