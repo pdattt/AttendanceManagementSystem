@@ -16,7 +16,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
-        [Route("login")]
+        [Route("/login")]
         [HttpPost]
         public ActionResult Login(UserLoginDTO userLogin)
         {
