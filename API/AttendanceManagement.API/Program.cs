@@ -28,15 +28,16 @@ builder.Services.AddScoped<IAttendeeRepo, AttendeeRepo>();
 builder.Services.AddScoped<IEventRepo, EventRepo>();
 builder.Services.AddScoped<IClassRepo, ClassRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 // Services
 builder.Services.AddScoped<IAttendeeService, AttendeeService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // CORS
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
