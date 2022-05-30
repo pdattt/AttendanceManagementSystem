@@ -1,12 +1,16 @@
-﻿using AttendanceManagement.Common.Dtos.UserDTOs;
+﻿using AttendanceManagement.Common;
+using AttendanceManagement.Common.Dtos.UserDTOs;
 using AttendanceManagement.Common.Services;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +38,26 @@ namespace AttendanceManagement.Infrastructure.Services
                 return null;
 
             return _mapper.Map<UserReadDTO>(user);
+        }
+
+        public string GenerateToken(UserReadDTO userReadDTO)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWT.key));
+            var credentical = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, userReadDTO.Fullname),
+                new Claim(ClaimTypes.Role, userReadDTO.Role)
+            };
+
+            var token = new JwtSecurityToken(JWT.issuer,
+                JWT.audience,
+                claims,
+                expires: DateTime.Now.AddMinutes(15),
+                signingCredentials: credentical);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

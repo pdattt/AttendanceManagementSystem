@@ -25,7 +25,9 @@ namespace AttendanceManagement.API.Controllers
             if (user == null)
                 return BadRequest("User is not found");
 
-            return Ok(user);
+            var token = _service.GenerateToken(user);
+
+            return Ok(token);
         }
     }
 }

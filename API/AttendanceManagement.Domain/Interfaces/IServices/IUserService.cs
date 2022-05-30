@@ -10,5 +10,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
     public interface IUserService
     {
         UserReadDTO Authentication(UserLoginDTO userLogin);
+
+        string GenerateToken(UserReadDTO userReadDTO);
     }
 }

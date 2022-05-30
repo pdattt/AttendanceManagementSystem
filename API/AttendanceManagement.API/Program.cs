@@ -1,11 +1,15 @@
+using AttendanceManagement.Common;
 using AttendanceManagement.Domain;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Repositories;
 using AttendanceManagement.Infrastructure.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +54,22 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = JWT.issuer,
+            ValidAudience = JWT.audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWT.key))
+        };
+    });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
