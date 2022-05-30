@@ -1,0 +1,15 @@
+<h3>Login</h3>
+
+<form>
+    <div class="mb-3 w-25">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" [(ngModel)]="username" name="username">
+    </div>
+    <div class="mb-3 w-25">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" [(ngModel)]="password" name="password">
+    </div>
+    <button (click)="login()" class="btn btn-primary">
+      Sign In
+    </button>
+</form>

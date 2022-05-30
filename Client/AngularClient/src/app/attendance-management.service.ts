@@ -90,4 +90,10 @@ export class AttendanceManagementService {
   deleteClass(id:number) {
     return this.http.delete(this.apiUrl + `/delete-class-by-id?id=${id}`)
   }
+
+  // Login ------------------------------------------------------------------------------
+
+  login(data: any){
+    return this.http.post(this.apiUrl + '/login', data)
+  }
 }

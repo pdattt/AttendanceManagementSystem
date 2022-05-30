@@ -4,6 +4,7 @@ import { AttendeeComponent } from './attendee/attendee.component';
 import { ClassComponent } from './class/class.component';
 import { EventComponent } from './event/event.component';
 import { ManageAttendeeEventComponent } from './event/manage-attendee-event/manage-attendee-event.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path:'class',
     component: ClassComponent
+  },
+  {
+    path:'login',
+    component: LoginComponent
   }
 ];
 
