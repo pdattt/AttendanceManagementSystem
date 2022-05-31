@@ -11,8 +11,6 @@ namespace AttendanceManagement.Common.Dtos.AttendeeDTOs
     public class AttendeeCreateDTO
     {
         [Required]
-        [Column(TypeName = "nvarchar")]
-        [RegularExpression("^[a-zA-Z ]*$")]
         public string Name { get; set; }
 
         [DataType(DataType.EmailAddress)]
