@@ -47,8 +47,9 @@ namespace AttendanceManagement.Infrastructure.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, userReadDTO.Fullname),
-                new Claim(ClaimTypes.Role, userReadDTO.Role)
+                new Claim(type: "Usernam", userReadDTO.Username),
+                new Claim(type: "Fullname", userReadDTO.Fullname),
+                new Claim(type: "Role", userReadDTO.Role)
             };
 
             var token = new JwtSecurityToken(JWT.issuer,
@@ -58,6 +59,21 @@ namespace AttendanceManagement.Infrastructure.Services
                 signingCredentials: credentical);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public UserReadDTO DecodeToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+
+            UserReadDTO user = new UserReadDTO()
+            {
+                Username = jwtSecurityToken.Claims.FirstOrDefault(data => data.Type == "Usernam").Value,
+                Fullname = jwtSecurityToken.Claims.FirstOrDefault(data => data.Type == "Fullname").Value,
+                Role = jwtSecurityToken.Claims.FirstOrDefault(data => data.Type == "Role").Value
+            };
+
+            return user;
         }
     }
 }

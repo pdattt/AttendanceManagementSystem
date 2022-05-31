@@ -29,5 +29,17 @@ namespace AttendanceManagement.API.Controllers
 
             return Ok(token);
         }
+
+        [Route("/get-user")]
+        [HttpGet]
+        public ActionResult GetUser([FromHeader] string token)
+        {
+            var user = _service.DecodeToken(token);
+
+            if (user == null)
+                return Unauthorized();
+
+            return Ok(user);
+        }
     }
 }

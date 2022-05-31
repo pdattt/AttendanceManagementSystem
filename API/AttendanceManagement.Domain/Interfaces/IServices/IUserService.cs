@@ -12,5 +12,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         UserReadDTO Authentication(UserLoginDTO userLogin);
 
         string GenerateToken(UserReadDTO userReadDTO);
+
+        UserReadDTO DecodeToken(string token);
     }
 }
