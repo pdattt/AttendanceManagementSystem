@@ -7,93 +7,100 @@ import { Observable } from 'rxjs';
 })
 export class AttendanceManagementService {
 
-  readonly apiUrl = "https://localhost:7287"
+  private readonly apiUrl = "https://localhost:7287/api/"
 
   constructor(private http: HttpClient) { }
 
   // Attendee --------------------------------------------------------------------------
   getAllAttendees():Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + '/get-all-attendees');
+    return this.http.get<any>(this.apiUrl + 'attendee/get-all-attendees');
   }
 
   addAttendee(data:any) {
-    return this.http.post(this.apiUrl + '/add-new-attendee', data);
+    return this.http.post(this.apiUrl + 'attendee/add-new-attendee', data);
   }
 
   updateAttendee(id:number, data:any) {
-    return this.http.put(this.apiUrl + `/update-attendee-by-id/?id=${id}`, data);
+    return this.http.put(this.apiUrl + `attendee/update-attendee-by-id/?id=${id}`, data);
   }
 
   deleteAttendee(id:number) {
-    return this.http.delete(this.apiUrl + `/delete-attendee-by-id/?id=${id}`)
+    return this.http.delete(this.apiUrl + `attendee/delete-attendee-by-id/?id=${id}`)
   }
 
 
   // Event ------------------------------------------------------------------------------
   getAllEvents():Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + '/get-all-events');
+    return this.http.get<any>(this.apiUrl + 'event/get-all-events');
   }
 
   getEventById(id:number):any{
-    return this.http.get<any>(this.apiUrl + `/get-event-by-id?id=${id}`)
+    return this.http.get<any>(this.apiUrl + `event/get-event-by-id?id=${id}`)
   }
 
   getAttendeeInEvent(id: number):Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + `/get-attendees-in-event?id=${id}`);
+    return this.http.get<any>(this.apiUrl + `event/get-attendees-in-event?id=${id}`);
   }
 
   getAvailableAttendee(id: number):Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + `/get-available-attendees-in-event?id=${id}`);
+    return this.http.get<any>(this.apiUrl + `event/get-available-attendees-in-event?id=${id}`);
   }
 
   addEvent(data:any) {
-    return this.http.post(this.apiUrl + '/add-new-event', data);
+    return this.http.post(this.apiUrl + 'event/add-new-event', data);
   }
 
   addAttendeeToEvent(id:number, data: any[]){
-    return this.http.post(this.apiUrl + `/add-attendees-to-event?eventId=${id}`, data)
+    return this.http.post(this.apiUrl + `event/add-attendees-to-event?eventId=${id}`, data)
   }
 
   updateEvent(id:number, data:any) {
-    return this.http.put(this.apiUrl + `/update-event-by-id/?id=${id}`, data);
+    return this.http.put(this.apiUrl + `event/update-event-by-id/?id=${id}`, data);
   }
 
   deleteEvent(id:number) {
-    return this.http.delete(this.apiUrl + `/delete-event-by-id/?id=${id}`)
+    return this.http.delete(this.apiUrl + `event/delete-event-by-id/?id=${id}`)
   }
 
   removeAttendeeFromEvent(eventId:number, attendeeId: any){
-    return this.http.delete(this.apiUrl + `/remove-attendee-from-event?eventId=${eventId}&attendeeId=${attendeeId}`)
+    return this.http.delete(this.apiUrl + `event/remove-attendee-from-event?eventId=${eventId}&attendeeId=${attendeeId}`)
   }
 
   // Class ------------------------------------------------------------------------------
   getAllClasses():Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + '/get-all-classes');
+    return this.http.get<any>(this.apiUrl + 'class/get-all-classes');
   }
 
   getClassById(id:number):any{
-    return this.http.get<any>(this.apiUrl + `/get-class-by-id?id=${id}`)
+    return this.http.get<any>(this.apiUrl + `class/get-class-by-id?id=${id}`)
   }
 
   getAttendeeInClass(id: number):Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + `/get-attendees-in-class?id=${id}`);
+    return this.http.get<any>(this.apiUrl + `class/get-attendees-in-class?id=${id}`);
   }
 
   addClass(data:any) {
-    return this.http.post(this.apiUrl + '/add-new-class', data);
+    return this.http.post(this.apiUrl + 'class/add-new-class', data);
   }
 
   updateClass(id:number, data:any) {
-    return this.http.put(this.apiUrl + `/update-class-by-id/?id=${id}`, data);
+    return this.http.put(this.apiUrl + `class/update-class-by-id/?id=${id}`, data);
   }
 
   deleteClass(id:number) {
-    return this.http.delete(this.apiUrl + `/delete-class-by-id?id=${id}`)
+    return this.http.delete(this.apiUrl + `class/delete-class-by-id?id=${id}`)
+  }
+  
+  // Session
+  getAllSession(semesterId: string, type: string, cls_eve_id: string): Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `session/get-all-attendance-sessions?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}`)
   }
 
-  // Login ------------------------------------------------------------------------------
+  getAllCheckin(semesterId: string, type: string, cls_eve_id: string, date: string): Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `session/get-all-check-ins?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}&date=${date}`)
+  }
 
-  login(data: any){
-    return this.http.post(this.apiUrl + '/login', data)
+  getCheckInByCardId(semesterId: string, type: string, cls_eve_id: string, date: string, cardId: string): Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `session/get-check-in-by-card-id?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}&date=${date}&cardId=${cardId}`)
   }
 }

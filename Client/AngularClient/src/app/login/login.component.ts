@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AttendanceManagementService } from '../attendance-management.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +12,11 @@ import { AttendanceManagementService } from '../attendance-management.service';
 export class LoginComponent implements OnInit {
 
   user:any
+  token: string = ""
   username: string = ""
   password: string = ""
 
-  constructor(private service: AttendanceManagementService) { }
+  constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,9 +27,15 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
-    this.service.login(user).subscribe(res =>{
-      this.user = res
-      console.log(this.user)
+    this.authService.login(user).subscribe(res =>{
+      this.token = res.toString()
+      this.user = this.authService.getUser(this.token)
+      
+      if(this.user != null){
+        localStorage.setItem("token", this.token)
+        window.location.reload()
+      }
+      //this.route.navigate(['/attendee'])
     })
   }
 }

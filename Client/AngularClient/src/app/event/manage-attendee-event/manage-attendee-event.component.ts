@@ -18,11 +18,18 @@ export class ManageAttendeeEventComponent implements OnInit {
   location: string = ""
   eventStartTime: string = ""
   eventEndTime: string = ""
+
+  // Attendee variables
   attendeesInEvent!: Observable<any[]>
+  attendeesNotInEvent!: Observable<any[]>
   availableAttendees!: Observable<any[]>
   activateAddAttendeeToEvent:boolean = false
   attendeeToJoin: any = []
   attendeeToRemove: any = []
+
+  // Sessions variables
+  attendanceSessions!: Observable<any[]>
+  checkins!: Observable<any[]>
 
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
@@ -42,6 +49,9 @@ export class ManageAttendeeEventComponent implements OnInit {
     })
 
     this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
+    this.attendanceSessions = this.service.getAllSession("20221", "event", this.eventID.toString())
+
+    // this.checkins = this.service.getCheckInByCardId("20221", "event", this.eventID.toString(), )
   }
 
   toogleAddAttendee(){
@@ -78,5 +88,12 @@ export class ManageAttendeeEventComponent implements OnInit {
         this.availableAttendees = this.service.getAvailableAttendee(this.eventID)
       })
     }
+  }
+
+  getCheckin(sessionDate: string, cardId: string){
+      this.service.getCheckInByCardId("20221", "event", this.eventID.toString(), sessionDate, cardId).subscribe(res => {
+        return res
+    });
+    
   }
 }
