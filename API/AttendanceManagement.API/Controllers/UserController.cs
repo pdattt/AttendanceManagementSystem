@@ -1,7 +1,7 @@
 ﻿using AttendanceManagement.Common.Dtos.UserDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AttendanceManagement.API.Controllers
 {
@@ -27,7 +27,7 @@ namespace AttendanceManagement.API.Controllers
 
             var token = _service.GenerateToken(user);
 
-            return Ok(token);
+            return Ok(JsonConvert.SerializeObject(token));
         }
 
         [Route("get-user")]

@@ -25,5 +25,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         List<Session> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id);
 
         List<CheckIn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date);
+
+        CheckIn GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId);
     }
 }

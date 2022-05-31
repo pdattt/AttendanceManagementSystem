@@ -15,7 +15,9 @@ namespace AttendanceManagement.Infrastructure.Services
     {
         private readonly ISessionRepo _sessionRepo;
         private readonly IClassRepo _classRepo;
+        private readonly IAttendeeRepo _attendeeRepo;
         private readonly IEventRepo _eventRepo;
+        private readonly ICardRepo _cardRepo;
 
         private Dictionary<string, string> dayOfWeek = new Dictionary<string, string>
         {
@@ -28,11 +30,13 @@ namespace AttendanceManagement.Infrastructure.Services
             { DayOfWeek.Sunday.ToString(), "CN" }
         };
 
-        public SessionService(ISessionRepo sessionRepo, IEventRepo eventRepo, IClassRepo classRepo)
+        public SessionService(ISessionRepo sessionRepo, IEventRepo eventRepo, IClassRepo classRepo, IAttendeeRepo attendeeRepo, ICardRepo cardRepo)
         {
             _sessionRepo = sessionRepo;
             _classRepo = classRepo;
             _eventRepo = eventRepo;
+            _attendeeRepo = attendeeRepo;
+            _cardRepo = cardRepo;
         }
 
         //public void Add(Session session, string class_event_Id, string semesterId)
@@ -128,7 +132,14 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public List<CheckIn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
-            return _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+            var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+
+            foreach (var checkin in checkins)
+            {
+                var card = _cardRepo.GetCardById(checkin.CardId);
+            }
+
+            return checkins;
         }
 
         public List<string> GetAllInSemester(string semesterId, string type)
@@ -142,6 +153,18 @@ namespace AttendanceManagement.Infrastructure.Services
         public List<string> GetAllSemesterIds()
         {
             return _sessionRepo.GetAllSemesterIds().Result;
+        }
+
+        public CheckIn GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId)
+        {
+            var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+
+            var checkin = checkins.FirstOrDefault(c => c.CardId == cardId);
+            var card = _cardRepo.GetCardById(cardId);
+
+            checkin.AttendeeName = _attendeeRepo.GetAttendeeWithCardId(card).Name;
+
+            return checkin;
         }
 
         private string GetSemesterId(DateTime date)

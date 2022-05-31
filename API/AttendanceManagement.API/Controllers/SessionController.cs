@@ -103,5 +103,17 @@ namespace AttendanceManagement.API.Controllers
 
             return Ok(checkIns);
         }
+
+        [Route("get-check-in-by-card-id")]
+        [HttpGet]
+        public ActionResult GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId)
+        {
+            var checkIn = _sessionService.GetCheckInByCardId(semesterId, type, cls_eve_id, date, cardId);
+
+            if (checkIn == null)
+                return BadRequest();
+
+            return Ok(checkIn);
+        }
     }
 }

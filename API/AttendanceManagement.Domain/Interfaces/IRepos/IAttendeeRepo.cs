@@ -26,5 +26,7 @@ namespace AttendanceManagement.Domain.Interfaces.IRepos
         bool CheckExistedEmail(string email);
 
         bool CheckExistedEmail(string email, int id);
+
+        Attendee GetAttendeeWithCardId(Card cardId);
     }
 }
