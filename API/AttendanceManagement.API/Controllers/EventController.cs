@@ -16,7 +16,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
-        [Route("/get-all-events")]
+        [Route("get-all-events")]
         [HttpGet]
         public ActionResult GetAllEvents()
         {
@@ -28,7 +28,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(events);
         }
 
-        [Route("/get-event-by-id")]
+        [Route("get-event-by-id")]
         [HttpGet]
         public ActionResult GetEventById(int id)
         {
@@ -40,7 +40,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(eve);
         }
 
-        [Route("/get-attendees-in-event")]
+        [Route("get-attendees-in-event")]
         [HttpGet]
         public ActionResult GetAttendeesInEvent(int id)
         {
@@ -52,7 +52,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(eve.Attendees);
         }
 
-        [Route("/get-available-attendees-in-event")]
+        [Route("get-available-attendees-in-event")]
         [HttpGet]
         public ActionResult GetAvailableAttendeesInEvent(int id)
         {
@@ -64,7 +64,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(attendees);
         }
 
-        [Route("/add-attendees-to-event")]
+        [Route("add-attendees-to-event")]
         [HttpPost]
         public ActionResult AddAttendeesToEvent(int eventId, List<int> attendeesId)
         {
@@ -82,7 +82,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/add-new-event")]
+        [Route("add-new-event")]
         [HttpPost]
         public ActionResult AddNewEvent([FromBody] EventCreateDTO eventDTO)
         {
@@ -94,7 +94,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/delete-event-by-id")]
+        [Route("delete-event-by-id")]
         [HttpDelete]
         public ActionResult DeleteEventById(int id)
         {
@@ -106,7 +106,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/remove-attendee-from-event")]
+        [Route("remove-attendee-from-event")]
         [HttpDelete]
         public ActionResult RemoveAttendeesFromEvent(int eventId, int attendeeId)
         {
@@ -121,7 +121,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/update-event-by-id")]
+        [Route("update-event-by-id")]
         [HttpPut]
         public ActionResult UpdateEventById([FromBody] EventUpdateDTO newEvent, int id)
         {

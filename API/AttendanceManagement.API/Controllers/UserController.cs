@@ -16,7 +16,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
-        [Route("/login")]
+        [Route("login")]
         [HttpPost]
         public ActionResult Login(UserLoginDTO userLogin)
         {
@@ -30,7 +30,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(token);
         }
 
-        [Route("/get-user")]
+        [Route("get-user")]
         [HttpGet]
         public ActionResult GetUser([FromHeader] string token)
         {

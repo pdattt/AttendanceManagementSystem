@@ -22,7 +22,7 @@ namespace AttendanceManagement.API.Controllers
             _eventService = eventService;
         }
 
-        [Route("/generate-class-session")]
+        [Route("generate-class-session")]
         [HttpPost]
         public ActionResult GenerateClassSession(int id)
         {
@@ -39,7 +39,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/generate-event-session")]
+        [Route("generate-event-session")]
         [HttpPost]
         public ActionResult GenerateEventSession(int id)
         {
@@ -56,7 +56,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/get-all-semester-ids")]
+        [Route("get-all-semester-ids")]
         [HttpGet]
         public ActionResult GetAllSemesterIds()
         {
@@ -68,7 +68,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(ids);
         }
 
-        [Route("/get-all-classes-and-events-in-semester")]
+        [Route("get-all-classes-and-events-in-semester")]
         [HttpGet]
         public ActionResult GetAllSemesterIds(string semesterId, string type)
         {
@@ -80,7 +80,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(ids);
         }
 
-        [Route("/get-all-attendance-sessions")]
+        [Route("get-all-attendance-sessions")]
         [HttpGet]
         public ActionResult GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
         {
@@ -92,7 +92,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(sessions);
         }
 
-        [Route("/get-all-check-ins")]
+        [Route("get-all-check-ins")]
         [HttpGet]
         public ActionResult GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {

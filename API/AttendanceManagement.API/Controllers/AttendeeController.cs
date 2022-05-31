@@ -19,7 +19,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
-        [Route("/get-all-attendees")]
+        [Route("get-all-attendees")]
         [HttpGet]
         public ActionResult GetAllAttendees()
         {
@@ -31,7 +31,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(attendees);
         }
 
-        [Route("/get-attendee-by-id")]
+        [Route("get-attendee-by-id")]
         [HttpGet]
         public ActionResult GetAttendeeById(int id)
         {
@@ -43,7 +43,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(attendee);
         }
 
-        [Route("/add-new-attendee")]
+        [Route("add-new-attendee")]
         [HttpPost]
         public ActionResult AddNewAttendee([FromBody] AttendeeCreateDTO attendeeDTO)
         {
@@ -55,7 +55,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(); ;
         }
 
-        [Route("/delete-attendee-by-id")]
+        [Route("delete-attendee-by-id")]
         [HttpDelete]
         public ActionResult DeleteAttendeeById(int id)
         {
@@ -67,7 +67,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/update-attendee-by-id/")]
+        [Route("update-attendee-by-id/")]
         [HttpPut]
         public ActionResult UpdateAttendeeById([FromBody] AttendeeUpdateDTO attendeeUpdate, int id)
         {

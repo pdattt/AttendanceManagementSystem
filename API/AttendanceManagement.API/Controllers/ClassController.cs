@@ -16,7 +16,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
-        [Route("/get-all-classes")]
+        [Route("get-all-classes")]
         [HttpGet]
         public ActionResult GetAllClasses()
         {
@@ -28,7 +28,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(classes);
         }
 
-        [Route("/get-class-by-id")]
+        [Route("get-class-by-id")]
         [HttpGet]
         public ActionResult GetClassById(int id)
         {
@@ -40,7 +40,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(cls);
         }
 
-        [Route("/get-attendees-in-class")]
+        [Route("get-attendees-in-class")]
         [HttpGet]
         public ActionResult GetAttendeesInClass(int id)
         {
@@ -52,7 +52,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(cls.Attendees);
         }
 
-        [Route("/get-available-attendees-in-class")]
+        [Route("get-available-attendees-in-class")]
         [HttpGet]
         public ActionResult GetAvailableAttendeesInClass(int id)
         {
@@ -64,7 +64,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(attendees);
         }
 
-        [Route("/add-attendees-to-class")]
+        [Route("add-attendees-to-class")]
         [HttpPost]
         public ActionResult AddAttendeesToClass(int classId, List<int> attendeesId)
         {
@@ -82,7 +82,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/add-new-class")]
+        [Route("add-new-class")]
         [HttpPost]
         public ActionResult AddNewClass([FromBody] ClassCreateDTO newclass)
         {
@@ -94,7 +94,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/delete-class-by-id")]
+        [Route("delete-class-by-id")]
         [HttpDelete]
         public ActionResult DeleteClassById(int id)
         {
@@ -106,7 +106,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/remove-attendee-from-class")]
+        [Route("remove-attendee-from-class")]
         [HttpDelete]
         public ActionResult RemoveAttendeesFromEvent(int classId, int attendeeId)
         {
@@ -121,7 +121,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
-        [Route("/update-class-by-id")]
+        [Route("update-class-by-id")]
         [HttpPut]
         public ActionResult UpdateClassById([FromBody] ClassUpdateDTO newClass, int id)
         {
