@@ -17,12 +17,18 @@ namespace AttendanceManagement.Domain.Repositories
 
         public override List<Attendee> GetAll()
         {
-            return Query().Include(att => att.Events).Include(att => att.Classes).ToListAsync().Result;
+            return Query().Include(att => att.Events)
+                          .Include(att => att.Classes)
+                          .Include(att => att.Cards)
+                          .ToListAsync().Result;
         }
 
         public override Attendee GetById(int id)
         {
-            return Query().Include(att => att.Events).Include(att => att.Classes).FirstOrDefaultAsync(att => att.ID == id).Result;
+            return Query().Include(att => att.Events)
+                          .Include(att => att.Classes)
+                          .Include(att => att.Cards)
+                          .FirstOrDefaultAsync(att => att.ID == id).Result;
         }
 
         public bool CheckExistedEmail(string email)

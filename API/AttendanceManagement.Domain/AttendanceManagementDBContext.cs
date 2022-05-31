@@ -17,7 +17,7 @@ namespace AttendanceManagement.Domain
         public DbSet<Attendee> Attendees { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Event> Events { get; set; }
-
+        public DbSet<Card> Cards { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
