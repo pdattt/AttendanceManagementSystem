@@ -92,6 +92,10 @@ export class AttendanceManagementService {
   }
   
   // Session
+  getAllSemesterIds(): Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + "session/get-all-semester-ids")
+  }
+
   getAllSession(semesterId: string, type: string, cls_eve_id: string): Observable<any[]>{
     return this.http.get<any>(this.apiUrl + `session/get-all-attendance-sessions?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}`)
   }

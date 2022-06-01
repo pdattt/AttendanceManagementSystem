@@ -28,12 +28,17 @@ export class ManageAttendeeEventComponent implements OnInit {
   attendeeToRemove: any = []
 
   // Sessions variables
+  semesterId: string = ""
+  semesterIds!: Observable<any[]>
   attendanceSessions!: Observable<any[]>
-  checkins!: Observable<any[]>
+  checkins: any = []
+  sessionDate: string = ""
 
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
   ngOnInit(): void {
+    this.semesterId = "20221"
+    
     this.routeSub = this.route.params.subscribe(params => {
       this.eventID = params['id']
       this.service.getEventById(this.eventID).subscribe((res:any) => {
@@ -48,10 +53,31 @@ export class ManageAttendeeEventComponent implements OnInit {
       )
     })
 
-    this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
-    this.attendanceSessions = this.service.getAllSession("20221", "event", this.eventID.toString())
+    this.semesterIds = this.service.getAllSemesterIds()
 
-    // this.checkins = this.service.getCheckInByCardId("20221", "event", this.eventID.toString(), )
+    this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
+    this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
+
+    // this.attendeesInEvent.subscribe(res => {
+    //   var attendees = res
+    //   attendees.forEach(att => {
+    //     //this.getCheckin("10/08/2022", att.cardId).subscribe(res => a.time = )
+    //     this.service.getCheckInByCardId(this.semesterId, "event", this.eventID.toString(), "10/08/2022", att.cardId).subscribe(ress =>{
+    //       var a = {
+    //         id: att.id,
+    //         name: att.name,
+    //         cardid: att.cardId,
+    //         time: ress
+    //       }         
+
+    //       this.checkins.push(a)
+    //     })
+    //   })
+    //   console.log(this.checkins)
+    // })
+
+  
+    this.checkins = this.service.getAllCheckin("20221", "event", this.eventID.toString(), "10/08/2022")
   }
 
   toogleAddAttendee(){
@@ -91,9 +117,13 @@ export class ManageAttendeeEventComponent implements OnInit {
   }
 
   getCheckin(sessionDate: string, cardId: string){
-      this.service.getCheckInByCardId("20221", "event", this.eventID.toString(), sessionDate, cardId).subscribe(res => {
+      this.service.getCheckInByCardId(this.semesterId, "event", this.eventID.toString(), sessionDate, cardId).subscribe(res => {
         return res
     });
-    
+  }
+
+  selectSemester(id: string){
+    this.semesterId = id
+    this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
   }
 }

@@ -76,45 +76,52 @@
 
 <div class="shadow p-3 mb-5 bg-body rounded">
   <h4 class="text-left">Sessions</h4>
+  <div class="btn-group">
+    <select class="form-control" #semester (change)="selectSemester(semester.value)">
+      <option *ngFor="let semester of semesterIds|async" [value]="semester" >{{semester}}</option>
+    </select>
+  </div>
   <hr>
   <div *ngIf="(attendanceSessions|async) as list">
     <p *ngIf="list.length<1">
       There is no session for this event
     </p>
-  <div *ngFor="let session of attendanceSessions|async; let i = index">
-    <p>
-      <a class="btn btn-outline-success m-1 w-100" data-bs-toggle="collapse" 
-      href="#collapse-{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample"
-      >
-        {{session.date}}
-      </a>
-    </p>
-    <div class="collapse" id="collapse-{{i}}">
-      <div class="card card-body">
-        <table class="table table-striped">
-          <thead>
-            <th>Id</th>
-            <th>Name</th>
-            <!-- <th>Cards</th> -->
-            <th>Time</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let att of attendeesInEvent|async">
-              <td>{{att.id}}</td>
-              <td>{{att.name}}</td>
-              <!-- <td>
-                <p *ngIf="att.cards == null" style="color:red ;">
-                  None
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-lg" viewBox="0 0 16 16">
-                    <path d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0L7.005 3.1ZM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/>
-                  </svg>
-                </p>
-                  {{att.card}}
-              </td> -->
-              <td>{{att.time}}<td>
-            </tr>
-          </tbody>
-      </table>
+    <div id="sessionGroup">
+    <div *ngFor="let session of attendanceSessions|async; let i = index" data-parent="#sessionGroup">
+      <p>
+        <a class="btn btn-outline-success m-1 w-100" data-bs-toggle="collapse" 
+        href="#collapse-{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample" data-parent="#sessionGroup" 
+        >
+          {{session.date}}
+        </a>
+      </p>
+      <div class="collapse" id="collapse-{{i}}" data-parent="#sessionGroup">
+        <div class="card card-body">
+          <table class="table table-striped">
+            <thead>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Cards</th>
+              <th>Time</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let att of checkins|async">
+                <td>{{att.attendeeId}}</td>
+                <td>{{att.attendeeName}}</td>
+                <td>
+                  <p *ngIf="att.cardId == null" style="color:red ;">
+                    None
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-lg" viewBox="0 0 16 16">
+                      <path d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0L7.005 3.1ZM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/>
+                    </svg>
+                  </p>
+                    {{att.cardId}}
+                </td>
+                <td>{{att.time}}<td>
+              </tr>
+            </tbody>
+        </table>
+        </div>
       </div>
     </div>
   </div>
