@@ -33,7 +33,6 @@ builder.Services.AddScoped<IEventRepo, EventRepo>();
 builder.Services.AddScoped<IClassRepo, ClassRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<ICardRepo, CardRepo>();
 
 // Services
 builder.Services.AddScoped<IAttendeeService, AttendeeService>();

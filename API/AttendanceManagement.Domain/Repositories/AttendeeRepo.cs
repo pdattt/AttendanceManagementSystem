@@ -19,7 +19,6 @@ namespace AttendanceManagement.Domain.Repositories
         {
             return Query().Include(att => att.Events)
                           .Include(att => att.Classes)
-                          .Include(att => att.Cards)
                           .ToListAsync().Result;
         }
 
@@ -27,7 +26,6 @@ namespace AttendanceManagement.Domain.Repositories
         {
             return Query().Include(att => att.Events)
                           .Include(att => att.Classes)
-                          .Include(att => att.Cards)
                           .FirstOrDefaultAsync(att => att.ID == id).Result;
         }
 
@@ -56,9 +54,9 @@ namespace AttendanceManagement.Domain.Repositories
             return Query().FirstOrDefaultAsync(att => att.Email == email).Result;
         }
 
-        public Attendee GetAttendeeWithCardId(Card card)
+        public Attendee GetAttendeeWithCardId(string cardId)
         {
-            return Query().FirstOrDefaultAsync(att => att.Cards.Contains(card)).Result;
+            return Query().FirstOrDefaultAsync(att => att.CardId == cardId).Result;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace AttendanceManagement.Domain.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public List<Card> Cards { get; set; }
+        public string CardId { get; set; }
         public string? Role { get; set; }
         public List<Class> Classes { get; set; }
         public List<Event> Events { get; set; }

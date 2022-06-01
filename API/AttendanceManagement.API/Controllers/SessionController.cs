@@ -4,6 +4,7 @@ using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AttendanceManagement.API.Controllers
 {
@@ -111,9 +112,9 @@ namespace AttendanceManagement.API.Controllers
             var checkIn = _sessionService.GetCheckInByCardId(semesterId, type, cls_eve_id, date, cardId);
 
             if (checkIn == null)
-                return BadRequest();
+                return Ok(JsonConvert.SerializeObject("None"));
 
-            return Ok(checkIn);
+            return Ok(JsonConvert.SerializeObject(checkIn.Time));
         }
     }
 }

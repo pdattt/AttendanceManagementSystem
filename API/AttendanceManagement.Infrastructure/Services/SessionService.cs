@@ -17,7 +17,6 @@ namespace AttendanceManagement.Infrastructure.Services
         private readonly IClassRepo _classRepo;
         private readonly IAttendeeRepo _attendeeRepo;
         private readonly IEventRepo _eventRepo;
-        private readonly ICardRepo _cardRepo;
 
         private Dictionary<string, string> dayOfWeek = new Dictionary<string, string>
         {
@@ -30,13 +29,12 @@ namespace AttendanceManagement.Infrastructure.Services
             { DayOfWeek.Sunday.ToString(), "CN" }
         };
 
-        public SessionService(ISessionRepo sessionRepo, IEventRepo eventRepo, IClassRepo classRepo, IAttendeeRepo attendeeRepo, ICardRepo cardRepo)
+        public SessionService(ISessionRepo sessionRepo, IEventRepo eventRepo, IClassRepo classRepo, IAttendeeRepo attendeeRepo)
         {
             _sessionRepo = sessionRepo;
             _classRepo = classRepo;
             _eventRepo = eventRepo;
             _attendeeRepo = attendeeRepo;
-            _cardRepo = cardRepo;
         }
 
         //public void Add(Session session, string class_event_Id, string semesterId)
@@ -130,16 +128,46 @@ namespace AttendanceManagement.Infrastructure.Services
             return _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
         }
 
-        public List<CheckIn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        public List<CheckInToReturn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
             var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+            List<Attendee> attendees = new List<Attendee>();
 
-            foreach (var checkin in checkins)
+            if (type == "event")
             {
-                var card = _cardRepo.GetCardById(checkin.CardId);
+                var eve = _eventRepo.GetById(Int32.Parse(cls_eve_id));
+                attendees = _attendeeRepo.GetAll().Where(att => att.Events.Contains(eve)).ToList();
+            }
+            else
+            {
+                var cls = _classRepo.GetById(Int32.Parse(cls_eve_id));
+                attendees = _attendeeRepo.GetAll().Where(att => att.Classes.Contains(cls)).ToList();
             }
 
-            return checkins;
+            List<CheckInToReturn> list = new List<CheckInToReturn>();
+
+            foreach (Attendee attendee in attendees)
+            {
+                CheckInToReturn objectToReturn = new CheckInToReturn()
+                {
+                    AttendeeId = attendee.ID,
+                    AttendeeName = attendee.Name,
+                    CardId = attendee.CardId,
+                    Role = attendee.Role,
+                    Time = "None"
+                };
+
+                var check = checkins.FirstOrDefault(c => c.CardId == objectToReturn.CardId);
+
+                if (check != null)
+                {
+                    objectToReturn.Time = check.Time;
+                };
+
+                list.Add(objectToReturn);
+            }
+
+            return list;
         }
 
         public List<string> GetAllInSemester(string semesterId, string type)
@@ -160,9 +188,11 @@ namespace AttendanceManagement.Infrastructure.Services
             var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
 
             var checkin = checkins.FirstOrDefault(c => c.CardId == cardId);
-            var card = _cardRepo.GetCardById(cardId);
 
-            checkin.AttendeeName = _attendeeRepo.GetAttendeeWithCardId(card).Name;
+            if (checkin == null)
+                return null;
+
+            checkin.AttendeeName = _attendeeRepo.GetAttendeeWithCardId(cardId).Name;
 
             return checkin;
         }

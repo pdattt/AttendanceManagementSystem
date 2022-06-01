@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AttendanceManagement.Domain.Models
 {
-    public class Card
+    public class CheckInToReturn
     {
-        [Key]
+        public int AttendeeId { get; set; }
+        public string AttendeeName { get; set; }
         public string CardId { get; set; }
-
-        public bool Status { get; set; } = true;
+        public string Role { get; set; }
+        public string Time { get; set; }
     }
 }
