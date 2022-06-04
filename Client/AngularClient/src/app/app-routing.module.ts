@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AttendeeComponent } from './attendee/attendee.component';
 import { ClassComponent } from './class/class.component';
+import { ManageAttendeeClassComponent } from './class/manage-attendee-class/manage-attendee-class.component';
 import { EventComponent } from './event/event.component';
 import { ManageAttendeeEventComponent } from './event/manage-attendee-event/manage-attendee-event.component';
 import { LoginComponent } from './login/login.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path:'class',
     component: ClassComponent
+  },
+  {
+    path:'attendee-in-class/:id',
+    component: ManageAttendeeClassComponent
   },
   {
     path:'login',

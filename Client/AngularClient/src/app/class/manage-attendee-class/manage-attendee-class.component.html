@@ -1,12 +1,12 @@
-<h1 class="text-center">Event Table</h1>
+<h1 class="text-center">Class Table</h1>
 <br>
 <div class="shadow p-3 mb-5 bg-body rounded">
   <div class="row">
     <div class="col-6 col-md-4">
-        <b>ID:</b> {{ eventID }}
+        <b>ID:</b> {{ classID }}
     </div>
     <div class="col-6 col-md-4">
-        <b>Name:</b> {{ eventName }}
+        <b>Name:</b> {{ className }}
     </div>
     <div class="col-6 col-md-4">
         <b>Location:</b> {{ location }}
@@ -15,13 +15,13 @@
 <br>
 <div class="row">
     <div class="col-6 col-md-4">
-        <b>Event Date:</b> {{ eventDate | date: 'dd-MM-yyyy' }}
+        <b>Days Of Week:</b> {{ classDaysOfWeek }}
     </div>
     <div class="col-6 col-md-4">
-        <b>Event Start Time:</b> {{ eventStartTime }}
+        <b>Class Start Time:</b> {{ classStartTime }}
     </div>
     <div class="col-6 col-md-4">
-        <b>Event End Time:</b> {{ eventEndTime }}
+        <b>Class End Time:</b> {{ classEndTime }}
     </div>
 </div>
 </div>
@@ -74,35 +74,6 @@
   </table>
 </div>
 
-<div class="shadow p-3 mb-5 bg-body rounded">
-  <h4 class="text-left">Sessions</h4>
-  <div class="btn-group">
-    <select class="form-control" #semester (change)="selectSemester(semester.value)">
-      <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
-    </select>
-  </div>
-  <hr>
-  <div *ngIf="(attendanceSessions|async) as list">
-    <p *ngIf="list.length<1">
-      There is no session for this event
-    </p>
-    <div id="sessionGroup">
-      <div *ngFor="let session of attendanceSessions|async; let i = index" data-parent="#sessionGroup">
-    <p>
-      <a class="btn btn-outline-success m-1 w-100" data-bs-toggle="collapse" 
-      href="#collapse-{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample" data-parent="#sessionGroup" 
-      >
-        {{session.date}}
-      </a>
-    </p>
-    <div class="collapse" id="collapse-{{i}}" data-parent="#sessionGroup">
-      <app-session-event [eventID]="eventID" [semesterId]="semesterId" [sessionDate]="session.date"></app-session-event>
-      </div>
-    </div>
-   </div>
-
-</div>
-</div>
 <button type="button" class="btn btn-primary m-2"
 (click)="toogleAddAttendee()">
   Add Attendees To Event
@@ -160,4 +131,36 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<br>
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+  <h4 class="text-left">Sessions</h4>
+  <div class="btn-group">
+    <select class="form-control" #semester (change)="selectSemester(semester.value)">
+      <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
+    </select>
+  </div>
+  <hr>
+  <div *ngIf="(attendanceSessions|async) as list">
+    <p *ngIf="list.length<1">
+      There is no session for this event
+    </p>
+    <div id="sessionGroup">
+      <div *ngFor="let session of attendanceSessions|async; let i = index" data-parent="#sessionGroup">
+    <p>
+      <a class="btn btn-outline-success m-1 w-100" data-bs-toggle="collapse" 
+      href="#collapse-{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample" data-parent="#sessionGroup" 
+      >
+        {{session.date}}
+      </a>
+    </p>
+    <div class="collapse" id="collapse-{{i}}" data-parent="#sessionGroup">
+      <app-session-class [classID]="classID" [semesterId]="semesterId" [sessionDate]="session.date"></app-session-class>
+      </div>
+    </div>
+   </div>
+
+</div>
 </div>

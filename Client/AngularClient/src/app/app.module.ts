@@ -17,6 +17,9 @@ import { ShowClassComponent } from './class/show-class/show-class.component';
 import { AddEditClassComponent } from './class/add-edit-class/add-edit-class.component';
 import { ManageAttendeeEventComponent } from './event/manage-attendee-event/manage-attendee-event.component';
 import { LoginComponent } from './login/login.component';
+import { SessionEventComponent } from './event/session-event/session-event.component';
+import { ManageAttendeeClassComponent } from './class/manage-attendee-class/manage-attendee-class.component';
+import { SessionClassComponent } from './class/session-class/session-class.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { LoginComponent } from './login/login.component';
     ShowClassComponent,
     AddEditClassComponent,
     ManageAttendeeEventComponent,
-    LoginComponent
+    LoginComponent,
+    SessionEventComponent,
+    ManageAttendeeClassComponent,
+    SessionClassComponent
   ],
   imports: [
     BrowserModule,

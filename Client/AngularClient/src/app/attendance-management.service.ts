@@ -42,7 +42,7 @@ export class AttendanceManagementService {
     return this.http.get<any>(this.apiUrl + `event/get-attendees-in-event?id=${id}`);
   }
 
-  getAvailableAttendee(id: number):Observable<any[]>{
+  getAvailableAttendeeInEvent(id: number):Observable<any[]>{
     return this.http.get<any>(this.apiUrl + `event/get-available-attendees-in-event?id=${id}`);
   }
 
@@ -79,8 +79,20 @@ export class AttendanceManagementService {
     return this.http.get<any>(this.apiUrl + `class/get-attendees-in-class?id=${id}`);
   }
 
+  getAvailableAttendeeInClass(id: number):Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `class/get-available-attendees-in-class?id=${id}`);
+  }
+
+  getDaysOfWeek(id: number):any{
+    return this.http.get(this.apiUrl + `class/get-days-of-week?id=${id}`)
+  }
+
   addClass(data:any) {
     return this.http.post(this.apiUrl + 'class/add-new-class', data);
+  }
+
+  addAttendeeToClass(id:number, data: any[]){
+    return this.http.post(this.apiUrl + `class/add-attendees-to-class?classId=${id}`, data)
   }
 
   updateClass(id:number, data:any) {
@@ -89,6 +101,10 @@ export class AttendanceManagementService {
 
   deleteClass(id:number) {
     return this.http.delete(this.apiUrl + `class/delete-class-by-id?id=${id}`)
+  }
+
+  removeAttendeeFromClass(classId:number, attendeeId: any){
+    return this.http.delete(this.apiUrl + `class/remove-attendee-from-class?classId=${classId}&attendeeId=${attendeeId}`)
   }
   
   // Session

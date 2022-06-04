@@ -13,11 +13,16 @@ export class ShowClassComponent implements OnInit {
   class: any
   modalTitle:string = ""
   activateAddEditClassComponent:boolean = false;
-  
+  daysOfWeek: string = ""
+
   constructor(private service: AttendanceManagementService) { }
 
   ngOnInit(): void {
     this.classes = this.service.getAllClasses()
+  }
+
+  getDaysOfWeek(id: number){
+    this.daysOfWeek = this.service.getDaysOfWeek(id)
   }
   
   modalAdd(){
