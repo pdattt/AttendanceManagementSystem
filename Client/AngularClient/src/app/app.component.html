@@ -10,10 +10,13 @@
       </div>
       <ul class="list-unstyled components">
         <li>
-            <a href="/login">Login</a>
+            <a href="/login" *ngIf="!isLogin">Login</a>
         </li>
+        <li>
+          <a href="/login" (click)="logout()" *ngIf="isLogin">Logout</a>
+      </li>
       </ul>
-      <ul class="list-unstyled components">
+      <ul class="list-unstyled components" *ngIf="isLogin">
           <li>
               <a href="/attendee">Attendee</a>
           </li>

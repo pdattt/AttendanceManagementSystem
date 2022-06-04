@@ -8,12 +8,22 @@ import { Observable } from 'rxjs';
 export class AttendanceManagementService {
 
   private readonly apiUrl = "https://localhost:7287/api/"
+  private readonly TOKEN_NAME = 'token';
+  header: any = new Headers()
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
 
   // Attendee --------------------------------------------------------------------------
   getAllAttendees():Observable<any[]>{
-    return this.http.get<any>(this.apiUrl + 'attendee/get-all-attendees');
+    let token = localStorage.getItem(this.TOKEN_NAME)
+
+    this.header = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+
+    return this.http.get<any>(this.apiUrl + 'attendee/get-all-attendees', {headers: this.header});
   }
 
   addAttendee(data:any) {

@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class AppComponent {
   title = 'AngularClient';
-  isAuthorize: boolean = false
+  isLogin: boolean = false
   token: string = ""
   user: any
 
@@ -19,8 +19,25 @@ export class AppComponent {
     if(checkExist != null){
       var token = localStorage.getItem("token")
 
-      this.authService.getUser(token).subscribe((res:any) => this.user = res)
-      console.log(token)
+      this.authService.getUser(token).subscribe((res:any) => {
+        this.user = res
+
+        if(this.user != null){
+          this.isLogin = true
+        }
+
+        if(!this.isLogin)
+          this.router.navigate(['/attendee'])
+      })
     }
+
+    if(!this.isLogin)
+      this.router.navigate([''])
   }
+
+  logout(){
+    localStorage.clear()
+    window.location.reload()
+  }
+
 }

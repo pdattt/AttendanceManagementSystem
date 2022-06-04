@@ -15,6 +15,6 @@ export class AuthService {
   }
 
   getUser(token: any){
-    return this.http.get(this.apiUrl + '/get-user', {headers: new HttpHeaders("Bearer " + token)})
+    return this.http.get(this.apiUrl + `/get-user?token=${token}`)
   }
 }

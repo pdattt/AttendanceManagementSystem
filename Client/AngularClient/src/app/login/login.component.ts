@@ -22,6 +22,20 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+
+    if(this.username.length == 0 || this.password.length == 0){
+      var showDeleteSuccess = document.getElementById('login-empty-alert');
+        if(showDeleteSuccess) {
+          showDeleteSuccess.style.display = "block";
+        }
+        setTimeout(function() {
+          if(showDeleteSuccess) {
+            showDeleteSuccess.style.display = "none"
+          }
+        }, 4000);
+      return
+    }
+
     var user = {
       username: this.username,
       password: this.password
@@ -37,5 +51,16 @@ export class LoginComponent implements OnInit {
       }
       //this.route.navigate(['/attendee'])
     })
+
+    console.log("fail")
+        var showDeleteSuccess = document.getElementById('login-failed-alert');
+        if(showDeleteSuccess) {
+          showDeleteSuccess.style.display = "block";
+        }
+        setTimeout(function() {
+          if(showDeleteSuccess) {
+            showDeleteSuccess.style.display = "none"
+          }
+        }, 4000);
   }
 }
