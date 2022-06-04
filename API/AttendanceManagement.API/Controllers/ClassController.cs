@@ -25,6 +25,11 @@ namespace AttendanceManagement.API.Controllers
             if (classes.Count < 1)
                 return BadRequest();
 
+            foreach (var cls in classes)
+            {
+                cls.DaysOfWeek = _service.GetDaysOfWeek(cls.DaysOfWeek);
+            }
+
             return Ok(classes);
         }
 
@@ -36,6 +41,8 @@ namespace AttendanceManagement.API.Controllers
 
             if (cls == null)
                 return NotFound();
+
+            cls.DaysOfWeek = _service.GetDaysOfWeek(cls.DaysOfWeek);
 
             return Ok(cls);
         }
@@ -62,6 +69,23 @@ namespace AttendanceManagement.API.Controllers
                 return NoContent();
 
             return Ok(attendees);
+        }
+
+        [Route("get-days-of-week")]
+        [HttpGet]
+        public ActionResult GetDaysOfWeek(int id)
+        {
+            if (id == null)
+                return BadRequest("Id is null");
+
+            var cls = _service.GetById(id);
+
+            if (cls == null)
+                return BadRequest("Class not found");
+
+            string daysOfWeek = _service.GetDaysOfWeek(cls.DaysOfWeek);
+
+            return Ok(daysOfWeek);
         }
 
         [Route("add-attendees-to-class")]

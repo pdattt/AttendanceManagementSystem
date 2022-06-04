@@ -21,7 +21,11 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         bool Delete(int id);
 
         void AddAttendee(int classId, int id);
+
         List<AttendeeReadDTO> GetAvailableAttendeesInClass(int id);
+
         void RemoveAttendee(int classId, int attendeeId);
+
+        string GetDaysOfWeek(string days);
     }
 }

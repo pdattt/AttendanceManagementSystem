@@ -18,6 +18,17 @@ namespace AttendanceManagement.Infrastructure.Services
         private readonly IAttendeeRepo _attendeeRepo;
         private readonly IMapper _mapper;
 
+        private Dictionary<string, string> dayOfWeek = new Dictionary<string, string>
+        {
+            { "2", "Monday" },
+            { "3", "Tuesday" },
+            { "4", "Wednesday" },
+            { "5", "Thursday" },
+            { "6", "Friday" },
+            { "7", "Saturday" },
+            { "Sun", "Sunday" }
+        };
+
         public ClassService(IClassRepo repo, IMapper mapper, IAttendeeRepo attendeeRepo)
         {
             _classRepo = repo;
@@ -152,6 +163,31 @@ namespace AttendanceManagement.Infrastructure.Services
 
             eve.Attendees.Remove(att);
             _classRepo.SaveChanges();
+        }
+
+        public string GetDaysOfWeek(string days)
+        {
+            if (days.Length == 0)
+                return string.Empty;
+
+            var daysOfWeek = days.Split(',');
+            string daysToReturn = "";
+
+            bool skip = true;
+
+            foreach (var day in daysOfWeek)
+            {
+                if (skip)
+                {
+                    skip = false;
+                }
+                else
+                    daysToReturn += " - ";
+
+                daysToReturn += dayOfWeek[day.Trim()];
+            }
+
+            return daysToReturn;
         }
 
         //public List<Session> GenerateSession(dynamic cls_eve)

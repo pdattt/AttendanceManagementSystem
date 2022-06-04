@@ -122,7 +122,7 @@ namespace AttendanceManagement.Infrastructure.Services
             var attendees = _attendeeRepo.GetAll();
             List<Attendee> availableAttendees = new List<Attendee>();
 
-            foreach(var att in attendees)
+            foreach (var att in attendees)
             {
                 if (eve.Attendees.Contains(att))
                     continue;
