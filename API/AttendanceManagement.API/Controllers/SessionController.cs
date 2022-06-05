@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 
 namespace AttendanceManagement.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SessionController : ControllerBase
@@ -117,6 +116,15 @@ namespace AttendanceManagement.API.Controllers
                 return Ok(JsonConvert.SerializeObject("None"));
 
             return Ok(JsonConvert.SerializeObject(checkIn.Time));
+        }
+
+        [Route("count-check-ins-in-semester")]
+        [HttpGet]
+        public ActionResult CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
+        {
+            var countList = _sessionService.CountCheckInsInSemerter(semesterId, type, cls_eve_id);
+
+            return Ok(countList);
         }
     }
 }

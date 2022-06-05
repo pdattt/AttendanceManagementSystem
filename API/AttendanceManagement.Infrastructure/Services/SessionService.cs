@@ -16,7 +16,6 @@ namespace AttendanceManagement.Infrastructure.Services
         private readonly ISessionRepo _sessionRepo;
         private readonly IClassRepo _classRepo;
         private readonly IAttendeeRepo _attendeeRepo;
-
         private readonly IEventRepo _eventRepo;
 
         private Dictionary<string, string> dayOfWeek = new Dictionary<string, string>
@@ -129,7 +128,7 @@ namespace AttendanceManagement.Infrastructure.Services
             return _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
         }
 
-        public List<CheckInToReturn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        public List<CheckInToReturn_Time> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
             var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
             List<Attendee> attendees = new List<Attendee>();
@@ -145,11 +144,11 @@ namespace AttendanceManagement.Infrastructure.Services
                 attendees = _attendeeRepo.GetAll().Where(att => att.Classes.Contains(cls)).ToList();
             }
 
-            List<CheckInToReturn> list = new List<CheckInToReturn>();
+            List<CheckInToReturn_Time> list = new List<CheckInToReturn_Time>();
 
             foreach (Attendee attendee in attendees)
             {
-                CheckInToReturn objectToReturn = new CheckInToReturn()
+                CheckInToReturn_Time objectToReturn = new CheckInToReturn_Time()
                 {
                     AttendeeId = attendee.ID,
                     AttendeeName = attendee.Name,
@@ -193,10 +192,108 @@ namespace AttendanceManagement.Infrastructure.Services
             if (checkin == null)
                 return null;
 
-            checkin.AttendeeName = _attendeeRepo.GetAttendeeWithCardId(cardId).Name;
+            checkin.AttendeeName = _attendeeRepo.GetByCardId(cardId).Name;
 
             return checkin;
         }
+
+        public dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
+        {
+            var sessions = _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
+            List<CheckInToReturn_Report> list = new List<CheckInToReturn_Report>();
+
+            List<Attendee> attendees = new List<Attendee>();
+
+            if (type == "event")
+            {
+                var eve = _eventRepo.GetById(Int32.Parse(cls_eve_id));
+                attendees = _attendeeRepo.GetAll().Where(att => att.Events.Contains(eve)).ToList();
+            }
+            else
+            {
+                var cls = _classRepo.GetById(Int32.Parse(cls_eve_id));
+                attendees = _attendeeRepo.GetAll().Where(att => att.Classes.Contains(cls)).ToList();
+            }
+
+            foreach (var session in sessions)
+            {
+                var date = session.Date;
+                var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+
+                foreach (Attendee attendee in attendees)
+                {
+                    CheckInToReturn_Report objectToReturn = new CheckInToReturn_Report()
+                    {
+                        AttendeeId = attendee.ID,
+                        AttendeeName = attendee.Name,
+                        CardId = attendee.CardId,
+                        Role = attendee.Role
+                    };
+
+                    var check = checkins.FirstOrDefault(c => c.CardId == objectToReturn.CardId);
+
+                    if (check != null)
+                    {
+                        objectToReturn.Count++;
+                    };
+
+                    list.Add(objectToReturn);
+                }
+            }
+
+            var q = list.GroupBy(x => x.CardId)
+                        .Select(x => new CheckInToReturn_Report
+                        {
+                            AttendeeId = x.First().AttendeeId,
+                            AttendeeName = x.First().AttendeeName,
+                            Count = x.Count(a => a.Count != 0),
+                            CardId = x.First().CardId,
+                            Role = x.First().Role
+                        })
+                        .OrderByDescending(x => x.Count);
+
+            return q;
+        }
+
+        //foreach (var date in dates)
+        //{
+        //    var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+        //    List<Attendee> attendees = new List<Attendee>();
+
+        //    if (type == "event")
+        //    {
+        //        var eve = _eventRepo.GetById(Int32.Parse(cls_eve_id));
+        //        attendees = _attendeeRepo.GetAll().Where(att => att.Events.Contains(eve)).ToList();
+        //    }
+        //    else
+        //    {
+        //        var cls = _classRepo.GetById(Int32.Parse(cls_eve_id));
+        //        attendees = _attendeeRepo.GetAll().Where(att => att.Classes.Contains(cls)).ToList();
+        //    }
+
+        //    foreach (Attendee attendee in attendees)
+        //    {
+        //        CheckInToReturn_Report objectToReturn = new CheckInToReturn_Report()
+        //        {
+        //            AttendeeId = attendee.ID,
+        //            AttendeeName = attendee.Name,
+        //            CardId = attendee.CardId,
+        //            Role = attendee.Role,
+        //            Count = 0
+        //        };
+
+        //        var check = checkins.FirstOrDefault(c => c.CardId == objectToReturn.CardId);
+
+        //        if (check != null)
+        //        {
+        //            objectToReturn.Count++;
+        //        };
+
+        //        list.Add(objectToReturn);
+        //    }
+        //}
+
+        //return list;
 
         private string GetSemesterId(DateTime date)
         {

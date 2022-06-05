@@ -70,5 +70,23 @@ namespace AttendanceManagement.Infrastructure.Services
 
             return false;
         }
+
+        public bool CheckCardExist(string cardId)
+        {
+            Attendee attendee = _repo.GetByCardId(cardId);
+
+            if (attendee != null)
+                return true;
+
+            return false;
+        }
+
+        public void UpdateAttendeeCardId(int attendeeId, string cardId)
+        {
+            Attendee attendee = _repo.GetById(attendeeId);
+
+            attendee.CardId = cardId;
+            _repo.SaveChanges();
+        }
     }
 }
