@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceManagement.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClassController : ControllerBase

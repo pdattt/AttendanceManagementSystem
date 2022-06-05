@@ -19,5 +19,9 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         bool Update(AttendeeUpdateDTO newAttendee, int id);
 
         bool Delete(int id);
+
+        bool CheckCardExist(string cardId);
+
+        void UpdateAttendeeCardId(int attendeeId, string cardId);
     }
 }

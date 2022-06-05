@@ -54,7 +54,7 @@ namespace AttendanceManagement.Domain.Repositories
             return Query().FirstOrDefaultAsync(att => att.Email == email).Result;
         }
 
-        public Attendee GetAttendeeWithCardId(string cardId)
+        public Attendee GetByCardId(string cardId)
         {
             return Query().FirstOrDefaultAsync(att => att.CardId == cardId).Result;
         }

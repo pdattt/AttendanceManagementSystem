@@ -24,8 +24,10 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         List<Session> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id);
 
-        List<CheckInToReturn> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date);
+        List<CheckInToReturn_Time> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date);
 
         CheckIn GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId);
+
+        dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id);
     }
 }

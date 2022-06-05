@@ -78,5 +78,26 @@ namespace AttendanceManagement.API.Controllers
 
             return Ok();
         }
+
+        [Route("update-attendee-card-id")]
+        [HttpPut]
+        public ActionResult UpdateAttendeeCardId(int attendeeId, string cardId)
+        {
+            if (attendeeId == null || cardId == null)
+                return BadRequest();
+
+            var attendee = _service.GetById(attendeeId);
+
+            if (attendee == null)
+                return BadRequest("Attendee is not found");
+
+            bool checkCardExist = _service.CheckCardExist(cardId);
+
+            if (checkCardExist)
+                return BadRequest("This card is used by another attendee");
+
+            _service.UpdateAttendeeCardId(attendeeId, cardId);
+            return Ok("Update attendee card successful!");
+        }
     }
 }
