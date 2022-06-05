@@ -16,6 +16,7 @@ namespace AttendanceManagement.Infrastructure.Services
         private readonly ISessionRepo _sessionRepo;
         private readonly IClassRepo _classRepo;
         private readonly IAttendeeRepo _attendeeRepo;
+
         private readonly IEventRepo _eventRepo;
 
         private Dictionary<string, string> dayOfWeek = new Dictionary<string, string>

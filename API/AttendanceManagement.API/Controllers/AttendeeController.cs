@@ -1,13 +1,13 @@
 ﻿using AttendanceManagement.Common.Dtos;
 using AttendanceManagement.Common.Dtos.AttendeeDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceManagement.API.Controllers
 {
-    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class AttendeeController : ControllerBase

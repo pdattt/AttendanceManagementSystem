@@ -16,6 +16,7 @@ namespace AttendanceManagement.Infrastructure.Services
     {
         private readonly IMapper _mapper;
         private readonly IEventRepo _eventRepo;
+
         private readonly IAttendeeRepo _attendeeRepo;
 
         public EventService(IMapper mapper, IEventRepo repo, IAttendeeRepo attendeeRepo)

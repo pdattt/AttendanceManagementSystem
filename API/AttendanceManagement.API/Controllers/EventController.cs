@@ -1,10 +1,12 @@
 ﻿using AttendanceManagement.Common.Dtos.EventDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceManagement.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase

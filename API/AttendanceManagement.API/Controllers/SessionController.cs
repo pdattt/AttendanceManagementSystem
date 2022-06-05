@@ -2,12 +2,14 @@
 using AttendanceManagement.Common.Dtos.EventDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AttendanceManagement.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SessionController : ControllerBase
