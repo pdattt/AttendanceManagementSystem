@@ -27,12 +27,9 @@ export class AppComponent {
         }
 
         if(!this.isLogin)
-          this.router.navigate(['/attendee'])
+          this.router.navigate(['/login'])
       })
     }
-
-    if(!this.isLogin)
-      this.router.navigate([''])
   }
 
   logout(){
