@@ -27,7 +27,9 @@
             <DataGrid x:Name="gridAttendee" Width="500"
                       Height="200"
                       Background="#313436"
-                      BorderThickness="0">
+                      BorderThickness="0"
+                      IsReadOnly="True"
+                      CanUserAddRows="False">
             </DataGrid>
 
             <StackPanel Width="121"
