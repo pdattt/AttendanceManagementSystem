@@ -22,6 +22,6 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         bool CheckCardExist(string cardId);
 
-        void UpdateAttendeeCardId(int attendeeId, string cardId);
+        bool UpdateAttendeeCardId(int attendeeId, string cardId);
     }
 }
