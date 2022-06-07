@@ -142,6 +142,15 @@ namespace AttendanceManagement.Infrastructure.Services
                 if (cls.Attendees.Contains(att))
                     continue;
 
+                var check = att.Classes.Any(c => c.ClassID != cls.ClassID
+                                      && c.DaysOfWeek.Contains(cls.DaysOfWeek)
+                                      && c.Location != cls.Location
+                                      && ((c.ClassStartTime >= cls.ClassStartTime && c.ClassStartTime <= cls.ClassEndTime)
+                                      || (c.ClassEndTime >= cls.ClassStartTime && c.ClassEndTime <= cls.ClassEndTime)));
+
+                if (check)
+                    continue;
+
                 availableAttendees.Add(att);
             }
 
