@@ -14,7 +14,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,0,0,20" />
 
-        <TextBox Width="250"
+        <TextBox x:Name="txt_Search" Width="250"
                      Height="40"
                      VerticalContentAlignment="Center"
                      HorizontalAlignment="Left"
@@ -34,14 +34,15 @@
 
             <StackPanel Width="121"
                         Margin="10,0,0,0">
-                <Button Content="Add"
+                <Button x:Name="btn_StartRead" Content="Start Reading"
                              Height="50"
                              Foreground="White"
-                             FontSize="14" />
-                <Button Content="Edit"
+                             FontSize="14" Click="btn_StartRead_Click" />
+                <Button x:Name="btn_StopRead" Content="Stop Reading"
                              Height="50"
                              Foreground="White"
-                             FontSize="14" />
+                             FontSize="14" Click="btn_StopRead_Click"
+                             IsEnabled="false" />
                 <Button Content="Remove"
                              Height="50"
                              Foreground="White"
@@ -58,7 +59,7 @@
                    FontSize="13"
                    Margin="10, 10, 0, 0" />
 
-        <ListView Height="100"
+        <ListView x:Name="txt_MessageBox" Height="100"
                   Width="630" Margin="0,10,0,0" />
     </StackPanel>
 </UserControl>
