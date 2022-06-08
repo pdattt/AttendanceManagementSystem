@@ -3,12 +3,14 @@ using AttendanceManagement.Common.Dtos.EventDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AttendanceManagement.API.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class SessionController : ControllerBase
@@ -53,6 +55,18 @@ namespace AttendanceManagement.API.Controllers
             bool checkGenerate = _sessionService.GenerateEventSession(eve);
 
             if (!checkGenerate)
+                return BadRequest();
+
+            return Ok();
+        }
+
+        [Route("check-in")]
+        [HttpPost]
+        public ActionResult CheckIn(string cardId, string location)
+        {
+            var checkIn = _sessionService.CheckIn(cardId, location);
+
+            if (!checkIn)
                 return BadRequest();
 
             return Ok();

@@ -324,5 +324,24 @@ namespace AttendanceManagement.Infrastructure.Services
 
             return year + semester;
         }
+
+        public bool CheckIn(string cardId, string location)
+        {
+            DateTime getDate = DateTime.Now;
+            string semesterId = GetSemesterId(getDate);
+            List<string> types = _sessionRepo.GetAllTypes(semesterId).Result;
+
+            if (types.Count < 1 || types == null)
+                return false;
+
+            foreach (var type in types)
+            {
+                var checkIn = _sessionRepo.CheckIn(semesterId, type, getDate, cardId, location).Result;
+                if (checkIn)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

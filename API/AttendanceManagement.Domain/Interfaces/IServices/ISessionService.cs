@@ -29,5 +29,7 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
         CheckIn GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId);
 
         dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id);
+
+        bool CheckIn(string cardId, string location);
     }
 }

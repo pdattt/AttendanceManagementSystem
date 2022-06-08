@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceManagement.API.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class AttendeeController : ControllerBase

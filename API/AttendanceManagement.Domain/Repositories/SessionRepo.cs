@@ -65,6 +65,61 @@ namespace AttendanceManagement.Domain.Repositories
             }
         }
 
+        public async Task<bool> CheckIn(string semesterId, string type, DateTime getDate, string cardId, string location)
+        {
+            Query qref = db.Collection("Session").Document(semesterId).Collection(type);
+            QuerySnapshot snap = await qref.GetSnapshotAsync();
+
+            foreach (var docsnap in snap)
+            {
+                Query sub_qref = db.Collection("Session").Document(semesterId).Collection(type).Document(docsnap.Id).Collection("Attendance");
+                QuerySnapshot sub_snap = await sub_qref.GetSnapshotAsync();
+
+                foreach (var sub_docsnap in sub_snap)
+                {
+                    Session session = sub_docsnap.ConvertTo<Session>();
+
+                    string dateNow = getDate.ToString("d");
+
+                    if (dateNow != session.Date)
+                        continue;
+
+                    if (location != session.Location)
+                        continue;
+
+                    TimeSpan time = getDate.TimeOfDay;
+                    TimeSpan startTime = TimeSpan.Parse(session.StartTime);
+                    TimeSpan endTime = TimeSpan.Parse(session.EndTime);
+
+                    if (time >= startTime.Subtract(new TimeSpan(0, 30, 0)) && time <= endTime)
+                    {
+                        Query checkin_qref = db.Collection("Session").Document(semesterId).Collection(type).Document(docsnap.Id).Collection("Attendance").Document(sub_docsnap.Id).Collection("CheckIn");
+                        QuerySnapshot checkin_snap = await checkin_qref.GetSnapshotAsync();
+
+                        foreach (var check in checkin_snap)
+                        {
+                            CheckIn checkin = check.ConvertTo<CheckIn>();
+                            if (checkin.CardId == cardId)
+                                return false;
+                        }
+
+                        Dictionary<string, string> map = new Dictionary<string, string>()
+                        {
+                            { "CardId", cardId },
+                            { "Time", time.ToString("hh':'mm':'ss") }
+                        };
+
+                        CollectionReference col = db.Collection("Session").Document(semesterId).Collection(type).Document(docsnap.Id).Collection("Attendance").Document(sub_docsnap.Id).Collection("CheckIn");
+
+                        col.AddAsync(map);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public async Task<List<Session>> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
         {
             Query qref = db.Collection("Session").Document(semesterId).Collection(type).Document(cls_eve_id).Collection("Attendance");
@@ -140,6 +195,21 @@ namespace AttendanceManagement.Domain.Repositories
             }
 
             return semesterIds;
+        }
+
+        public async Task<List<string>> GetAllTypes(string semesterId)
+        {
+            List<string> types = new List<string>();
+
+            List<CollectionReference> list = db.Collection("Session").Document(semesterId).ListCollectionsAsync().ToListAsync().Result;
+
+            foreach (var col in list)
+            {
+                string type = col.Id;
+                types.Add(type);
+            }
+
+            return types;
         }
     }
 }
