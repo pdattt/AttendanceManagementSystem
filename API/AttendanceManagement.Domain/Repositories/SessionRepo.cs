@@ -132,6 +132,8 @@ namespace AttendanceManagement.Domain.Repositories
                 sessions.Add(session);
             }
 
+            sessions = sessions.OrderBy(session => DateTime.Parse(session.Date)).ToList();
+
             return sessions;
         }
 
