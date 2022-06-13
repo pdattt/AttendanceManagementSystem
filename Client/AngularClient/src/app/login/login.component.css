@@ -1,4 +1,5 @@
 #login-empty-alert,
+#login-success-alert,
 #login-failed-alert {
   display: none;
   animation-name: fadeInAndOut;

@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   token: string = ""
   username: string = ""
   password: string = ""
+  isLogin: boolean = false;
 
   constructor(private authService: AuthService, private route: Router) { }
 
@@ -32,16 +33,16 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  login(){
+  async login(){
 
     if(this.username.length == 0 || this.password.length == 0){
-      var showDeleteSuccess = document.getElementById('login-empty-alert');
-        if(showDeleteSuccess) {
-          showDeleteSuccess.style.display = "block";
+      var showLoginFailed = document.getElementById('login-empty-alert');
+        if(showLoginFailed) {
+          showLoginFailed.style.display = "block";
         }
         setTimeout(function() {
-          if(showDeleteSuccess) {
-            showDeleteSuccess.style.display = "none"
+          if(showLoginFailed) {
+            showLoginFailed.style.display = "none"
           }
         }, 4000);
       return
@@ -52,26 +53,37 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
-    this.authService.login(user).subscribe(res =>{
-      this.token = res.toString()
-      this.user = this.authService.getUser(this.token)
-      
-      if(this.user != null){
-        sessionStorage.setItem("token", this.token)
-        window.location.reload()
-      }
-      //this.route.navigate(['/attendee'])
-    })
+    this.authService.login(user).subscribe(async (res:any) =>{
+      this.token = res
 
-    console.log("fail")
-        var showDeleteSuccess = document.getElementById('login-failed-alert');
-        if(showDeleteSuccess) {
-          showDeleteSuccess.style.display = "block";
-        }
-        setTimeout(function() {
-          if(showDeleteSuccess) {
-            showDeleteSuccess.style.display = "none"
+      await this.authService.getUser(this.token).subscribe(data => {
+        if(data != null){
+          sessionStorage.setItem("token", this.token)
+
+          var showLoginSuccess = document.getElementById('login-success-alert');
+          if(showLoginSuccess) {
+            showLoginSuccess.style.display = "block";
           }
-        }, 4000);
+          setTimeout(function() {
+            if(showLoginSuccess) {
+              showLoginSuccess.style.display = "none"
+            }
+          }, 4000)
+
+          window.location.reload()
+
+        }else{
+          var showLoginFailed = document.getElementById('login-failed-alert');
+          if(showLoginFailed) {
+            showLoginFailed.style.display = "block";
+          }
+          setTimeout(function() {
+            if(showLoginFailed) {
+              showLoginFailed.style.display = "none"
+            }
+          }, 4000)
+        }
+      })
+    })
   }
 }
