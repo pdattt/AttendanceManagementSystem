@@ -14,14 +14,26 @@
 </div>
 <br>
 <div class="row">
-    <div class="col-6 col-md-4">
-        <b>Days Of Week:</b> {{ classDaysOfWeek }}
-    </div>
-    <div class="col-6 col-md-4">
+    <div class="col">
         <b>Class Start Time:</b> {{ classStartTime }}
     </div>
-    <div class="col-6 col-md-4">
+    <div class="col">
         <b>Class End Time:</b> {{ classEndTime }}
+    </div>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+      <b>Class Start Date: </b> {{ classDateStart | date: 'dd-MM-yyyy'}}
+  </div>
+  <div class="col">
+      <b>Class End Date: </b> {{ classDateEnd | date: 'dd-MM-yyyy'}}
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+      <b>Days Of Week:</b> {{ classDaysOfWeek }}
     </div>
 </div>
 </div>
@@ -84,11 +96,11 @@
   <h4 class="text-left">
     Available Attendees
     <button type="button" class="btn btn-danger m-2 float-end"
-    (click)="addAllAttendeeToEvent()">
+    (click)="importExcelFile()">
       Import Excel File
     </button>
     <button type="button" class="btn btn-success m-2 float-end"
-    (click)="importExcelFile()">
+    (click)="addAllAttendeeToEvent()">
       Add All
     </button>
   </h4>

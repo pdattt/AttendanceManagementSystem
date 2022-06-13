@@ -17,10 +17,10 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit(): void {
-    var checkExist = localStorage.getItem("token")
+    var checkExist = sessionStorage.getItem("token")
 
     if(checkExist != null){
-      var token = localStorage.getItem("token")
+      var token = sessionStorage.getItem("token")
 
       this.authService.getUser(token).subscribe((res:any) => {
         this.user = res
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       this.user = this.authService.getUser(this.token)
       
       if(this.user != null){
-        localStorage.setItem("token", this.token)
+        sessionStorage.setItem("token", this.token)
         window.location.reload()
       }
       //this.route.navigate(['/attendee'])

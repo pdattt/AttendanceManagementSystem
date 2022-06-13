@@ -13,10 +13,10 @@ export class AttendeeComponent implements OnInit {
   constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit(): void {
-    var checkExist = localStorage.getItem("token")
+    var checkExist = sessionStorage.getItem("token")
 
     if(checkExist != null){
-      var token = localStorage.getItem("token")
+      var token = sessionStorage.getItem("token")
 
       this.authService.getUser(token).subscribe((res:any) => {
         this.user = res

@@ -14,10 +14,10 @@ export class AppComponent {
   user: any
 
   constructor(private authService: AuthService, private router: Router){
-    var checkExist = localStorage.getItem("token")
+    var checkExist = sessionStorage.getItem("token")
 
     if(checkExist != null){
-      var token = localStorage.getItem("token")
+      var token = sessionStorage.getItem("token")
 
       this.authService.getUser(token).subscribe((res:any) => {
         this.user = res
@@ -33,7 +33,7 @@ export class AppComponent {
   }
 
   logout(){
-    localStorage.clear()
+    sessionStorage.clear()
     window.location.reload()
   }
 

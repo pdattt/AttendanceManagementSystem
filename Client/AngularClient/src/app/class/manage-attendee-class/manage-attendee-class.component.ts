@@ -15,10 +15,11 @@ export class ManageAttendeeClassComponent implements OnInit {
   classID: number = 0
   className: string = ""
   classDaysOfWeek: string = ""
-  //eventDate: Date = new Date()
   location: string = ""
   classStartTime: string = ""
   classEndTime: string = ""
+  classDateStart: string = ""
+  classDateEnd: string = ""
 
   // Attendee variables
   attendeesInEvent!: Observable<any[]>
@@ -47,6 +48,8 @@ export class ManageAttendeeClassComponent implements OnInit {
         this.location = this.class.location
         this.classStartTime = this.class.classStartTime
         this.classEndTime = this.class.classEndTime
+        this.classDateStart = this.class.classDateStart
+        this.classDateEnd = this.class.classDateEnd
         }
       )
     })
@@ -70,7 +73,12 @@ export class ManageAttendeeClassComponent implements OnInit {
   }
 
   addAllAttendeeToEvent(){
+    this.availableAttendees.forEach(attendee => {
+      this.attendeeToJoin.push(attendee)
+    });
 
+    this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
+    this.availableAttendees = this.service.getAvailableAttendeeInClass(this.classID)
   }
 
   importExcelFile(){
@@ -81,7 +89,6 @@ export class ManageAttendeeClassComponent implements OnInit {
     this.attendeeToJoin.push(att.id)
 
     this.service.addAttendeeToEvent(this.classID, this.attendeeToJoin).subscribe(res =>{
-      this.attendeeToJoin = []
       this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
       this.availableAttendees = this.service.getAvailableAttendeeInClass(this.classID)
     })
