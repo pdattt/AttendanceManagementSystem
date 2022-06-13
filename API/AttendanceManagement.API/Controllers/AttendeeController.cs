@@ -11,6 +11,7 @@ namespace AttendanceManagement.API.Controllers
     [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AttendeeController : ControllerBase
     {
         private readonly IAttendeeService _service;
@@ -20,6 +21,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
+        [EnableCors]
         [Route("get-all-attendees")]
         [HttpGet]
         public ActionResult GetAllAttendees()

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceManagement.API.Controllers
 {
-    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EventController : ControllerBase
     {
         private readonly IEventService _service;

@@ -13,6 +13,7 @@ namespace AttendanceManagement.API.Controllers
     [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SessionController : ControllerBase
     {
         private readonly IClassService _classService;
@@ -62,6 +63,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("check-in")]
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult CheckIn(string cardId, string location)
         {
             var checkIn = _sessionService.CheckIn(cardId, location);

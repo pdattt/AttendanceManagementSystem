@@ -42,16 +42,7 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // CORS
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
-});
+builder.Services.AddCors();
 
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -78,7 +69,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors(option =>
+{
+    option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+});
 
 app.UseHttpsRedirection();
 

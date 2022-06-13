@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 
 namespace AttendanceManagement.API.Controllers
 {
-    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -19,6 +18,7 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
+        [EnableCors]
         [Route("login")]
         [HttpPost]
         public ActionResult Login(UserLoginDTO userLogin)
