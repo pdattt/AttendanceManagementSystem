@@ -35,6 +35,9 @@ export class ManageAttendeeClassComponent implements OnInit {
   semesterIds!: any[]
   sessionDate: string = ""
 
+  // Modal
+  activateAddEditClassComponent:boolean = false;
+
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
   ngOnInit(): void {    
@@ -112,6 +115,37 @@ export class ManageAttendeeClassComponent implements OnInit {
   selectSemester(id: string){
     this.semesterId = id
     this.attendanceSessions = this.service.getAllSession(this.semesterId, "class", this.classID.toString())
+  }
+
+  modalClose(){
+    this.activateAddEditClassComponent = false;
+    this.service.getClassById(this.classID).subscribe((res:any) => {
+      this.class = res
+
+      this.className = this.class.className
+      this.classDaysOfWeek = this.class.daysOfWeek
+      this.location = this.class.location
+      this.classStartTime = this.class.classStartTime
+      this.classEndTime = this.class.classEndTime
+      this.classDateStart = this.class.classDateStart
+      this.classDateEnd = this.class.classDateEnd
+      }
+    )
+  }
+
+  modalEdit(){
+    var cls = {
+      className:this.className,
+      daysOfWeek:this.classDaysOfWeek,
+      location:this.location,
+      classStartTime:this.classStartTime,
+      classEndTime:this.classEndTime,
+      classDateStart: this.classDateStart,
+      classDateEnd: this.classDateEnd
+    }
+
+    this.class = cls;
+    this.activateAddEditClassComponent = true;
   }
 }
 

@@ -132,4 +132,12 @@ export class AttendanceManagementService {
   getCheckInByCardId(semesterId: string, type: string, cls_eve_id: string, date: string, cardId: string): Observable<any[]>{
     return this.http.get<any>(this.apiUrl + `session/get-check-in-by-card-id?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}&date=${date}&cardId=${cardId}`, {headers: this.header})
   }
+
+  generateClassSession(id: number){
+    return this.http.get(this.apiUrl + `session/generate-class-session?id=${id}`, {headers: this.header})
+  }
+
+  generateEventSession(id: number){
+    return this.http.get(this.apiUrl + `session/generate-event-session?id=${id}`, {headers: this.header})
+  }
 }

@@ -1,5 +1,12 @@
 <h1 class="text-center">Class Table</h1>
 <br>
+<div class="col-md-12 text-center">
+  <button class="btn btn-primary me-2 mb-1"
+  (click)="modalEdit()" data-bs-toggle="modal" data-bs-target="#staticBackdrop-class"
+  >
+  Edit class
+  </button>
+</div>
 <div class="shadow p-3 mb-5 bg-body rounded">
   <div class="row">
     <div class="col-6 col-md-4">
@@ -175,4 +182,21 @@
    </div>
 
 </div>
+</div>
+
+<!-- Add or edit inspection Modal -->
+<div class="modal fade" id="staticBackdrop-class" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"> Edit class </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modalClose()" id="add-edit-class-modal-close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-add-edit-class [class]="class" *ngIf="activateAddEditClassComponent"></app-add-edit-class>
+      </div>
+    </div>
+  </div>
 </div>

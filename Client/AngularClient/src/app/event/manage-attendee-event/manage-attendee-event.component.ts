@@ -33,6 +33,9 @@ export class ManageAttendeeEventComponent implements OnInit {
   semesterIds!: any[]
   sessionDate: string = ""
 
+  // Modal
+  activateAddEditEventComponent:boolean = false;
+
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
   ngOnInit(): void {    
@@ -104,5 +107,40 @@ export class ManageAttendeeEventComponent implements OnInit {
   selectSemester(id: string){
     this.semesterId = id
     this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
+  }
+
+  generateSession(){
+
+    this.service.generateEventSession(this.eventID).subscribe(res => {
+      window.location.reload()
+    })
+  }
+
+  modalClose(){
+    this.activateAddEditEventComponent = false;
+    this.service.getEventById(this.eventID).subscribe((res:any) => {
+      this.event = res
+
+      this.eventName = this.event.eventName
+      this.eventDate = this.event.eventDate
+      this.location = this.event.location
+      this.eventStartTime = this.event.eventStartTime
+      this.eventEndTime = this.event.eventEndTime
+      }
+    )
+  }
+
+  modalEdit(){
+    var eve = {
+      eventID:this.eventID,
+      eventName:this.eventName,
+      eventDate:this.eventDate,
+      location:this.location,
+      eventStartTime:this.eventStartTime,
+      eventEndTime:this.eventEndTime
+    }
+
+    this.event = eve;
+    this.activateAddEditEventComponent = true;
   }
 }
