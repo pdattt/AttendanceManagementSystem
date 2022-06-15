@@ -109,6 +109,26 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
+        [Route("add-all-attendees-to-class")]
+        [HttpPost]
+        public ActionResult AddAllAttendeesToClass(int classId)
+        {
+            if (classId == null)
+                return BadRequest();
+
+            var attendees = _service.GetAvailableAttendeesInClass(classId);
+
+            if (attendees == null)
+                return BadRequest();
+
+            foreach (var attendee in attendees)
+            {
+                _service.AddAttendee(classId, attendee.ID);
+            }
+
+            return Ok();
+        }
+
         [Route("add-new-class")]
         [HttpPost]
         public ActionResult AddNewClass([FromBody] ClassCreateDTO newclass)

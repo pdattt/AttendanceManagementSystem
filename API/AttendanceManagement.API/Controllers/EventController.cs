@@ -85,6 +85,26 @@ namespace AttendanceManagement.API.Controllers
             return Ok();
         }
 
+        [Route("add-all-attendees-to-event")]
+        [HttpPost]
+        public ActionResult AddAllAttendeesToEvent(int eventId)
+        {
+            if (eventId == null)
+                return BadRequest();
+
+            var attendees = _service.GetAvailableAttendeesInEvent(eventId);
+
+            if (attendees == null)
+                return BadRequest();
+
+            foreach (var attendee in attendees)
+            {
+                _service.AddAttendee(eventId, attendee.ID);
+            }
+
+            return Ok();
+        }
+
         [Route("add-new-event")]
         [HttpPost]
         public ActionResult AddNewEvent([FromBody] EventCreateDTO eventDTO)
