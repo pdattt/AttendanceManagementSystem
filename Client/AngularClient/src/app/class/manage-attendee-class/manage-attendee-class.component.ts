@@ -147,5 +147,11 @@ export class ManageAttendeeClassComponent implements OnInit {
     this.class = cls;
     this.activateAddEditClassComponent = true;
   }
+
+  generateSession(){
+    this.service.generateClassSession(this.classID).subscribe(res => {
+      window.location.reload()
+    })
+  }
 }
 
