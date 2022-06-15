@@ -61,6 +61,33 @@ export class AddEditClassComponent implements OnInit {
   }
 
   updateClass(){
+    var cls = {
+      classID:this.classID,
+      className:this.className,
+      daysOfWeek:this.daysOfWeek,
+      location:this.location,
+      classStartTime:this.classStartTime,
+      classEndTime:this.classEndTime,
+      classDateStart: this.classDateStart,
+      classDateEnd: this.classDateEnd
+    }
 
+    var id:number = this.classID;
+    this.service.updateClass(id,cls).subscribe(res => {
+      var closeModalBtn = document.getElementById('add-edit-class-modal-close');
+      if(closeModalBtn) {
+        closeModalBtn.click();
+      }
+
+      var showUpdateSuccess = document.getElementById('update-class-success-alert');
+      if(showUpdateSuccess) {
+        showUpdateSuccess.style.display = "block";
+      }
+      setTimeout(function() {
+        if(showUpdateSuccess) {
+          showUpdateSuccess.style.display = "none"
+        }
+      }, 4000);
+    })
   }
 }
