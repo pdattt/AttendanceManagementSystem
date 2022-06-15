@@ -8,6 +8,14 @@
             </a>
           </h3>
       </div>
+      <ul class="list-unstyled components" *ngIf="isLogin">
+        <li>
+            <p> Hello </p>
+        </li>
+        <li>
+            <p> {{user.fullname}} </p>
+        </li>
+      </ul>
       <ul class="list-unstyled components">
         <li>
             <a href="/login" *ngIf="!isLogin">Login</a>
