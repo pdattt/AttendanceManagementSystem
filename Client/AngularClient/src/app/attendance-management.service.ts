@@ -63,6 +63,10 @@ export class AttendanceManagementService {
     return this.http.post(this.apiUrl + `event/add-attendees-to-event?eventId=${id}`, data, {headers: this.header})
   }
 
+  addAllAttendeeToEvent(id:number){
+    return this.http.post(this.apiUrl + `event/add-all-attendees-to-event?eventId=${id}`, {headers: this.header})
+  }
+
   updateEvent(id:number, data:any) {
     return this.http.put(this.apiUrl + `event/update-event-by-id/?id=${id}`, data, {headers: this.header});
   }
@@ -102,6 +106,10 @@ export class AttendanceManagementService {
 
   addAttendeeToClass(id:number, data: any[]){
     return this.http.post(this.apiUrl + `class/add-attendees-to-class?classId=${id}`, data, {headers: this.header})
+  }
+
+  addAllAttendeeToClass(id:number){
+    return this.http.post(this.apiUrl + `class/add-all-attendees-to-class?classId=${id}`, {headers: this.header})
   }
 
   updateClass(id:number, data:any) {

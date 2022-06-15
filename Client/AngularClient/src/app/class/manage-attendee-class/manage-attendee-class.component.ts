@@ -75,23 +75,21 @@ export class ManageAttendeeClassComponent implements OnInit {
     }
   }
 
-  addAllAttendeeToEvent(){
-    this.availableAttendees.forEach(attendee => {
-      this.attendeeToJoin.push(attendee)
-    });
-
-    this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
-    this.availableAttendees = this.service.getAvailableAttendeeInClass(this.classID)
+  addAllAttendeeToClass(){
+    this.service.addAllAttendeeToClass(this.classID).subscribe(res =>{
+      this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
+      this.availableAttendees = this.service.getAvailableAttendeeInClass(this.classID)
+    })
   }
 
   importExcelFile(){
 
   }
 
-  addAttendeeToEvent(att: any){
+  addAttendeeToClass(att: any){
     this.attendeeToJoin.push(att.id)
 
-    this.service.addAttendeeToEvent(this.classID, this.attendeeToJoin).subscribe(res =>{
+    this.service.addAttendeeToClass(this.classID, this.attendeeToJoin).subscribe(res =>{
       this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
       this.availableAttendees = this.service.getAvailableAttendeeInClass(this.classID)
     })
