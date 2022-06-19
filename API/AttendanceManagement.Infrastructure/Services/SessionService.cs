@@ -269,6 +269,7 @@ namespace AttendanceManagement.Infrastructure.Services
             foreach (var type in types)
             {
                 var checkIn = await _sessionRepo.CheckIn(semesterId, type, getDate, cardId, location);
+
                 if (checkIn)
                     return true;
             }

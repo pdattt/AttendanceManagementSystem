@@ -36,12 +36,6 @@ namespace AttendanceManagement.Domain.Repositories
             Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type);
             QuerySnapshot snap = qref.GetSnapshotAsync().Result;
 
-            foreach (DocumentSnapshot docsnap in snap)
-            {
-                if (docsnap.Id == cls_eve_id.ToString())
-                    return;
-            }
-
             DocumentReference doc = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(cls_eve_id.ToString());
 
             Dictionary<string, object> data = new Dictionary<string, object> {
@@ -51,10 +45,27 @@ namespace AttendanceManagement.Domain.Repositories
 
             doc.SetAsync(data);
 
-            CollectionReference col = doc.Collection(Constants.Collection_Attendance);
-
             foreach (var session in sessions)
             {
+                Query subqref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type);
+                QuerySnapshot subsnap = subqref.GetSnapshotAsync().Result;
+
+                bool existDate = false;
+
+                foreach (DocumentSnapshot subdoc in subsnap)
+                {
+                    var ses = subdoc.ConvertTo<Session>();
+
+                    if (ses.Date == session.Date)
+                    {
+                        existDate = true;
+                        break;
+                    }
+                }
+
+                if (existDate)
+                    continue;
+
                 Dictionary<string, object> map = new Dictionary<string, object> {
                     { "Date", session.Date },
                     { "Location", location },
@@ -62,6 +73,7 @@ namespace AttendanceManagement.Domain.Repositories
                     { "EndTime", endTime.ToString() }
                 };
 
+                CollectionReference col = doc.Collection(Constants.Collection_Attendance);
                 await col.AddAsync(map);
             }
         }
