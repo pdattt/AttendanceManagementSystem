@@ -18,7 +18,6 @@ namespace AttendanceManagement.API.Controllers
             _service = service;
         }
 
-        [EnableCors]
         [Route("login")]
         [HttpPost]
         public ActionResult Login(UserLoginDTO userLogin)
