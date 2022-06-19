@@ -28,6 +28,8 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id);
 
+        string GetSemesterId(DateTime date);
+
         Task<bool> CheckIn(string cardId, string location);
     }
 }

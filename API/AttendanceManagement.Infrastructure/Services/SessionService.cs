@@ -222,7 +222,7 @@ namespace AttendanceManagement.Infrastructure.Services
             return q;
         }
 
-        private string GetSemesterId(DateTime date)
+        public string GetSemesterId(DateTime date)
         {
             int month = date.Month;
             string semester = "";
