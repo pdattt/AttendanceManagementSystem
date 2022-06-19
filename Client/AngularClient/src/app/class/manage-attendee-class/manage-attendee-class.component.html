@@ -159,9 +159,12 @@
 <div class="shadow p-3 mb-5 bg-body rounded">
   <h4 class="text-left">Sessions</h4>
   <div class="btn-group">
-    <select class="form-control" #semester (change)="selectSemester(semester.value)">
+    <!-- <select class="form-control" #semester (change)="selectSemester(semester.value)">
       <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
-    </select>
+    </select> -->
+    <p>
+      <b> Semester Id: </b> {{semesterId}} 
+    </p>
   </div>
   <hr>
   <div *ngIf="(attendanceSessions|async) as list">

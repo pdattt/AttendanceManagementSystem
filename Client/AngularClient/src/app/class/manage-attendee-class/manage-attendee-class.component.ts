@@ -31,8 +31,8 @@ export class ManageAttendeeClassComponent implements OnInit {
   attendanceSessions!: Observable<any[]>
 
   // Sessions variables
-  semesterId: string = ""
-  semesterIds!: any[]
+  semesterId: any = ""
+  //semesterIds!: any[]
   sessionDate: string = ""
 
   // Modal
@@ -53,17 +53,21 @@ export class ManageAttendeeClassComponent implements OnInit {
         this.classEndTime = this.class.classEndTime
         this.classDateStart = this.class.classDateStart
         this.classDateEnd = this.class.classDateEnd
+
+        this.service.getSemesterId(this.class.classDateStart).subscribe(res => {
+          this.semesterId = res
+          this.attendanceSessions = this.service.getAllSession(this.semesterId, "class", this.classID.toString())
+          console.log(res)
+        })
         }
       )
     })
     
     this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
 
-    this.service.getAllSemesterIds().subscribe(res => {
-      this.semesterIds = res
-      this.semesterId = this.semesterIds[0]
-      this.attendanceSessions = this.service.getAllSession(this.semesterId, "class", this.classID.toString())
-    })
+    // this.service.getAllSemesterIds().subscribe(res => {
+    //   this.semesterIds = res
+    // })
   }
 
   toogleAddAttendee(){

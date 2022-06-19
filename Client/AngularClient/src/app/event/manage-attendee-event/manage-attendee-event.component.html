@@ -83,35 +83,7 @@
   </table>
 </div>
 
-<div class="shadow p-3 mb-5 bg-body rounded">
-  <h4 class="text-left">Sessions</h4>
-  <div class="btn-group">
-    <select class="form-control" #semester (change)="selectSemester(semester.value)">
-      <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
-    </select>
-  </div>
-  <hr>
-  <div *ngIf="(attendanceSessions|async) as list">
-    <p *ngIf="list.length<1">
-      There is no session for this event
-    </p>
-    <div id="sessionGroup">
-      <div *ngFor="let session of attendanceSessions|async; let i = index" data-parent="#sessionGroup">
-    <p>
-      <a class="btn btn-outline-success m-1 w-100" data-bs-toggle="collapse" 
-      href="#collapse-{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample" data-parent="#sessionGroup" 
-      >
-        {{session.date}}
-      </a>
-    </p>
-    <div class="collapse" id="collapse-{{i}}" data-parent="#sessionGroup">
-      <app-session-event [eventID]="eventID" [semesterId]="semesterId" [sessionDate]="session.date"></app-session-event>
-      </div>
-    </div>
-   </div>
 
-</div>
-</div>
 <button type="button" class="btn btn-primary m-2"
 (click)="toogleAddAttendee()">
   Add Attendees To Event
@@ -122,11 +94,11 @@
   <h4 class="text-left">
     Available Attendees
     <button type="button" class="btn btn-danger m-2 float-end"
-    (click)="addAllAttendeeToEvent()">
+    (click)="importExcelFile()">
       Import Excel File
     </button>
     <button type="button" class="btn btn-success m-2 float-end"
-    (click)="importExcelFile()">
+    (click)="addAllAttendeeToEvent()">
       Add All
     </button>
   </h4>
@@ -170,7 +142,45 @@
     </tbody>
   </table>
 </div>
+<br>
 
+<div class="shadow p-3 mb-5 bg-body rounded">
+  <h4 class="text-left">Sessions</h4>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#reportEventModal" 
+  (click)="printReport(semesterId)">
+    Report
+  </button>
+  <div class="btn-group">
+    <!-- <select class="form-control" #semester (change)="selectSemester(semester.value)">
+      <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
+    </select> -->
+    <p>
+      <b> Semester Id: </b> {{semesterId}} 
+    </p>
+  </div>
+  <hr>
+  <div *ngIf="(attendanceSessions|async) as list">
+    <p *ngIf="list.length<1">
+      There is no session for this event
+    </p>
+    <div id="sessionGroup">
+      <div *ngFor="let session of attendanceSessions|async; let i = index" data-parent="#sessionGroup">
+    <p>
+      <a class="btn btn-outline-success m-1 w-100" data-bs-toggle="collapse" 
+      href="#collapse-{{i}}" role="button" aria-expanded="false" aria-controls="collapseExample" data-parent="#sessionGroup" 
+      >
+        {{session.date}}
+      </a>
+    </p>
+    <div class="collapse" id="collapse-{{i}}" data-parent="#sessionGroup">
+      <app-session-event [eventID]="eventID" [semesterId]="semesterId" [sessionDate]="session.date"></app-session-event>
+      </div>
+    </div>
+   </div>
+
+</div>
+</div>
 <!-- Add or edit inspection Modal -->
 <div class="modal fade" id="staticBackdrop-event" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -183,6 +193,26 @@
       </div>
       <div class="modal-body">
         <app-add-edit-event [event]="event" *ngIf="activateAddEditEventComponent"></app-add-edit-event>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Report Modal -->
+<div class="modal fade" id="reportEventModal" tabindex="-1" aria-labelledby="reportEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportEventModalLabel">Check In Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-report-event [semesterId]="semesterId" [eventID]="eventID" *ngIf="activateEventReportModal"></app-report-event>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

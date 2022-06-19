@@ -29,12 +29,13 @@ export class ManageAttendeeEventComponent implements OnInit {
   attendanceSessions!: Observable<any[]>
 
   // Sessions variables
-  semesterId: string = ""
+  semesterId: any = ""
   semesterIds!: any[]
   sessionDate: string = ""
 
   // Modal
-  activateAddEditEventComponent:boolean = false;
+  activateAddEditEventComponent:boolean = false
+  activateEventReportModal: boolean = false
 
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
@@ -49,17 +50,23 @@ export class ManageAttendeeEventComponent implements OnInit {
         this.location = this.event.location
         this.eventStartTime = this.event.eventStartTime
         this.eventEndTime = this.event.eventEndTime
+
+        this.service.getSemesterId(this.event.eventDate).subscribe(res => {
+          this.semesterId = res
+          this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
+          console.log(res)
+          })
         }
       )
     })
 
     this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
 
-    this.service.getAllSemesterIds().subscribe(res => {
-      this.semesterIds = res
-      this.semesterId = this.semesterIds[0]
-      this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
-    })
+    // this.service.getAllSemesterIds().subscribe(res => {
+    //   this.semesterIds = res
+    //   this.semesterId = this.semesterIds[0]
+    //   this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
+    // })
   }
 
   toogleAddAttendee(){
@@ -72,7 +79,10 @@ export class ManageAttendeeEventComponent implements OnInit {
   }
 
   addAllAttendeeToEvent(){
-
+    this.service.addAllAttendeeToEvent(this.eventID).subscribe(res => {
+      this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
+      this.availableAttendees = this.service.getAvailableAttendeeInEvent(this.eventID)
+    })
   }
 
   importExcelFile(){
@@ -142,5 +152,10 @@ export class ManageAttendeeEventComponent implements OnInit {
 
     this.event = eve;
     this.activateAddEditEventComponent = true;
+  }
+
+  printReport(id: string){
+    this.semesterId = id
+    this.activateEventReportModal = true
   }
 }
