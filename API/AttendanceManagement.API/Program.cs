@@ -1,4 +1,5 @@
 using AttendanceManagement.Common;
+using AttendanceManagement.Common.Constants;
 using AttendanceManagement.Domain;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
@@ -21,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AttendanceManagementDBContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AMSConnectionString")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString(Constants.ConnectionString)));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IMapper, Mapper>();
@@ -59,6 +60,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWT.key))
         };
     });
+
+// Serilog
+var config = new ConfigurationBuilder().AddJsonFile(Constants.Json_AppSettings).Build();
 
 var app = builder.Build();
 
