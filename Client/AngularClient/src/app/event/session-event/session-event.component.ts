@@ -25,14 +25,14 @@ export class SessionEventComponent implements OnInit {
   }
 
   exportExcel(date: string){
-    let fileName= "report_event_" + date + '.xlsx';
+    let fileName= "report_event_" + this.eventID + "_" + date + '.xlsx';
     
-    let element = document.getElementById('checkin_event_' + this.sessionDate);
+    let element = document.getElementById('checkin_event_' + this.eventID + "_" + this.sessionDate);
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
  
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, 'Checkin_Assingned_Attendees');
  
     /* save to file */  
     XLSX.writeFile(wb, fileName);

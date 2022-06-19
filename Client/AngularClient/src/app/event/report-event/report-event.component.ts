@@ -27,7 +27,7 @@ export class ReportEventComponent implements OnInit {
  
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Checkin_Assingned_Attendee');
+    XLSX.utils.book_append_sheet(wb, ws, 'Checkin_Assingned_Attendees');
  
     /* save to file */  
     XLSX.writeFile(wb, fileName);
