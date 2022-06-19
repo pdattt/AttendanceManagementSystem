@@ -110,7 +110,7 @@ namespace AttendanceManagement.API.Controllers
         }
 
         [Route("add-all-attendees-to-class")]
-        [HttpPost]
+        [HttpGet]
         public ActionResult AddAllAttendeesToClass(int classId)
         {
             if (classId == null)

@@ -86,7 +86,7 @@ namespace AttendanceManagement.API.Controllers
         }
 
         [Route("add-all-attendees-to-event")]
-        [HttpPost]
+        [HttpGet]
         public ActionResult AddAllAttendeesToEvent(int eventId)
         {
             if (eventId == null)
