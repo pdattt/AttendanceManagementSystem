@@ -86,6 +86,18 @@ namespace AttendanceManagement.API.Controllers
             return Ok(ids);
         }
 
+        [Route("get-semester-id")]
+        [HttpGet]
+        public ActionResult GetSemesterId(string date)
+        {
+            if (date == null)
+                return BadRequest();
+
+            var semesterId = _sessionService.GetSemesterId(DateTime.Parse(date));
+
+            return Ok(semesterId);
+        }
+
         [Route("get-all-classes-and-events-in-semester")]
         [HttpGet]
         public ActionResult GetAllSemesterIds(string semesterId, string type)
