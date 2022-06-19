@@ -254,6 +254,11 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public async Task<bool> CheckIn(string cardId, string location)
         {
+            var checkCardExist = _attendeeRepo.GetByCardId(cardId);
+
+            if (checkCardExist == null)
+                return false;
+
             DateTime getDate = DateTime.Now;
             string semesterId = GetSemesterId(getDate);
             List<string> types = _sessionRepo.GetAllTypes(semesterId).Result;
