@@ -50,9 +50,6 @@
   Class successfully updated!
 </div>
 
-<button type="button" class="btn btn-success m-2" (click)="generateSession()">Generate session</button>
-<br>
-
 <div class="shadow p-3 mb-5 bg-body rounded"> 
   <h4 class="text-left">Attendee In Event</h4>
   <hr>
@@ -154,6 +151,8 @@
   </table>
 </div>
 
+<br>
+<button type="button" class="btn btn-success m-2" (click)="generateSession()">Generate session</button>
 <br>
 
 <div class="shadow p-3 mb-5 bg-body rounded" *ngIf="(attendanceSessions|async) as list">
