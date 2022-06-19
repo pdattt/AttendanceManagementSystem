@@ -95,9 +95,9 @@ namespace AttendanceManagement.Infrastructure.Services
             return _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
         }
 
-        public List<CheckInToReturn_Time> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        public async Task<List<CheckInToReturn_Time>> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
-            var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+            var checkins = await _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
             List<Attendee> attendees = new List<Attendee>();
 
             if (type == "event")
