@@ -156,11 +156,11 @@
 
 <br>
 
-<div class="shadow p-3 mb-5 bg-body rounded">
+<div class="shadow p-3 mb-5 bg-body rounded" *ngIf="(attendanceSessions|async) as list">
   <h4 class="text-left">Sessions</h4>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#reportClassModal" 
-    (click)="printReport(semesterId)">
+    (click)="printReport(semesterId)" *ngIf="list.length>0">
       Report
     </button>
   <div class="btn-group">
@@ -169,7 +169,7 @@
     </p>
   </div>
   <hr>
-  <div *ngIf="(attendanceSessions|async) as list">
+  <div>
     <p *ngIf="list.length<1">
       There is no session for this event
     </p>
