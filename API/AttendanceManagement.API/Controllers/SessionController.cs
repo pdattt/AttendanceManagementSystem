@@ -124,9 +124,9 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-check-ins")]
         [HttpGet]
-        public ActionResult GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
+        public async Task<ActionResult> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
-            var checkIns = _sessionService.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
+            var checkIns = await _sessionService.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
 
             if (checkIns == null)
                 return BadRequest();
