@@ -37,39 +37,6 @@ namespace AttendanceManagement.Infrastructure.Services
             _attendeeRepo = attendeeRepo;
         }
 
-        //public void Add(Session session, string class_event_Id, string semesterId)
-        //{
-        //    _sessionRepo.Add(session, class_event_Id, semesterId);
-        //}
-
-        //public List<Session> GenerateSession(dynamic cls_eve)
-        //{
-        //    if (cls_eve == null)
-        //        return null;
-
-        //    if (cls_eve.DaysOfWeek == null)
-        //        return null;
-
-        //    List<Session> sessions = new List<Session>();
-        //    var dates = cls_eve.DaysOfWeek.Trim().Split(',').ToList();
-
-        //    for (DateTime date = cls_eve.ClassDateStart; date <= cls_eve.ClassDateEnd; date = date.AddDays(1.0))
-        //    {
-        //        string day = date.ToString("dddd");
-
-        //        bool checkDay = (dayOfWeek[day.ToString("")]);
-
-        //        if (checkDay)
-        //        {
-        //            Session addSession = new Session();
-        //            addSession.Date = day;
-        //            sessions.Add(addSession);
-        //        }
-        //    }
-
-        //    return sessions;
-        //}
-
         public bool GenerateClassSession(ClassReadDTO cls)
         {
             if (cls == null)
@@ -255,46 +222,6 @@ namespace AttendanceManagement.Infrastructure.Services
             return q;
         }
 
-        //foreach (var date in dates)
-        //{
-        //    var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
-        //    List<Attendee> attendees = new List<Attendee>();
-
-        //    if (type == "event")
-        //    {
-        //        var eve = _eventRepo.GetById(Int32.Parse(cls_eve_id));
-        //        attendees = _attendeeRepo.GetAll().Where(att => att.Events.Contains(eve)).ToList();
-        //    }
-        //    else
-        //    {
-        //        var cls = _classRepo.GetById(Int32.Parse(cls_eve_id));
-        //        attendees = _attendeeRepo.GetAll().Where(att => att.Classes.Contains(cls)).ToList();
-        //    }
-
-        //    foreach (Attendee attendee in attendees)
-        //    {
-        //        CheckInToReturn_Report objectToReturn = new CheckInToReturn_Report()
-        //        {
-        //            AttendeeId = attendee.ID,
-        //            AttendeeName = attendee.Name,
-        //            CardId = attendee.CardId,
-        //            Role = attendee.Role,
-        //            Count = 0
-        //        };
-
-        //        var check = checkins.FirstOrDefault(c => c.CardId == objectToReturn.CardId);
-
-        //        if (check != null)
-        //        {
-        //            objectToReturn.Count++;
-        //        };
-
-        //        list.Add(objectToReturn);
-        //    }
-        //}
-
-        //return list;
-
         private string GetSemesterId(DateTime date)
         {
             int month = date.Month;
@@ -322,10 +249,10 @@ namespace AttendanceManagement.Infrastructure.Services
 
             string year = date.Year.ToString();
 
-            return year + semester;
+            return year.Substring(year.Length - 2) + "3" + semester;
         }
 
-        public bool CheckIn(string cardId, string location)
+        public async Task<bool> CheckIn(string cardId, string location)
         {
             DateTime getDate = DateTime.Now;
             string semesterId = GetSemesterId(getDate);
@@ -336,7 +263,7 @@ namespace AttendanceManagement.Infrastructure.Services
 
             foreach (var type in types)
             {
-                var checkIn = _sessionRepo.CheckIn(semesterId, type, getDate, cardId, location).Result;
+                var checkIn = await _sessionRepo.CheckIn(semesterId, type, getDate, cardId, location);
                 if (checkIn)
                     return true;
             }
