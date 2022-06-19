@@ -16,6 +16,17 @@
             <p> {{user.fullname}} </p>
         </li>
       </ul>
+      <ul class="list-unstyled components" *ngIf="isLogin">
+        <li>
+            <a href="/attendee">Attendee</a>
+        </li>
+        <li>
+            <a href="/event">Event</a>
+        </li>
+        <li>
+            <a href="/class">Class</a>
+        </li>
+    </ul>
       <ul class="list-unstyled components">
         <li>
             <a href="/login" *ngIf="!isLogin">Login</a>
@@ -24,17 +35,7 @@
           <a href="/login" (click)="logout()" *ngIf="isLogin">Logout</a>
       </li>
       </ul>
-      <ul class="list-unstyled components" *ngIf="isLogin">
-          <li>
-              <a href="/attendee">Attendee</a>
-          </li>
-          <li>
-              <a href="/event">Event</a>
-          </li>
-          <li>
-              <a href="/class">Class</a>
-          </li>
-      </ul>
+
   </nav>
 
   <!-- Page Content  -->

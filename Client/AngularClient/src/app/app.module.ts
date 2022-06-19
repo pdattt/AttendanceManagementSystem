@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { SessionEventComponent } from './event/session-event/session-event.component';
 import { ManageAttendeeClassComponent } from './class/manage-attendee-class/manage-attendee-class.component';
 import { SessionClassComponent } from './class/session-class/session-class.component';
+import { ReportEventComponent } from './event/report-event/report-event.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { SessionClassComponent } from './class/session-class/session-class.compo
     LoginComponent,
     SessionEventComponent,
     ManageAttendeeClassComponent,
-    SessionClassComponent
+    SessionClassComponent,
+    ReportEventComponent
   ],
   imports: [
     BrowserModule,
