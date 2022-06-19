@@ -11,8 +11,6 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 {
     public interface ISessionService
     {
-        //List<Session> GenerateSession(dynamic cls_eve);
-
         bool GenerateClassSession(ClassReadDTO cls);
 
         bool GenerateEventSession(EventReadDTO eve);
@@ -30,6 +28,6 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id);
 
-        bool CheckIn(string cardId, string location);
+        Task<bool> CheckIn(string cardId, string location);
     }
 }

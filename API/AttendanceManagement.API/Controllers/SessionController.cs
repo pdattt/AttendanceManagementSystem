@@ -28,7 +28,7 @@ namespace AttendanceManagement.API.Controllers
         }
 
         [Route("generate-class-session")]
-        [HttpPost]
+        [HttpGet]
         public ActionResult GenerateClassSession(int id)
         {
             ClassReadDTO cls = _classService.GetById(id);
@@ -45,7 +45,7 @@ namespace AttendanceManagement.API.Controllers
         }
 
         [Route("generate-event-session")]
-        [HttpPost]
+        [HttpGet]
         public ActionResult GenerateEventSession(int id)
         {
             EventReadDTO eve = _eventService.GetById(id);
@@ -64,9 +64,9 @@ namespace AttendanceManagement.API.Controllers
         [Route("check-in")]
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult CheckIn(string cardId, string location)
+        public async Task<ActionResult> CheckIn(string cardId, string location)
         {
-            var checkIn = _sessionService.CheckIn(cardId, location);
+            var checkIn = await _sessionService.CheckIn(cardId, location);
 
             if (!checkIn)
                 return BadRequest();
@@ -134,6 +134,7 @@ namespace AttendanceManagement.API.Controllers
             return Ok(JsonConvert.SerializeObject(checkIn.Time));
         }
 
+        [AllowAnonymous]
         [Route("count-check-ins-in-semester")]
         [HttpGet]
         public ActionResult CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
