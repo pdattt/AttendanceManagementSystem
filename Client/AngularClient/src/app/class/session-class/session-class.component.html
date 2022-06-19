@@ -1,4 +1,4 @@
-<div class="card card-body">
+<div class="card card-body" id="checkin_class_{{sessionDate}}">
     <table class="table table-striped">
       <thead>
         <th>Id</th>
@@ -22,5 +22,8 @@
           <td>{{att.time}}<td>
         </tr>
       </tbody>
-  </table>
+    </table>
+    <div class="text-center">
+      <button type="button" class="btn btn-warning btn-sm w-25" (click)="exportExcel(sessionDate)">Export Excel</button>
+    </div>
   </div>
