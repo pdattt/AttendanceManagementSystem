@@ -64,7 +64,7 @@ export class AttendanceManagementService {
   }
 
   addAllAttendeeToEvent(id:number){
-    return this.http.post(this.apiUrl + `event/add-all-attendees-to-event?eventId=${id}`, {headers: this.header})
+    return this.http.get(this.apiUrl + `event/add-all-attendees-to-event?eventId=${id}`, {headers: this.header})
   }
 
   updateEvent(id:number, data:any) {
@@ -109,7 +109,7 @@ export class AttendanceManagementService {
   }
 
   addAllAttendeeToClass(id:number){
-    return this.http.post(this.apiUrl + `class/add-all-attendees-to-class?classId=${id}`, {headers: this.header})
+    return this.http.get(this.apiUrl + `class/add-all-attendees-to-class?classId=${id}`, {headers: this.header})
   }
 
   updateClass(id:number, data:any) {
@@ -127,6 +127,10 @@ export class AttendanceManagementService {
   // Session
   getAllSemesterIds(): Observable<any[]>{
     return this.http.get<any>(this.apiUrl + "session/get-all-semester-ids", {headers: this.header})
+  }
+
+  getSemesterId(date: string){
+    return this.http.get(this.apiUrl + `session/get-semester-id?date=${date}`, {headers: this.header})
   }
 
   getAllSession(semesterId: string, type: string, cls_eve_id: string): Observable<any[]>{
@@ -147,5 +151,9 @@ export class AttendanceManagementService {
 
   generateEventSession(id: number){
     return this.http.get(this.apiUrl + `session/generate-event-session?id=${id}`, {headers: this.header})
+  }
+
+  countCheckIn(semesterId: string, type: string, cls_eve_id:string){
+    return this.http.get(this.apiUrl + `session/count-check-ins-in-semester?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}`, {headers: this.header})
   }
 }
