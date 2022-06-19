@@ -30,7 +30,6 @@ export class ManageAttendeeEventComponent implements OnInit {
 
   // Sessions variables
   semesterId: any = ""
-  semesterIds!: any[]
   sessionDate: string = ""
 
   // Modal
@@ -61,12 +60,6 @@ export class ManageAttendeeEventComponent implements OnInit {
     })
 
     this.attendeesInEvent = this.service.getAttendeeInEvent(this.eventID)
-
-    // this.service.getAllSemesterIds().subscribe(res => {
-    //   this.semesterIds = res
-    //   this.semesterId = this.semesterIds[0]
-    //   this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
-    // })
   }
 
   toogleAddAttendee(){

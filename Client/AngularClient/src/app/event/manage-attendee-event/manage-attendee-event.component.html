@@ -146,15 +146,13 @@
 
 <div class="shadow p-3 mb-5 bg-body rounded">
   <h4 class="text-left">Sessions</h4>
+  
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#reportEventModal" 
   (click)="printReport(semesterId)">
     Report
   </button>
   <div class="btn-group">
-    <!-- <select class="form-control" #semester (change)="selectSemester(semester.value)">
-      <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
-    </select> -->
     <p>
       <b> Semester Id: </b> {{semesterId}} 
     </p>
@@ -197,7 +195,6 @@
     </div>
   </div>
 </div>
-
 
 
 <!-- Report Modal -->

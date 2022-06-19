@@ -158,10 +158,12 @@
 
 <div class="shadow p-3 mb-5 bg-body rounded">
   <h4 class="text-left">Sessions</h4>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#reportClassModal" 
+    (click)="printReport(semesterId)">
+      Report
+    </button>
   <div class="btn-group">
-    <!-- <select class="form-control" #semester (change)="selectSemester(semester.value)">
-      <option *ngFor="let semester of semesterIds" [value]="semester" >{{semester}}</option>
-    </select> -->
     <p>
       <b> Semester Id: </b> {{semesterId}} 
     </p>
@@ -201,6 +203,24 @@
       </div>
       <div class="modal-body">
         <app-add-edit-class [class]="class" *ngIf="activateAddEditClassComponent"></app-add-edit-class>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Report Modal -->
+<div class="modal fade" id="reportClassModal" tabindex="-1" aria-labelledby="reportClassModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportClassModalLabel">Check In Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-report-class [semesterId]="semesterId" [classID]="classID" *ngIf="activateClassReportModal"></app-report-class>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

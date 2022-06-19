@@ -32,11 +32,11 @@ export class ManageAttendeeClassComponent implements OnInit {
 
   // Sessions variables
   semesterId: any = ""
-  //semesterIds!: any[]
   sessionDate: string = ""
 
   // Modal
   activateAddEditClassComponent:boolean = false;
+  activateClassReportModal: boolean = false;
 
   constructor(private route:ActivatedRoute, private service: AttendanceManagementService) { }
 
@@ -58,16 +58,12 @@ export class ManageAttendeeClassComponent implements OnInit {
           this.semesterId = res
           this.attendanceSessions = this.service.getAllSession(this.semesterId, "class", this.classID.toString())
           console.log(res)
-        })
+          })
         }
       )
     })
     
     this.attendeesInEvent = this.service.getAttendeeInClass(this.classID)
-
-    // this.service.getAllSemesterIds().subscribe(res => {
-    //   this.semesterIds = res
-    // })
   }
 
   toogleAddAttendee(){
@@ -154,6 +150,11 @@ export class ManageAttendeeClassComponent implements OnInit {
     this.service.generateClassSession(this.classID).subscribe(res => {
       window.location.reload()
     })
+  }
+
+  printReport(id: string){
+    this.semesterId = id
+    this.activateClassReportModal = true
   }
 }
 
