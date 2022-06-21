@@ -78,7 +78,7 @@ namespace AttendanceManagement.Domain.Repositories
             }
         }
 
-        public async Task<bool> CheckIn(string semesterId, string type, DateTime getDate, string cardId, string location)
+        public async Task<string> CheckIn(string semesterId, string type, DateTime getDate, string cardId, string location)
         {
             Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type);
             QuerySnapshot snap = await qref.GetSnapshotAsync();
@@ -113,7 +113,7 @@ namespace AttendanceManagement.Domain.Repositories
                         {
                             CheckIn checkin = check.ConvertTo<CheckIn>();
                             if (checkin.CardId == cardId)
-                                return false;
+                                return null;
                         }
 
                         Dictionary<string, string> map = new Dictionary<string, string>()
@@ -125,12 +125,12 @@ namespace AttendanceManagement.Domain.Repositories
                         CollectionReference col = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(docsnap.Id).Collection(Constants.Collection_Attendance).Document(sub_docsnap.Id).Collection("CheckIn");
 
                         col.AddAsync(map);
-                        return true;
+                        return docsnap.Id;
                     }
                 }
             }
 
-            return false;
+            return null;
         }
 
         public async Task<List<Session>> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
@@ -210,6 +210,22 @@ namespace AttendanceManagement.Domain.Repositories
             }
 
             return semesterIds;
+        }
+
+        public async Task<List<string>> GetAllSessionDates(string semesterId, string type, string cls_eve_id)
+        {
+            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(cls_eve_id).Collection(Constants.Collection_Attendance);
+            QuerySnapshot snap = await qref.GetSnapshotAsync();
+
+            List<string> sessionDates = new List<string>();
+
+            foreach (DocumentSnapshot doc in snap)
+            {
+                Session session = doc.ConvertTo<Session>();
+                sessionDates.Add(session.Date);
+            }
+
+            return sessionDates;
         }
 
         public async Task<List<string>> GetAllTypes(string semesterId)

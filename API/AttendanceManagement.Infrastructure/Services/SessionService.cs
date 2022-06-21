@@ -1,11 +1,15 @@
-﻿using AttendanceManagement.Common.Dtos.ClassDTOs;
+﻿using AttendanceManagement.Common.Constants;
+using AttendanceManagement.Common.Dtos.ClassDTOs;
 using AttendanceManagement.Common.Dtos.EventDTOs;
+using AttendanceManagement.Common.Mailings;
 using AttendanceManagement.Domain.Interfaces.IRepos;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using AttendanceManagement.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -171,7 +175,7 @@ namespace AttendanceManagement.Infrastructure.Services
 
             List<Attendee> attendees = new List<Attendee>();
 
-            if (type == "event")
+            if (type == Constants.Session_Type_Event)
             {
                 var eve = _eventRepo.GetById(Int32.Parse(cls_eve_id));
                 attendees = _attendeeRepo.GetAll().Where(att => att.Events.Contains(eve)).ToList();
@@ -254,9 +258,9 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public async Task<bool> CheckIn(string cardId, string location)
         {
-            var checkCardExist = _attendeeRepo.GetByCardId(cardId);
+            var attendee = _attendeeRepo.GetByCardId(cardId);
 
-            if (checkCardExist == null)
+            if (attendee == null)
                 return false;
 
             DateTime getDate = DateTime.Now;
@@ -270,8 +274,63 @@ namespace AttendanceManagement.Infrastructure.Services
             {
                 var checkIn = await _sessionRepo.CheckIn(semesterId, type, getDate, cardId, location);
 
-                if (checkIn)
+                if (checkIn != null)
+                {
+                    if (type == Constants.Session_Type_Event)
+                    {
+                        var time = getDate.TimeOfDay;
+                        var classType = Constants.Session_Type_Class;
+
+                        if (attendee.Classes.Count < 1)
+                            return true;
+
+                        var classesInSameLocation = attendee.Classes.Where(cls => time >= cls.ClassStartTime && time <= cls.ClassEndTime).ToList();
+
+                        if (classesInSameLocation == null)
+                            return true;
+
+                        foreach (var cl in classesInSameLocation)
+                        {
+                            var classDates = await _sessionRepo.GetAllSessionDates(semesterId, classType, cl.ClassID.ToString());
+
+                            if (classDates.Contains(getDate.ToString("d")))
+                            {
+                                // Send email if there is a class in current time
+                                using (MailMessage mail = new MailMessage())
+                                {
+                                    var eve = _eventRepo.GetById(Int32.Parse(checkIn));
+
+                                    mail.From = new MailAddress(Mailing.From.EmailAddress);
+                                    mail.To.Add(attendee.Email);
+                                    mail.Subject = Mailing.Subject;
+                                    mail.IsBodyHtml = true;
+
+                                    mail.Body = Mailing.Body.SayDear(attendee.Name);
+
+                                    mail.Body += Mailing.Body.BreakLine;
+                                    mail.Body += Mailing.Body.ConfirmCheckIn(eve.EventName, time.ToString());
+
+                                    mail.Body += Mailing.Body.BreakLine;
+                                    mail.Body += Mailing.Body.Alert(cl.ClassName, cl.ClassStartTime.ToString(), cl.ClassEndTime.ToString());
+
+                                    mail.Body += Mailing.Body.BreakLine;
+                                    mail.Body += Mailing.Body.SayBeSure;
+
+                                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                    {
+                                        smtp.Credentials = new NetworkCredential(Mailing.From.EmailAddress, Mailing.From.Password);
+                                        smtp.EnableSsl = true;
+                                        await smtp.SendMailAsync(mail);
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     return true;
+                }
             }
 
             return false;

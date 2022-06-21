@@ -56,7 +56,9 @@ namespace AttendanceManagement.Domain.Repositories
 
         public Attendee GetByCardId(string cardId)
         {
-            return Query().FirstOrDefaultAsync(att => att.CardId == cardId).Result;
+            return Query().Include(att => att.Events)
+                          .Include(att => att.Classes)
+                          .FirstOrDefaultAsync(att => att.CardId == cardId).Result;
         }
     }
 }

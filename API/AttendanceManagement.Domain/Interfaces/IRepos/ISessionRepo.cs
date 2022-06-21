@@ -22,6 +22,8 @@ namespace AttendanceManagement.Domain.Interfaces.IRepos
 
         Task<List<string>> GetAllTypes(string semesterId);
 
-        Task<bool> CheckIn(string semesterId, string type, DateTime getDate, string cardId, string location);
+        Task<string> CheckIn(string semesterId, string type, DateTime getDate, string cardId, string location);
+
+        Task<List<string>> GetAllSessionDates(string semesterId, string type, string cls_eve_id);
     }
 }
