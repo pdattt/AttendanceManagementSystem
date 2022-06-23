@@ -23,7 +23,8 @@ namespace AttendanceManagement.Domain.Repositories
             db = FirestoreDb.Create(projectId);
         }
 
-        public async void Add(List<Session> sessions, string name, string type, string semesterId, int cls_eve_id, string location, TimeSpan startTime, TimeSpan endTime)
+        public async void Add(List<Session> sessions, string name, string type, string semesterId,
+            int cls_eve_id, string location, TimeSpan startTime, TimeSpan endTime)
         {
             DocumentReference d = db.Collection(Constants.Collection_Session).Document(semesterId);
             Dictionary<string, string> yearSet = new Dictionary<string, string>
@@ -74,7 +75,7 @@ namespace AttendanceManagement.Domain.Repositories
                 };
 
                 CollectionReference col = doc.Collection(Constants.Collection_Attendance);
-                await col.AddAsync(map);
+                await col.AddAsync(session);
             }
         }
 
@@ -85,7 +86,8 @@ namespace AttendanceManagement.Domain.Repositories
 
             foreach (var docsnap in snap)
             {
-                Query sub_qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(docsnap.Id).Collection(Constants.Collection_Attendance);
+                Query sub_qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type)
+                    .Document(docsnap.Id).Collection(Constants.Collection_Attendance);
                 QuerySnapshot sub_snap = await sub_qref.GetSnapshotAsync();
 
                 foreach (var sub_docsnap in sub_snap)
@@ -106,7 +108,8 @@ namespace AttendanceManagement.Domain.Repositories
 
                     if (time >= startTime.Subtract(new TimeSpan(0, 30, 0)) && time <= endTime)
                     {
-                        Query checkin_qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(docsnap.Id).Collection(Constants.Collection_Attendance).Document(sub_docsnap.Id).Collection("CheckIn");
+                        Query checkin_qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type)
+                            .Document(docsnap.Id).Collection(Constants.Collection_Attendance).Document(sub_docsnap.Id).Collection(Constants.Collection_CheckIn);
                         QuerySnapshot checkin_snap = await checkin_qref.GetSnapshotAsync();
 
                         foreach (var check in checkin_snap)
@@ -122,7 +125,8 @@ namespace AttendanceManagement.Domain.Repositories
                             { "Time", time.ToString("hh':'mm':'ss") }
                         };
 
-                        CollectionReference col = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(docsnap.Id).Collection(Constants.Collection_Attendance).Document(sub_docsnap.Id).Collection("CheckIn");
+                        CollectionReference col = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type)
+                            .Document(docsnap.Id).Collection(Constants.Collection_Attendance).Document(sub_docsnap.Id).Collection(Constants.Collection_CheckIn);
 
                         col.AddAsync(map);
                         return docsnap.Id;
@@ -135,7 +139,8 @@ namespace AttendanceManagement.Domain.Repositories
 
         public async Task<List<Session>> GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
         {
-            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(cls_eve_id).Collection(Constants.Collection_Attendance);
+            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type)
+                .Document(cls_eve_id).Collection(Constants.Collection_Attendance);
             QuerySnapshot snap = await qref.GetSnapshotAsync();
             List<Session> sessions = new List<Session>();
 
@@ -152,7 +157,8 @@ namespace AttendanceManagement.Domain.Repositories
 
         public async Task<List<CheckIn>> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
-            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(cls_eve_id).Collection(Constants.Collection_Attendance);
+            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(cls_eve_id)
+                                           .Collection(Constants.Collection_Attendance);
             QuerySnapshot snap = await qref.GetSnapshotAsync();
             string docId = "";
 
@@ -167,7 +173,8 @@ namespace AttendanceManagement.Domain.Repositories
             }
 
             qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type)
-                                           .Document(cls_eve_id).Collection(Constants.Collection_Attendance).Document(docId).Collection("CheckIn");
+                                           .Document(cls_eve_id).Collection(Constants.Collection_Attendance)
+                                           .Document(docId).Collection(Constants.Collection_CheckIn);
             snap = await qref.GetSnapshotAsync();
 
             List<CheckIn> list = new List<CheckIn>();
@@ -214,7 +221,8 @@ namespace AttendanceManagement.Domain.Repositories
 
         public async Task<List<string>> GetAllSessionDates(string semesterId, string type, string cls_eve_id)
         {
-            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type).Document(cls_eve_id).Collection(Constants.Collection_Attendance);
+            Query qref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type)
+                .Document(cls_eve_id).Collection(Constants.Collection_Attendance);
             QuerySnapshot snap = await qref.GetSnapshotAsync();
 
             List<string> sessionDates = new List<string>();

@@ -68,7 +68,7 @@ namespace AttendanceManagement.Infrastructure.Services
 
             string semesterId = GetSemesterId(cls.ClassDateStart);
 
-            _sessionRepo.Add(sessions, cls.ClassName, "class", semesterId, cls.ClassID, cls.Location, cls.ClassStartTime, cls.ClassEndTime);
+            _sessionRepo.Add(sessions, cls.ClassName, Constants.Session_Type_Class, semesterId, cls.ClassID, cls.Location, cls.ClassStartTime, cls.ClassEndTime);
 
             return true;
         }
@@ -89,7 +89,7 @@ namespace AttendanceManagement.Infrastructure.Services
 
             string semesterId = GetSemesterId(eve.EventDate);
 
-            _sessionRepo.Add(sessions, eve.EventName, "event", semesterId, eve.EventID, eve.Location, eve.EventStartTime, eve.EventEndTime);
+            _sessionRepo.Add(sessions, eve.EventName, Constants.Session_Type_Event, semesterId, eve.EventID, eve.Location, eve.EventStartTime, eve.EventEndTime);
 
             return true;
         }
@@ -104,7 +104,7 @@ namespace AttendanceManagement.Infrastructure.Services
             var checkins = await _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
             List<Attendee> attendees = new List<Attendee>();
 
-            if (type == "event")
+            if (type == Constants.Session_Type_Event)
             {
                 var eve = _eventRepo.GetById(Int32.Parse(cls_eve_id));
                 attendees = _attendeeRepo.GetAll().Where(att => att.Events.Contains(eve)).ToList();
@@ -143,7 +143,7 @@ namespace AttendanceManagement.Infrastructure.Services
 
         public List<string> GetAllInSemester(string semesterId, string type)
         {
-            if (type != "class" && type != "event")
+            if (type != Constants.Session_Type_Class && type != Constants.Session_Type_Event)
                 return null;
 
             return _sessionRepo.GetAllInSemester(semesterId, type).Result;
@@ -310,13 +310,10 @@ namespace AttendanceManagement.Infrastructure.Services
                                     mail.Body += Mailing.Body.BreakLine;
                                     mail.Body += Mailing.Body.ConfirmCheckIn(eve.EventName, time.ToString());
 
-                                    mail.Body += Mailing.Body.BreakLine;
                                     mail.Body += Mailing.Body.Alert(cl.ClassName, cl.ClassStartTime.ToString(), cl.ClassEndTime.ToString());
-
-                                    mail.Body += Mailing.Body.BreakLine;
                                     mail.Body += Mailing.Body.SayBeSure;
 
-                                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                    using (SmtpClient smtp = new SmtpClient(Mailing.Host, Mailing.Port))
                                     {
                                         smtp.Credentials = new NetworkCredential(Mailing.From.EmailAddress, Mailing.From.Password);
                                         smtp.EnableSsl = true;

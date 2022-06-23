@@ -9,11 +9,13 @@ namespace AttendanceManagement.Common.Mailings
     public static class Mailing
     {
         public static string Subject = "[Warning] - There is a class in current time";
+        public static string Host = "smtp.gmail.com";
+        public static int Port = 587;
 
         public static class From
         {
-            public const string EmailAddress = "";
-            public const string Password = "";
+            public const string EmailAddress = "dat.np0137@sinhvien.hoasen.edu.vn";
+            public const string Password = "107@Sinhtrung";
         }
 
         public static class Body
