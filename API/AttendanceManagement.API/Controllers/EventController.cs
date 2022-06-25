@@ -1,4 +1,5 @@
-﻿using AttendanceManagement.Common.Dtos.EventDTOs;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using AttendanceManagement.Common.Dtos.EventDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -21,6 +22,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-events")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<EventReadDTO>), StatusCodes.Status200OK)]
         public ActionResult GetAllEvents()
         {
             var events = _service.GetAll();
@@ -33,6 +35,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-event-by-id")]
         [HttpGet]
+        [ProducesResponseType(typeof(EventReadDTO), StatusCodes.Status200OK)]
         public ActionResult GetEventById(int id)
         {
             var eve = _service.GetById(id);
@@ -45,6 +48,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-attendees-in-event")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<AttendeeReadDTO>), StatusCodes.Status200OK)]
         public ActionResult GetAttendeesInEvent(int id)
         {
             var eve = _service.GetById(id);
@@ -57,6 +61,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-available-attendees-in-event")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<AttendeeReadDTO>), StatusCodes.Status200OK)]
         public ActionResult GetAvailableAttendeesInEvent(int id)
         {
             var attendees = _service.GetAvailableAttendeesInEvent(id);

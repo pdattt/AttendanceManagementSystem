@@ -23,6 +23,7 @@ namespace AttendanceManagement.API.Controllers
 
         [EnableCors]
         [Route("get-all-attendees")]
+        [ProducesResponseType(typeof(List<AttendeeReadDTO>), StatusCodes.Status200OK)]
         [HttpGet]
         public ActionResult GetAllAttendees()
         {
@@ -36,6 +37,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-attendee-by-id")]
         [HttpGet]
+        [ProducesResponseType(typeof(AttendeeReadDTO), StatusCodes.Status200OK)]
         public ActionResult GetAttendeeById(int id)
         {
             var attendee = _service.GetById(id);

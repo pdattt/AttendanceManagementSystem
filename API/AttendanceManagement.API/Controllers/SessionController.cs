@@ -62,7 +62,7 @@ namespace AttendanceManagement.API.Controllers
         }
 
         [Route("check-in")]
-        [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> CheckIn(string cardId, string location)
         {
@@ -76,6 +76,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-semester-ids")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
         public ActionResult GetAllSemesterIds()
         {
             var ids = _sessionService.GetAllSemesterIds();
@@ -88,6 +89,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-semester-id")]
         [HttpGet]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public ActionResult GetSemesterId(string date)
         {
             if (date == null)
@@ -100,6 +102,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-classes-and-events-in-semester")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
         public ActionResult GetAllSemesterIds(string semesterId, string type)
         {
             var ids = _sessionService.GetAllInSemester(semesterId, type);
@@ -112,6 +115,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-attendance-sessions")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<Session>), StatusCodes.Status200OK)]
         public ActionResult GetAllAttendanceSession(string semesterId, string type, string cls_eve_id)
         {
             var sessions = _sessionService.GetAllAttendanceSession(semesterId, type, cls_eve_id);
@@ -124,6 +128,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-check-ins")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<CheckInToReturn_Time>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date)
         {
             var checkIns = await _sessionService.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
@@ -136,6 +141,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-check-in-by-card-id")]
         [HttpGet]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public ActionResult GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId)
         {
             var checkIn = _sessionService.GetCheckInByCardId(semesterId, type, cls_eve_id, date, cardId);

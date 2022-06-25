@@ -1,4 +1,5 @@
-﻿using AttendanceManagement.Common.Dtos.ClassDTOs;
+﻿using AttendanceManagement.Common.Dtos.AttendeeDTOs;
+using AttendanceManagement.Common.Dtos.ClassDTOs;
 using AttendanceManagement.Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -21,6 +22,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-all-classes")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<ClassReadDTO>), StatusCodes.Status200OK)]
         public ActionResult GetAllClasses()
         {
             var classes = _service.GetAll();
@@ -38,6 +40,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-class-by-id")]
         [HttpGet]
+        [ProducesResponseType(typeof(ClassReadDTO), StatusCodes.Status200OK)]
         public ActionResult GetClassById(int id)
         {
             var cls = _service.GetById(id);
@@ -52,6 +55,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-attendees-in-class")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<AttendeeReadDTO>), StatusCodes.Status200OK)]
         public ActionResult GetAttendeesInClass(int id)
         {
             var cls = _service.GetById(id);
@@ -64,6 +68,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-available-attendees-in-class")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<AttendeeReadDTO>), StatusCodes.Status200OK)]
         public ActionResult GetAvailableAttendeesInClass(int id)
         {
             var attendees = _service.GetAvailableAttendeesInClass(id);
@@ -76,6 +81,7 @@ namespace AttendanceManagement.API.Controllers
 
         [Route("get-days-of-week")]
         [HttpGet]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public ActionResult GetDaysOfWeek(int id)
         {
             if (id == null)
