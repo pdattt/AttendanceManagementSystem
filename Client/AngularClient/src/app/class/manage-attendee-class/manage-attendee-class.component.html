@@ -51,7 +51,7 @@
 </div>
 
 <div class="shadow p-3 mb-5 bg-body rounded"> 
-  <h4 class="text-left">Attendee In Event</h4>
+  <h4 class="text-left">Attendee In Class</h4>
   <hr>
   <table class="table table-striped">
       <thead>
@@ -170,7 +170,7 @@
   <hr>
   <div>
     <p *ngIf="list.length<1">
-      There is no session for this event
+      There is no session for this class
     </p>
     <div id="sessionGroup">
       <div *ngFor="let session of attendanceSessions|async; let i = index" data-parent="#sessionGroup">

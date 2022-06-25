@@ -12,11 +12,13 @@ export class ReportEventComponent implements OnInit {
   @Input() semesterId: any
   @Input() eventID: any
   checkins: any = []
+  unassignedCheckins: any = []
 
   constructor(private service: AttendanceManagementService) { }
 
   ngOnInit(): void {
     this.checkins = this.service.countCheckIn(this.semesterId, "event", this.eventID)
+    this.unassignedCheckins = this.service.countUnassignedCheckInsInEvent(this.semesterId, this.eventID)
   }
 
   exportExcel(){

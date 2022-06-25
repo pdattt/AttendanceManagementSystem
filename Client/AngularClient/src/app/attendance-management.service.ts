@@ -141,6 +141,10 @@ export class AttendanceManagementService {
     return this.http.get<any>(this.apiUrl + `session/get-all-check-ins?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}&date=${date}`, {headers: this.header})
   }
 
+  getAllUnAssignedCheckInsInEvent(semesterId: string, eventId: string, date: string): Observable<any[]>{
+    return this.http.get<any>(this.apiUrl + `session/get-all-unassigned-checkins-in-event?semesterId=${semesterId}&eventId=${eventId}&date=${date}`, {headers: this.header})
+  }
+
   getCheckInByCardId(semesterId: string, type: string, cls_eve_id: string, date: string, cardId: string): Observable<any[]>{
     return this.http.get<any>(this.apiUrl + `session/get-check-in-by-card-id?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}&date=${date}&cardId=${cardId}`, {headers: this.header})
   }
@@ -155,5 +159,9 @@ export class AttendanceManagementService {
 
   countCheckIn(semesterId: string, type: string, cls_eve_id:string){
     return this.http.get(this.apiUrl + `session/count-check-ins-in-semester?semesterId=${semesterId}&type=${type}&cls_eve_id=${cls_eve_id}`, {headers: this.header})
+  }
+
+  countUnassignedCheckInsInEvent(semesterId: string, eventId:string){
+    return this.http.get(this.apiUrl + `session/count-unassigned-check-ins-in-semester?semesterId=${semesterId}&eventId=${eventId}`, {headers: this.header})
   }
 }

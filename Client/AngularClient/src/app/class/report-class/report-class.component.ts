@@ -26,7 +26,9 @@ export class ReportClassComponent implements OnInit {
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
  
     /* generate workbook and add the worksheet */
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    var wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    
     XLSX.utils.book_append_sheet(wb, ws, 'Checkin_Assingned_Attendees');
  
     /* save to file */  

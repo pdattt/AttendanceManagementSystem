@@ -24,9 +24,13 @@ namespace AttendanceManagement.Domain.Interfaces.IServices
 
         Task<List<CheckInToReturn_Time>> GetAllCheckInsInSession(string semesterId, string type, string cls_eve_id, string date);
 
+        Task<List<CheckInToReturn_Time>> GetAllUnAssignedCheckInsInEvent(string semesterId, string eventID, string date);
+
         CheckIn GetCheckInByCardId(string semesterId, string type, string cls_eve_id, string date, string cardId);
 
-        dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id);
+        Task<dynamic> CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id);
+
+        Task<dynamic> CountUnassignedCheckInsInEvent(string semesterId, string eventID);
 
         string GetSemesterId(DateTime date);
 

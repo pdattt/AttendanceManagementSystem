@@ -139,6 +139,19 @@ namespace AttendanceManagement.API.Controllers
             return Ok(checkIns);
         }
 
+        [Route("get-all-unassigned-checkins-in-event")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<CheckInToReturn_Time>), StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllUnAssignedCheckInsInEvent(string semesterId, string eventId, string date)
+        {
+            var checkIns = await _sessionService.GetAllUnAssignedCheckInsInEvent(semesterId, eventId, date);
+
+            if (checkIns == null)
+                return BadRequest();
+
+            return Ok(checkIns);
+        }
+
         [Route("get-check-in-by-card-id")]
         [HttpGet]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -155,9 +168,19 @@ namespace AttendanceManagement.API.Controllers
         [AllowAnonymous]
         [Route("count-check-ins-in-semester")]
         [HttpGet]
-        public ActionResult CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
+        public async Task<ActionResult> CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
         {
-            var countList = _sessionService.CountCheckInsInSemerter(semesterId, type, cls_eve_id);
+            var countList = await _sessionService.CountCheckInsInSemerter(semesterId, type, cls_eve_id);
+
+            return Ok(countList);
+        }
+
+        [AllowAnonymous]
+        [Route("count-unassigned-check-ins-in-semester")]
+        [HttpGet]
+        public async Task<ActionResult> CountUnassignedCheckInsInEvent(string semesterId, string eventId)
+        {
+            var countList = await _sessionService.CountUnassignedCheckInsInEvent(semesterId, eventId);
 
             return Ok(countList);
         }

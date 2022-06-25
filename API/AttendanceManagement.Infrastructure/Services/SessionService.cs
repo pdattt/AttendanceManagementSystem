@@ -141,6 +141,34 @@ namespace AttendanceManagement.Infrastructure.Services
             return list;
         }
 
+        public async Task<List<CheckInToReturn_Time>> GetAllUnAssignedCheckInsInEvent(string semesterId, string eventID, string date)
+        {
+            var checkins = await _sessionRepo.GetAllCheckInsInSession(semesterId, Constants.Session_Type_Event, eventID, date);
+            var eve = _eventRepo.GetById(Int32.Parse(eventID));
+            List<Attendee> attendees = new List<Attendee>();
+            List<CheckInToReturn_Time> list = new List<CheckInToReturn_Time>();
+
+            foreach (var checkin in checkins)
+            {
+                Attendee attendee = _attendeeRepo.GetByCardId(checkin.CardId);
+
+                if (!eve.Attendees.Contains(attendee))
+                {
+                    CheckInToReturn_Time objectToReturn = new CheckInToReturn_Time()
+                    {
+                        AttendeeId = attendee.ID,
+                        AttendeeName = attendee.Name,
+                        CardId = attendee.CardId,
+                        Role = attendee.Role,
+                        Time = checkin.Time
+                    };
+
+                    list.Add(objectToReturn);
+                }
+            }
+            return list;
+        }
+
         public List<string> GetAllInSemester(string semesterId, string type)
         {
             if (type != Constants.Session_Type_Class && type != Constants.Session_Type_Event)
@@ -168,9 +196,9 @@ namespace AttendanceManagement.Infrastructure.Services
             return checkin;
         }
 
-        public dynamic CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
+        public async Task<dynamic> CountCheckInsInSemerter(string semesterId, string type, string cls_eve_id)
         {
-            var sessions = _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id).Result;
+            var sessions = await _sessionRepo.GetAllAttendanceSession(semesterId, type, cls_eve_id);
             List<CheckInToReturn_Report> list = new List<CheckInToReturn_Report>();
 
             List<Attendee> attendees = new List<Attendee>();
@@ -189,7 +217,7 @@ namespace AttendanceManagement.Infrastructure.Services
             foreach (var session in sessions)
             {
                 var date = session.Date;
-                var checkins = _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date).Result;
+                var checkins = await _sessionRepo.GetAllCheckInsInSession(semesterId, type, cls_eve_id, date);
 
                 foreach (Attendee attendee in attendees)
                 {
@@ -209,6 +237,59 @@ namespace AttendanceManagement.Infrastructure.Services
                     };
 
                     list.Add(objectToReturn);
+                }
+            }
+
+            var q = list.GroupBy(x => x.CardId)
+                        .Select(x => new CheckInToReturn_Report
+                        {
+                            AttendeeId = x.First().AttendeeId,
+                            AttendeeName = x.First().AttendeeName,
+                            Count = x.Count(a => a.Count != 0),
+                            CardId = x.First().CardId,
+                            Role = x.First().Role
+                        })
+                        .OrderByDescending(x => x.Count);
+
+            return q;
+        }
+
+        public async Task<dynamic> CountUnassignedCheckInsInEvent(string semesterId, string eventID)
+        {
+            var sessions = await _sessionRepo.GetAllAttendanceSession(semesterId, Constants.Session_Type_Event, eventID);
+            List<CheckInToReturn_Report> list = new List<CheckInToReturn_Report>();
+
+            var eve = _eventRepo.GetById(Int32.Parse(eventID));
+            List<Attendee> attendees = new List<Attendee>();
+
+            foreach (var session in sessions)
+            {
+                var date = session.Date;
+                var checkins = await _sessionRepo.GetAllCheckInsInSession(semesterId, Constants.Session_Type_Event, eventID, date);
+
+                foreach (var checkin in checkins)
+                {
+                    Attendee attendee = _attendeeRepo.GetByCardId(checkin.CardId);
+
+                    if (!eve.Attendees.Contains(attendee))
+                    {
+                        CheckInToReturn_Report objectToReturn = new CheckInToReturn_Report()
+                        {
+                            AttendeeId = attendee.ID,
+                            AttendeeName = attendee.Name,
+                            CardId = attendee.CardId,
+                            Role = attendee.Role
+                        };
+
+                        var check = checkins.FirstOrDefault(c => c.CardId == objectToReturn.CardId);
+
+                        if (check != null)
+                        {
+                            objectToReturn.Count++;
+                        };
+
+                        list.Add(objectToReturn);
+                    }
                 }
             }
 

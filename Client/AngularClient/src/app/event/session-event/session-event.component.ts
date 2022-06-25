@@ -16,12 +16,14 @@ export class SessionEventComponent implements OnInit {
   
   attendanceSessions!: Observable<any[]>
   checkins: any = []
+  unassignedCheckins: any = []
 
   constructor(private service: AttendanceManagementService) { }
 
   ngOnInit(): void {
     this.attendanceSessions = this.service.getAllSession(this.semesterId, "event", this.eventID.toString())
     this.checkins = this.service.getAllCheckin(this.semesterId, "event", this.eventID.toString(), this.sessionDate)
+    this.unassignedCheckins = this.service.getAllUnAssignedCheckInsInEvent(this.semesterId, this.eventID.toString(), this.sessionDate)
   }
 
   exportExcel(date: string){
