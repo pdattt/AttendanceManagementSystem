@@ -48,7 +48,7 @@ namespace AttendanceManagement.Domain.Repositories
 
             foreach (var session in sessions)
             {
-                Query subqref = db.Collection(Constants.Collection_Session).Document(semesterId).Collection(type);
+                Query subqref = doc.Collection(Constants.Collection_Attendance);
                 QuerySnapshot subsnap = subqref.GetSnapshotAsync().Result;
 
                 bool existDate = false;
@@ -75,7 +75,7 @@ namespace AttendanceManagement.Domain.Repositories
                 };
 
                 CollectionReference col = doc.Collection(Constants.Collection_Attendance);
-                await col.AddAsync(session);
+                await col.AddAsync(map);
             }
         }
 
