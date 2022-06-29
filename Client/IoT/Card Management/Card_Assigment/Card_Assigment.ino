@@ -5,9 +5,9 @@
 
 const int pinRST = 9;
 const int pinSDA = 10;
-const int pinGreenLED = 1;
-const int pinRedLED = 2;
-const int pinBuzzer = 3;  
+const int pinGreenLED = 8;
+const int pinRedLED = 7;
+const int pinBuzzer = 4;  
 
 MFRC522 mfrc522(pinSDA, pinRST); // Set up mfrc522 on the Arduino
 
@@ -32,10 +32,10 @@ void alertSuccess(){
   tone(pinBuzzer, 1000);
   delay(500);
   noTone(pinBuzzer);
-  delay(2500);
   
   digitalWrite(pinRedLED, HIGH);
   digitalWrite(pinGreenLED, LOW);
+  delay(2500);
   }
 
  void alertFailed(){
