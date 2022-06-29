@@ -7,6 +7,7 @@ namespace CardManagement.MVVM
     public class ApiHelper
     {
         public static HttpClient ApiClient { get; set; }
+        public static string token { get; set; }
 
         public static void InitializeClient()
         {

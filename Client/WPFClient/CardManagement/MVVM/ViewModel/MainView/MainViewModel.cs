@@ -1,10 +1,11 @@
 ﻿using CardManagement.Core;
 
-namespace CardManagement.MVVM.ViewModel
+namespace CardManagement.MVVM.ViewModel.MainView
 {
     public class MainViewModel : ObservableObject
     {
         public CardManagementViewModel CardManagementVM { get; set; }
+        public AccountManagementViewModel AccountManagementVM { get; set; }
         private object _currentView;
 
         public object CurrentView
@@ -21,6 +22,16 @@ namespace CardManagement.MVVM.ViewModel
         {
             CardManagementVM = new CardManagementViewModel();
             CurrentView = CardManagementVM;
+        }
+
+        public void GoToCardManagementView()
+        {
+            CurrentView = CardManagementVM;
+        }
+
+        public void GoToAccountManagementView()
+        {
+            CurrentView = AccountManagementVM;
         }
     }
 }

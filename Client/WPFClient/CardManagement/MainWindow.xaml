@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardManagement"
-        xmlns:viewModel="clr-namespace:CardManagement.MVVM.ViewModel"
+        xmlns:viewModel1="clr-namespace:CardManagement.MVVM.ViewModel.MainView"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="920"
         WindowStyle="None"
@@ -14,7 +13,7 @@
         MouseDown="Window_MouseDown">
 
     <Window.DataContext>
-        <viewModel:MainViewModel />
+        <viewModel1:MainViewModel />
     </Window.DataContext>
 
     <Border Background="#272537"
@@ -39,23 +38,41 @@
                    FontWeight="SemiBold" />
 
             <StackPanel Grid.Row="1">
-                <RadioButton Content="Card Management"
+                <RadioButton x:Name="btn_CardManagement" Content="Card Management"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}" />
+                             Style="{StaticResource MenuButtonTheme}" Checked="btn_CardManagement_Checked" />
 
-                <RadioButton Content="Account Management"
+                <RadioButton x:Name="btn_AccountManagement" Content="Account Management"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}" />
+                             Style="{StaticResource MenuButtonTheme}" Checked="btn_AccountManagement_Checked" />
 
-                <RadioButton Content="Home"
-                             Height="50"
-                             Foreground="White"
-                             FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}" />
+                <Button x:Name="btn_Logout" Width="100"
+                        Content="Logout"
+                        Click="btn_Logout_Click"
+                        Margin="20" FontWeight="Bold">
+
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="15" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="btn_Exit" Width="100"
+                        Content="Exit"
+                        Click="btn_Exit_Click"
+                        Background="#FFE22929" FontWeight="Bold">
+
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="15" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
 
             <TextBlock Text="Attendance Management System"

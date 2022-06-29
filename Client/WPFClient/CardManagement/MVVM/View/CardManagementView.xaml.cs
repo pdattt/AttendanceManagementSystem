@@ -1,8 +1,9 @@
 ﻿using CardManagement.MVVM.Model;
-using CardManagement.MVVM.ViewModel;
+using CardManagement.MVVM.ViewModel.MainView;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,36 +34,49 @@ namespace CardManagement.MVVM.View
         private async void CardManagement_Load(object sender, RoutedEventArgs e)
         {
             attendees = await CardVM.GetAllAttendee();
+
+            if (attendees == null)
+            {
+                btn_StartRead.IsEnabled = false;
+                btn_RemoveCard.IsEnabled = false;
+                return;
+            }
+
             gridAttendee.ItemsSource = attendees;
         }
 
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
-
+            string indata = sp.ReadExisting().Replace("\r", "").Replace("\n", "").Trim();
+            string message = "";
             this.Dispatcher.Invoke(() =>
             {
-                string indata = sp.ReadExisting();
-                //messages.Add(indata);
+                if (gridAttendee.SelectedIndex < 0)
+                    return;
 
-                //var cardID = gridAttendee.Columns[4] as DataGridTextColumn;
-                //cardID.Binding = new Binding(indata);
+                Attendee attendee = (Attendee)gridAttendee.Items[gridAttendee.SelectedIndex];
+
+                var respone = CardVM.UpdateAttendeeCardId(attendee.ID, indata);
+
+                if (!respone.Contains("Update attendee card successful!"))
+                {
+                    message = "[" + DateTime.Now.ToString("G") + "]: " + "Attendee ID:" + attendee.ID.ToString() + "\n" + respone;
+                    txt_MessageBox.Items.Add(message);
+                    txt_MessageBox.ScrollIntoView(message);
+                    return;
+                }
 
                 int index = gridAttendee.Items.IndexOf(gridAttendee.SelectedItem);
                 ++index;
 
-                gridAttendee.Focus();
+                Console.WriteLine(indata);
+
                 gridAttendee.SelectedItem = gridAttendee.Items[index];
-
-                //txt_MessageBox.Items.Add(indata.Replace('\r', ' ').Replace('\n', ' ').Trim());
-                //txt_Search.Text = indata;
+                message = "[" + DateTime.Now.ToString("G") + "]: " + "Attendee ID:" + attendee.ID.ToString() + "\n" + respone;
+                txt_MessageBox.Items.Add(message);
+                txt_MessageBox.ScrollIntoView(message);
             });
-        }
-
-        private void displaydata_event(object sender, EventArgs e)
-        {
-            //string in_data = Port.ReadLine();
-            //txt_MessageBox.Items.Add(in_data + "\n");
         }
 
         private void btn_StartRead_Click(object sender, RoutedEventArgs e)
@@ -81,7 +95,6 @@ namespace CardManagement.MVVM.View
             Port.PortName = "COM4";
             Port.Parity = Parity.None;
             Port.DataBits = 8;
-            //Port.StopBits = StopBits.None;
             Port.ReadTimeout = 500;
             Port.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
 
@@ -107,6 +120,15 @@ namespace CardManagement.MVVM.View
             isPortOpen = false;
             btn_StopRead.IsEnabled = false;
             btn_StartRead.IsEnabled = true;
+        }
+
+        private void Sync_Click(object sender, RoutedEventArgs e)
+        {
+            CardManagement_Load(null, null);
+        }
+
+        private void btn_RemoveCard_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

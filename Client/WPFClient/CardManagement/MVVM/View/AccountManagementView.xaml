@@ -1,13 +1,15 @@
-﻿<UserControl x:Class="CardManagement.MVVM.View.CardManagementView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="650"
-             Loaded="CardManagement_Load">
+﻿<Page x:Class="CardManagement.MVVM.View.AccountManagementView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:CardManagement.MVVM.View"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="650"
+      Title="AccountManagementView">
+
     <StackPanel>
-        <TextBlock Text="Card Management"
+        <TextBlock Text="Account Management"
                    Foreground="White"
                    FontSize="28"
                    HorizontalAlignment="Left"
@@ -36,20 +38,20 @@
                 <Button x:Name="btn_StartRead" Content="Start Reading"
                              Height="50"
                              Foreground="White"
-                             FontSize="14" Click="btn_StartRead_Click" />
+                             FontSize="14" />
                 <Button x:Name="btn_StopRead" Content="Stop Reading"
                              Height="50"
                              Foreground="White"
-                             FontSize="14" Click="btn_StopRead_Click"
+                             FontSize="14"
                              IsEnabled="false" />
                 <Button x:Name="btn_RemoveCard" Content="Remove Card"
                              Height="50"
                              Foreground="White"
-                             FontSize="14" Click="btn_RemoveCard_Click" />
+                             FontSize="14" />
                 <Button Content="Sync"
                              Height="50"
                              Foreground="White"
-                             FontSize="14" Click="Sync_Click" />
+                             FontSize="14" />
             </StackPanel>
         </StackPanel>
 
@@ -59,7 +61,6 @@
                    Margin="10, 10, 0, 0" />
 
         <ListView x:Name="txt_MessageBox" Height="100"
-                  Width="630" Margin="0,10,0,0"
-                  Foreground="White" />
+                  Width="630" Margin="0,10,0,0" />
     </StackPanel>
-</UserControl>
+</Page>
