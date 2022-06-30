@@ -5,9 +5,9 @@
 
 const int pinRST = 9;
 const int pinSDA = 10;
-const int pinGreenLED = 8;
-const int pinRedLED = 7;
-const int pinBuzzer = 4;  
+const int pinGreenLED = 7;
+const int pinRedLED = 4;
+const int pinBuzzer = 8;  
 
 MFRC522 mfrc522(pinSDA, pinRST); // Set up mfrc522 on the Arduino
 

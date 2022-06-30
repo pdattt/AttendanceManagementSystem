@@ -13,12 +13,19 @@ NTPClient Time: https://randomnerdtutorials.com/esp8266-nodemcu-date-time-ntp-cl
 
 WiFiClient wifiClient;
 
-const char* ssid = "The Coffee House";
-const char* password = "thecoffeehouse";
+//const char* ssid = "The Coffee House";
+//const char* password = "thecoffeehouse";
+
+const char* ssid = "HSU_Students";
+const char* password = "dhhs12cnvch";
+
 const String location = "P.001";
 
 const int pinRST = D4;
 const int pinSDA = D8;
+const int pinGreenLED = D4;
+const int pinRedLED = D3;
+const int pinBuzzer = D5;  
 
 HTTPClient http;
 String url = "http://ams.somee.com/api/session/check-in";
@@ -38,6 +45,15 @@ void setup() {
   SPI.begin(); // open SPI connection
   mfrc522.PCD_Init(); // Initialize Proximity Coupling Device (PCD)
   Serial.begin(115200); // open serial connection
+
+  pinMode(pinGreenLED, OUTPUT);
+  pinMode(pinRedLED, OUTPUT);
+  pinMode(pinBuzzer, OUTPUT);
+
+  digitalWrite(pinGreenLED, LOW);
+  digitalWrite(pinRedLED, HIGH);
+  noTone(pinBuzzer);
+  
   connectToWifi();
   
   timeClient.begin();
@@ -95,20 +111,58 @@ void getTime(){
   Serial.println("Date: " + (String)monthDay + "-" + (String)currentMonth + "-" + (String)currentYear);
 }
 
+void alertSuccess(){
+  digitalWrite(pinRedLED, LOW);
+  digitalWrite(pinGreenLED, HIGH);
+
+  tone(pinBuzzer, 1000);
+  delay(500);
+  noTone(pinBuzzer);
+  
+  digitalWrite(pinRedLED, HIGH);
+  digitalWrite(pinGreenLED, LOW);
+  delay(2500);
+  }
+
+ void alertFailed(){
+  digitalWrite(pinRedLED, LOW);
+  delay(200);
+
+  digitalWrite(pinRedLED, HIGH);
+  tone(pinBuzzer, 1000);
+  delay(200);
+
+  digitalWrite(pinRedLED, LOW);
+  noTone(pinBuzzer);
+  delay(200);
+
+  digitalWrite(pinRedLED, HIGH);
+  tone(pinBuzzer, 1000);
+  delay(200);
+
+  digitalWrite(pinRedLED, LOW);
+  noTone(pinBuzzer);
+  delay(200);
+  
+  digitalWrite(pinRedLED, HIGH);
+  delay(2000);
+  }
+
 void loop() {
   timeClient.update();
   if(scanningTag()){
     if((WiFi.status() == WL_CONNECTED)){
       url +="?cardId=" + cardID + "&location=" + location;
+      
       http.begin(wifiClient, url);
 
       int httpCode = http.GET();
 
       if(httpCode == 200){
-        //Success
+        alertSuccess();
       }
       else{
-        //failed
+        alertFailed();
       }
       
       getTime();
